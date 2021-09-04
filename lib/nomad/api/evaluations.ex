@@ -10,7 +10,6 @@ defmodule Nomad.Api.Evaluations do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   lists the allocations created or modified for the given evaluation
 
@@ -24,7 +23,8 @@ defmodule Nomad.Api.Evaluations do
   {:ok, [%AllocationListStub{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_allocations_for_evaluation(Tesla.Env.client, String.t, keyword()) :: {:ok, list(Nomad.Model.AllocationListStub.t)} | {:error, Tesla.Env.t}
+  @spec get_allocations_for_evaluation(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, list(Nomad.Model.AllocationListStub.t())} | {:error, Tesla.Env.t()}
   def get_allocations_for_evaluation(connection, eval_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -32,7 +32,7 @@ defmodule Nomad.Api.Evaluations do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.AllocationListStub{}]}
+      {200, [%Nomad.Model.AllocationListStub{}]}
     ])
   end
 
@@ -49,7 +49,8 @@ defmodule Nomad.Api.Evaluations do
   {:ok, Nomad.Model.Evaluation.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_evaluation(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.Evaluation.t} | {:error, Tesla.Env.t}
+  @spec get_evaluation(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.Evaluation.t()} | {:error, Tesla.Env.t()}
   def get_evaluation(connection, eval_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -57,7 +58,7 @@ defmodule Nomad.Api.Evaluations do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.Evaluation{}}
+      {200, %Nomad.Model.Evaluation{}}
     ])
   end
 
@@ -74,11 +75,13 @@ defmodule Nomad.Api.Evaluations do
   {:ok, [%Evaluation{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_evaluations(Tesla.Env.client, keyword()) :: {:ok, list(Nomad.Model.Evaluation.t)} | {:error, Tesla.Env.t}
+  @spec get_evaluations(Tesla.Env.client(), keyword()) ::
+          {:ok, list(Nomad.Model.Evaluation.t())} | {:error, Tesla.Env.t()}
   def get_evaluations(connection, opts \\ []) do
     optional_params = %{
-      :"prefix" => :query
+      :prefix => :query
     }
+
     %{}
     |> method(:get)
     |> url("/evaluations")
@@ -86,7 +89,7 @@ defmodule Nomad.Api.Evaluations do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.Evaluation{}]}
+      {200, [%Nomad.Model.Evaluation{}]}
     ])
   end
 end

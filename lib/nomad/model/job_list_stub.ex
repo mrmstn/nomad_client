@@ -4,54 +4,54 @@
 
 defmodule Nomad.Model.JobListStub do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"ParentID",
-    :"Name",
-    :"Datacenters",
-    :"Type",
-    :"Priority",
-    :"Periodic",
-    :"ParameterizedJob",
-    :"Stop",
-    :"Status",
-    :"StatusDescription",
-    :"JobSummary",
-    :"CreateIndex",
-    :"ModifyIndex",
-    :"JobModifyIndex",
-    :"SubmitTime"
+    :ID,
+    :ParentID,
+    :Name,
+    :Datacenters,
+    :Type,
+    :Priority,
+    :Periodic,
+    :ParameterizedJob,
+    :Stop,
+    :Status,
+    :StatusDescription,
+    :JobSummary,
+    :CreateIndex,
+    :ModifyIndex,
+    :JobModifyIndex,
+    :SubmitTime
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"ParentID" => String.t | nil,
-    :"Name" => String.t | nil,
-    :"Datacenters" => [String.t] | nil,
-    :"Type" => String.t | nil,
-    :"Priority" => integer() | nil,
-    :"Periodic" => boolean() | nil,
-    :"ParameterizedJob" => boolean() | nil,
-    :"Stop" => boolean() | nil,
-    :"Status" => String.t | nil,
-    :"StatusDescription" => String.t | nil,
-    :"JobSummary" => Nomad.Model.JobSummary.t | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil,
-    :"JobModifyIndex" => integer() | nil,
-    :"SubmitTime" => integer() | nil
-  }
+          :ID => String.t() | nil,
+          :ParentID => String.t() | nil,
+          :Name => String.t() | nil,
+          :Datacenters => [String.t()] | nil,
+          :Type => String.t() | nil,
+          :Priority => integer() | nil,
+          :Periodic => boolean() | nil,
+          :ParameterizedJob => boolean() | nil,
+          :Stop => boolean() | nil,
+          :Status => String.t() | nil,
+          :StatusDescription => String.t() | nil,
+          :JobSummary => Nomad.Model.JobSummary.t() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil,
+          :JobModifyIndex => integer() | nil,
+          :SubmitTime => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobListStub do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"JobSummary", :struct, Nomad.Model.JobSummary, options)
+    |> deserialize(:JobSummary, :struct, Nomad.Model.JobSummary, options)
   end
 end
-

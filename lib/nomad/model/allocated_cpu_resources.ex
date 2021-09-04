@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.AllocatedCpuResources do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"CpuShares"
+    :CpuShares
   ]
 
   @type t :: %__MODULE__{
-    :"CpuShares" => integer() | nil
-  }
+          :CpuShares => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AllocatedCpuResources do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AllocatedCpuResources do
     value
   end
 end
-

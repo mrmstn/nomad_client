@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.AllocDeploymentStatus do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Healthy",
-    :"Timestamp",
-    :"Canary",
-    :"ModifyIndex"
+    :Healthy,
+    :Timestamp,
+    :Canary,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"Healthy" => boolean() | nil,
-    :"Timestamp" => DateTime.t | nil,
-    :"Canary" => boolean() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :Healthy => boolean() | nil,
+          :Timestamp => DateTime.t() | nil,
+          :Canary => boolean() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AllocDeploymentStatus do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AllocDeploymentStatus do
     value
   end
 end
-

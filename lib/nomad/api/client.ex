@@ -10,7 +10,6 @@ defmodule Nomad.Api.Client do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   forces a garbage collection of a particular, stopped allocation on a node
 
@@ -24,7 +23,8 @@ defmodule Nomad.Api.Client do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec garbage_collect_allocation(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec garbage_collect_allocation(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, nil} | {:error, Tesla.Env.t()}
   def garbage_collect_allocation(connection, alloc_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -32,7 +32,7 @@ defmodule Nomad.Api.Client do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -49,11 +49,13 @@ defmodule Nomad.Api.Client do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec garbage_collect_allocation_0(Tesla.Env.client, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec garbage_collect_allocation_0(Tesla.Env.client(), keyword()) ::
+          {:ok, nil} | {:error, Tesla.Env.t()}
   def garbage_collect_allocation_0(connection, opts \\ []) do
     optional_params = %{
-      :"node_id" => :query
+      :node_id => :query
     }
+
     %{}
     |> method(:get)
     |> url("/client/gc")
@@ -61,7 +63,7 @@ defmodule Nomad.Api.Client do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -78,7 +80,8 @@ defmodule Nomad.Api.Client do
   {:ok, Nomad.Model.AllocResourceUsage.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_client_allocation_stats(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.AllocResourceUsage.t} | {:error, Tesla.Env.t}
+  @spec get_client_allocation_stats(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.AllocResourceUsage.t()} | {:error, Tesla.Env.t()}
   def get_client_allocation_stats(connection, alloc_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -86,7 +89,7 @@ defmodule Nomad.Api.Client do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.AllocResourceUsage{}}
+      {200, %Nomad.Model.AllocResourceUsage{}}
     ])
   end
 
@@ -104,11 +107,13 @@ defmodule Nomad.Api.Client do
   {:ok, String.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_client_file(Tesla.Env.client, String.t, keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
+  @spec get_client_file(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, String.t()} | {:error, Tesla.Env.t()}
   def get_client_file(connection, alloc_id, opts \\ []) do
     optional_params = %{
-      :"path" => :query
+      :path => :query
     }
+
     %{}
     |> method(:get)
     |> url("/client/fs/cat/#{alloc_id}")
@@ -116,7 +121,7 @@ defmodule Nomad.Api.Client do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -136,21 +141,23 @@ defmodule Nomad.Api.Client do
   {:ok, String.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_client_file_at_offest(Tesla.Env.client, String.t, integer(), integer(), keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
+  @spec get_client_file_at_offest(Tesla.Env.client(), String.t(), integer(), integer(), keyword()) ::
+          {:ok, String.t()} | {:error, Tesla.Env.t()}
   def get_client_file_at_offest(connection, alloc_id, offset, limit, opts \\ []) do
     optional_params = %{
-      :"path" => :query
+      :path => :query
     }
+
     %{}
     |> method(:get)
     |> url("/client/fs/readat/#{alloc_id}")
-    |> add_param(:query, :"offset", offset)
-    |> add_param(:query, :"limit", limit)
+    |> add_param(:query, :offset, offset)
+    |> add_param(:query, :limit, limit)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -167,11 +174,13 @@ defmodule Nomad.Api.Client do
   {:ok, [%HostStats{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_client_stats(Tesla.Env.client, keyword()) :: {:ok, list(Nomad.Model.HostStats.t)} | {:error, Tesla.Env.t}
+  @spec get_client_stats(Tesla.Env.client(), keyword()) ::
+          {:ok, list(Nomad.Model.HostStats.t())} | {:error, Tesla.Env.t()}
   def get_client_stats(connection, opts \\ []) do
     optional_params = %{
-      :"node_id" => :query
+      :node_id => :query
     }
+
     %{}
     |> method(:get)
     |> url("/client/stats")
@@ -179,7 +188,7 @@ defmodule Nomad.Api.Client do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.HostStats{}]}
+      {200, [%Nomad.Model.HostStats{}]}
     ])
   end
 
@@ -197,11 +206,13 @@ defmodule Nomad.Api.Client do
   {:ok, [%AllocFileInfo{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec list_client_files(Tesla.Env.client, String.t, keyword()) :: {:ok, list(Nomad.Model.AllocFileInfo.t)} | {:error, Tesla.Env.t}
+  @spec list_client_files(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, list(Nomad.Model.AllocFileInfo.t())} | {:error, Tesla.Env.t()}
   def list_client_files(connection, alloc_id, opts \\ []) do
     optional_params = %{
-      :"path" => :query
+      :path => :query
     }
+
     %{}
     |> method(:get)
     |> url("/client/fs/ls/#{alloc_id}")
@@ -209,7 +220,7 @@ defmodule Nomad.Api.Client do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.AllocFileInfo{}]}
+      {200, [%Nomad.Model.AllocFileInfo{}]}
     ])
   end
 
@@ -227,11 +238,13 @@ defmodule Nomad.Api.Client do
   {:ok, Nomad.Model.AllocFileInfo.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec stat_client_file(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.AllocFileInfo.t} | {:error, Tesla.Env.t}
+  @spec stat_client_file(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.AllocFileInfo.t()} | {:error, Tesla.Env.t()}
   def stat_client_file(connection, alloc_id, opts \\ []) do
     optional_params = %{
-      :"path" => :query
+      :path => :query
     }
+
     %{}
     |> method(:get)
     |> url("/client/fs/stat/#{alloc_id}")
@@ -239,7 +252,7 @@ defmodule Nomad.Api.Client do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.AllocFileInfo{}}
+      {200, %Nomad.Model.AllocFileInfo{}}
     ])
   end
 
@@ -260,22 +273,24 @@ defmodule Nomad.Api.Client do
   {:ok, String.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec stream_client_file(Tesla.Env.client, String.t, integer(), keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
+  @spec stream_client_file(Tesla.Env.client(), String.t(), integer(), keyword()) ::
+          {:ok, String.t()} | {:error, Tesla.Env.t()}
   def stream_client_file(connection, alloc_id, offset, opts \\ []) do
     optional_params = %{
-      :"path" => :query,
-      :"follow" => :query,
-      :"origin" => :query
+      :path => :query,
+      :follow => :query,
+      :origin => :query
     }
+
     %{}
     |> method(:get)
     |> url("/client/fs/stream/#{alloc_id}")
-    |> add_param(:query, :"offset", offset)
+    |> add_param(:query, :offset, offset)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -298,24 +313,26 @@ defmodule Nomad.Api.Client do
   {:ok, String.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec stream_client_logs(Tesla.Env.client, String.t, String.t, integer(), keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
+  @spec stream_client_logs(Tesla.Env.client(), String.t(), String.t(), integer(), keyword()) ::
+          {:ok, String.t()} | {:error, Tesla.Env.t()}
   def stream_client_logs(connection, alloc_id, task, offset, opts \\ []) do
     optional_params = %{
-      :"follow" => :query,
-      :"type" => :query,
-      :"origin" => :query,
-      :"plain" => :query
+      :follow => :query,
+      :type => :query,
+      :origin => :query,
+      :plain => :query
     }
+
     %{}
     |> method(:get)
     |> url("/client/fs/logs/#{alloc_id}")
-    |> add_param(:query, :"task", task)
-    |> add_param(:query, :"offset", offset)
+    |> add_param(:query, :task, task)
+    |> add_param(:query, :offset, offset)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 end

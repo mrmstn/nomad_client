@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.DeploymentUpdateResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"EvalID",
-    :"EvalCreateIndex",
-    :"DeploymentModifyIndex",
-    :"RevertedJobVersion"
+    :EvalID,
+    :EvalCreateIndex,
+    :DeploymentModifyIndex,
+    :RevertedJobVersion
   ]
 
   @type t :: %__MODULE__{
-    :"EvalID" => String.t | nil,
-    :"EvalCreateIndex" => integer() | nil,
-    :"DeploymentModifyIndex" => integer() | nil,
-    :"RevertedJobVersion" => integer() | nil
-  }
+          :EvalID => String.t() | nil,
+          :EvalCreateIndex => integer() | nil,
+          :DeploymentModifyIndex => integer() | nil,
+          :RevertedJobVersion => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DeploymentUpdateResponse do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.DeploymentUpdateResponse do
     value
   end
 end
-

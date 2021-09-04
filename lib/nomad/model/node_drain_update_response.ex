@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.NodeDrainUpdateResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"NodeModifyIndex",
-    :"EvalIDs",
-    :"EvalCreateIndex"
+    :NodeModifyIndex,
+    :EvalIDs,
+    :EvalCreateIndex
   ]
 
   @type t :: %__MODULE__{
-    :"NodeModifyIndex" => integer() | nil,
-    :"EvalIDs" => [String.t] | nil,
-    :"EvalCreateIndex" => integer() | nil
-  }
+          :NodeModifyIndex => integer() | nil,
+          :EvalIDs => [String.t()] | nil,
+          :EvalCreateIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeDrainUpdateResponse do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.NodeDrainUpdateResponse do
     value
   end
 end
-

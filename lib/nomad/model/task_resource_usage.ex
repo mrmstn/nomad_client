@@ -4,29 +4,29 @@
 
 defmodule Nomad.Model.TaskResourceUsage do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ResourceUsage",
-    :"Timestamp",
-    :"Pids"
+    :ResourceUsage,
+    :Timestamp,
+    :Pids
   ]
 
   @type t :: %__MODULE__{
-    :"ResourceUsage" => Nomad.Model.ResourceUsage.t | nil,
-    :"Timestamp" => integer() | nil,
-    :"Pids" => %{optional(String.t) => Nomad.Model.ResourceUsage.t} | nil
-  }
+          :ResourceUsage => Nomad.Model.ResourceUsage.t() | nil,
+          :Timestamp => integer() | nil,
+          :Pids => %{optional(String.t()) => Nomad.Model.ResourceUsage.t()} | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.TaskResourceUsage do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"ResourceUsage", :struct, Nomad.Model.ResourceUsage, options)
-    |> deserialize(:"Pids", :map, Nomad.Model.ResourceUsage, options)
+    |> deserialize(:ResourceUsage, :struct, Nomad.Model.ResourceUsage, options)
+    |> deserialize(:Pids, :map, Nomad.Model.ResourceUsage, options)
   end
 end
-

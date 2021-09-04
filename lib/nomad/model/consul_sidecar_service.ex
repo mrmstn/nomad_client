@@ -4,28 +4,28 @@
 
 defmodule Nomad.Model.ConsulSidecarService do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Tags",
-    :"Port",
-    :"Proxy"
+    :Tags,
+    :Port,
+    :Proxy
   ]
 
   @type t :: %__MODULE__{
-    :"Tags" => [String.t] | nil,
-    :"Port" => String.t | nil,
-    :"Proxy" => Nomad.Model.ConsulProxy.t | nil
-  }
+          :Tags => [String.t()] | nil,
+          :Port => String.t() | nil,
+          :Proxy => Nomad.Model.ConsulProxy.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ConsulSidecarService do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Proxy", :struct, Nomad.Model.ConsulProxy, options)
+    |> deserialize(:Proxy, :struct, Nomad.Model.ConsulProxy, options)
   end
 end
-

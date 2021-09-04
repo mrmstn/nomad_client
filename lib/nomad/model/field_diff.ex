@@ -4,25 +4,25 @@
 
 defmodule Nomad.Model.FieldDiff do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Type",
-    :"Name",
-    :"Old",
-    :"New",
-    :"Annotations"
+    :Type,
+    :Name,
+    :Old,
+    :New,
+    :Annotations
   ]
 
   @type t :: %__MODULE__{
-    :"Type" => String.t | nil,
-    :"Name" => String.t | nil,
-    :"Old" => String.t | nil,
-    :"New" => String.t | nil,
-    :"Annotations" => [String.t] | nil
-  }
+          :Type => String.t() | nil,
+          :Name => String.t() | nil,
+          :Old => String.t() | nil,
+          :New => String.t() | nil,
+          :Annotations => [String.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.FieldDiff do
@@ -30,4 +30,3 @@ defimpl Poison.Decoder, for: Nomad.Model.FieldDiff do
     value
   end
 end
-

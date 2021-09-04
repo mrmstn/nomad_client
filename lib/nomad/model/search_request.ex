@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.SearchRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Prefix",
-    :"Context"
+    :Prefix,
+    :Context
   ]
 
   @type t :: %__MODULE__{
-    :"Prefix" => String.t,
-    :"Context" => String.t
-  }
+          :Prefix => String.t(),
+          :Context => String.t()
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.SearchRequest do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.SearchRequest do
     value
   end
 end
-

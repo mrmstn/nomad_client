@@ -4,24 +4,24 @@
 
 defmodule Nomad.Model.SchedulerConfigurationResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"SchedulerConfig"
+    :SchedulerConfig
   ]
 
   @type t :: %__MODULE__{
-    :"SchedulerConfig" => Nomad.Model.SchedulerConfiguration.t | nil
-  }
+          :SchedulerConfig => Nomad.Model.SchedulerConfiguration.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.SchedulerConfigurationResponse do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"SchedulerConfig", :struct, Nomad.Model.SchedulerConfiguration, options)
+    |> deserialize(:SchedulerConfig, :struct, Nomad.Model.SchedulerConfiguration, options)
   end
 end
-

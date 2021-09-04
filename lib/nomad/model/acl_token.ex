@@ -4,33 +4,33 @@
 
 defmodule Nomad.Model.AclToken do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"AccessorID",
-    :"SecretID",
-    :"Name",
-    :"Type",
-    :"Policies",
-    :"Global",
-    :"CreateTime",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :AccessorID,
+    :SecretID,
+    :Name,
+    :Type,
+    :Policies,
+    :Global,
+    :CreateTime,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"AccessorID" => String.t | nil,
-    :"SecretID" => String.t | nil,
-    :"Name" => String.t | nil,
-    :"Type" => String.t | nil,
-    :"Policies" => [String.t] | nil,
-    :"Global" => boolean() | nil,
-    :"CreateTime" => DateTime.t | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :AccessorID => String.t() | nil,
+          :SecretID => String.t() | nil,
+          :Name => String.t() | nil,
+          :Type => String.t() | nil,
+          :Policies => [String.t()] | nil,
+          :Global => boolean() | nil,
+          :CreateTime => DateTime.t() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AclToken do
@@ -38,4 +38,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AclToken do
     value
   end
 end
-

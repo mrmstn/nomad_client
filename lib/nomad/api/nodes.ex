@@ -10,7 +10,6 @@ defmodule Nomad.Api.Nodes do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   creates a new evaluation for the given node. This can be used to force a run of the scheduling logic
 
@@ -24,7 +23,8 @@ defmodule Nomad.Api.Nodes do
   {:ok, Nomad.Model.NodeEvalResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec evaluate_node(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.NodeEvalResponse.t} | {:error, Tesla.Env.t}
+  @spec evaluate_node(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.NodeEvalResponse.t()} | {:error, Tesla.Env.t()}
   def evaluate_node(connection, node_id, _opts \\ []) do
     %{}
     |> method(:post)
@@ -33,7 +33,7 @@ defmodule Nomad.Api.Nodes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.NodeEvalResponse{}}
+      {200, %Nomad.Model.NodeEvalResponse{}}
     ])
   end
 
@@ -51,7 +51,8 @@ defmodule Nomad.Api.Nodes do
   {:ok, [%AllocationListStub{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_allocations_for_node(Tesla.Env.client, String.t, keyword()) :: {:ok, list(Nomad.Model.AllocationListStub.t)} | {:error, Tesla.Env.t}
+  @spec get_allocations_for_node(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, list(Nomad.Model.AllocationListStub.t())} | {:error, Tesla.Env.t()}
   def get_allocations_for_node(connection, node_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -59,7 +60,7 @@ defmodule Nomad.Api.Nodes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.AllocationListStub{}]}
+      {200, [%Nomad.Model.AllocationListStub{}]}
     ])
   end
 
@@ -76,7 +77,8 @@ defmodule Nomad.Api.Nodes do
   {:ok, Nomad.Model.Node.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_node(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.Node.t} | {:error, Tesla.Env.t}
+  @spec get_node(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.Node.t()} | {:error, Tesla.Env.t()}
   def get_node(connection, node_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -84,7 +86,7 @@ defmodule Nomad.Api.Nodes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.Node{}}
+      {200, %Nomad.Model.Node{}}
     ])
   end
 
@@ -101,11 +103,13 @@ defmodule Nomad.Api.Nodes do
   {:ok, [%NodeListStub{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_nodes(Tesla.Env.client, keyword()) :: {:ok, list(Nomad.Model.NodeListStub.t)} | {:error, Tesla.Env.t}
+  @spec get_nodes(Tesla.Env.client(), keyword()) ::
+          {:ok, list(Nomad.Model.NodeListStub.t())} | {:error, Tesla.Env.t()}
   def get_nodes(connection, opts \\ []) do
     optional_params = %{
-      :"prefix" => :query
+      :prefix => :query
     }
+
     %{}
     |> method(:get)
     |> url("/nodes")
@@ -113,7 +117,7 @@ defmodule Nomad.Api.Nodes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.NodeListStub{}]}
+      {200, [%Nomad.Model.NodeListStub{}]}
     ])
   end
 
@@ -131,11 +135,13 @@ defmodule Nomad.Api.Nodes do
   {:ok, Nomad.Model.SearchResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec search(Tesla.Env.client, keyword()) :: {:ok, Nomad.Model.SearchResponse.t} | {:error, Tesla.Env.t}
+  @spec search(Tesla.Env.client(), keyword()) ::
+          {:ok, Nomad.Model.SearchResponse.t()} | {:error, Tesla.Env.t()}
   def search(connection, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/search")
@@ -144,7 +150,7 @@ defmodule Nomad.Api.Nodes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.SearchResponse{}}
+      {200, %Nomad.Model.SearchResponse{}}
     ])
   end
 
@@ -163,11 +169,13 @@ defmodule Nomad.Api.Nodes do
   {:ok, Nomad.Model.NodeDrainUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec update_drain_mode_for_node(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.NodeDrainUpdateResponse.t} | {:error, Tesla.Env.t}
+  @spec update_drain_mode_for_node(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.NodeDrainUpdateResponse.t()} | {:error, Tesla.Env.t()}
   def update_drain_mode_for_node(connection, node_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/node/#{node_id}/drain")
@@ -176,7 +184,7 @@ defmodule Nomad.Api.Nodes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.NodeDrainUpdateResponse{}}
+      {200, %Nomad.Model.NodeDrainUpdateResponse{}}
     ])
   end
 
@@ -194,11 +202,13 @@ defmodule Nomad.Api.Nodes do
   {:ok, Nomad.Model.NodeEligibilityUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec update_node_eligibility(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.NodeEligibilityUpdateResponse.t} | {:error, Tesla.Env.t}
+  @spec update_node_eligibility(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.NodeEligibilityUpdateResponse.t()} | {:error, Tesla.Env.t()}
   def update_node_eligibility(connection, node_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/node/#{node_id}/eligibility")
@@ -207,7 +217,7 @@ defmodule Nomad.Api.Nodes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.NodeEligibilityUpdateResponse{}}
+      {200, %Nomad.Model.NodeEligibilityUpdateResponse{}}
     ])
   end
 end

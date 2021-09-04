@@ -4,25 +4,25 @@
 
 defmodule Nomad.Model.PeriodicConfig do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Enabled",
-    :"Spec",
-    :"SpecType",
-    :"ProhibitOverlap",
-    :"TimeZone"
+    :Enabled,
+    :Spec,
+    :SpecType,
+    :ProhibitOverlap,
+    :TimeZone
   ]
 
   @type t :: %__MODULE__{
-    :"Enabled" => boolean() | nil,
-    :"Spec" => String.t | nil,
-    :"SpecType" => String.t | nil,
-    :"ProhibitOverlap" => boolean() | nil,
-    :"TimeZone" => String.t | nil
-  }
+          :Enabled => boolean() | nil,
+          :Spec => String.t() | nil,
+          :SpecType => String.t() | nil,
+          :ProhibitOverlap => boolean() | nil,
+          :TimeZone => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.PeriodicConfig do
@@ -30,4 +30,3 @@ defimpl Poison.Decoder, for: Nomad.Model.PeriodicConfig do
     value
   end
 end
-

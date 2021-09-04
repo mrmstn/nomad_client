@@ -4,28 +4,28 @@
 
 defmodule Nomad.Model.Spread do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Attribute",
-    :"Weight",
-    :"SpreadTarget"
+    :Attribute,
+    :Weight,
+    :SpreadTarget
   ]
 
   @type t :: %__MODULE__{
-    :"Attribute" => String.t | nil,
-    :"Weight" => integer() | nil,
-    :"SpreadTarget" => [Nomad.Model.SpreadTarget.t] | nil
-  }
+          :Attribute => String.t() | nil,
+          :Weight => integer() | nil,
+          :SpreadTarget => [Nomad.Model.SpreadTarget.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Spread do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"SpreadTarget", :list, Nomad.Model.SpreadTarget, options)
+    |> deserialize(:SpreadTarget, :list, Nomad.Model.SpreadTarget, options)
   end
 end
-

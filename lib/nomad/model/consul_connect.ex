@@ -4,29 +4,29 @@
 
 defmodule Nomad.Model.ConsulConnect do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Native",
-    :"SidecarService",
-    :"SidecarTask"
+    :Native,
+    :SidecarService,
+    :SidecarTask
   ]
 
   @type t :: %__MODULE__{
-    :"Native" => boolean() | nil,
-    :"SidecarService" => Nomad.Model.ConsulSidecarService.t | nil,
-    :"SidecarTask" => Nomad.Model.SidecarTask.t | nil
-  }
+          :Native => boolean() | nil,
+          :SidecarService => Nomad.Model.ConsulSidecarService.t() | nil,
+          :SidecarTask => Nomad.Model.SidecarTask.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ConsulConnect do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"SidecarService", :struct, Nomad.Model.ConsulSidecarService, options)
-    |> deserialize(:"SidecarTask", :struct, Nomad.Model.SidecarTask, options)
+    |> deserialize(:SidecarService, :struct, Nomad.Model.ConsulSidecarService, options)
+    |> deserialize(:SidecarTask, :struct, Nomad.Model.SidecarTask, options)
   end
 end
-

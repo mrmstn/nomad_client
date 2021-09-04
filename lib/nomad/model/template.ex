@@ -4,37 +4,37 @@
 
 defmodule Nomad.Model.Template do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"SourcePath",
-    :"DestPath",
-    :"EmbeddedTmpl",
-    :"ChangeMode",
-    :"ChangeSignal",
-    :"Splay",
-    :"Perms",
-    :"LeftDelim",
-    :"RightDelim",
-    :"Envvars",
-    :"VaultGrace"
+    :SourcePath,
+    :DestPath,
+    :EmbeddedTmpl,
+    :ChangeMode,
+    :ChangeSignal,
+    :Splay,
+    :Perms,
+    :LeftDelim,
+    :RightDelim,
+    :Envvars,
+    :VaultGrace
   ]
 
   @type t :: %__MODULE__{
-    :"SourcePath" => String.t | nil,
-    :"DestPath" => String.t | nil,
-    :"EmbeddedTmpl" => String.t | nil,
-    :"ChangeMode" => String.t | nil,
-    :"ChangeSignal" => String.t | nil,
-    :"Splay" => integer() | nil,
-    :"Perms" => String.t | nil,
-    :"LeftDelim" => String.t | nil,
-    :"RightDelim" => String.t | nil,
-    :"Envvars" => boolean() | nil,
-    :"VaultGrace" => integer() | nil
-  }
+          :SourcePath => String.t() | nil,
+          :DestPath => String.t() | nil,
+          :EmbeddedTmpl => String.t() | nil,
+          :ChangeMode => String.t() | nil,
+          :ChangeSignal => String.t() | nil,
+          :Splay => integer() | nil,
+          :Perms => String.t() | nil,
+          :LeftDelim => String.t() | nil,
+          :RightDelim => String.t() | nil,
+          :Envvars => boolean() | nil,
+          :VaultGrace => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Template do
@@ -42,4 +42,3 @@ defimpl Poison.Decoder, for: Nomad.Model.Template do
     value
   end
 end
-

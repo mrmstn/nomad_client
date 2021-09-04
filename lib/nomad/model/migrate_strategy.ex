@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.MigrateStrategy do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"MaxParallel",
-    :"HealthCheck",
-    :"MinHealthyTime",
-    :"HealthyDeadline"
+    :MaxParallel,
+    :HealthCheck,
+    :MinHealthyTime,
+    :HealthyDeadline
   ]
 
   @type t :: %__MODULE__{
-    :"MaxParallel" => integer() | nil,
-    :"HealthCheck" => String.t | nil,
-    :"MinHealthyTime" => integer() | nil,
-    :"HealthyDeadline" => integer() | nil
-  }
+          :MaxParallel => integer() | nil,
+          :HealthCheck => String.t() | nil,
+          :MinHealthyTime => integer() | nil,
+          :HealthyDeadline => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.MigrateStrategy do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.MigrateStrategy do
     value
   end
 end
-

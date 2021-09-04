@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.PlanAnnotations do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"DesiredTgUpdates",
-    :"PreemptedAllocs"
+    :DesiredTgUpdates,
+    :PreemptedAllocs
   ]
 
   @type t :: %__MODULE__{
-    :"DesiredTgUpdates" => %{optional(String.t) => Nomad.Model.DesiredUpdates.t} | nil,
-    :"PreemptedAllocs" => [Nomad.Model.AllocationListStub.t] | nil
-  }
+          :DesiredTgUpdates => %{optional(String.t()) => Nomad.Model.DesiredUpdates.t()} | nil,
+          :PreemptedAllocs => [Nomad.Model.AllocationListStub.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.PlanAnnotations do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"DesiredTgUpdates", :map, Nomad.Model.DesiredUpdates, options)
-    |> deserialize(:"PreemptedAllocs", :list, Nomad.Model.AllocationListStub, options)
+    |> deserialize(:DesiredTgUpdates, :map, Nomad.Model.DesiredUpdates, options)
+    |> deserialize(:PreemptedAllocs, :list, Nomad.Model.AllocationListStub, options)
   end
 end
-

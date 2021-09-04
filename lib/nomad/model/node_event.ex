@@ -4,25 +4,25 @@
 
 defmodule Nomad.Model.NodeEvent do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Message",
-    :"Subsystem",
-    :"Details",
-    :"Timestamp",
-    :"CreateIndex"
+    :Message,
+    :Subsystem,
+    :Details,
+    :Timestamp,
+    :CreateIndex
   ]
 
   @type t :: %__MODULE__{
-    :"Message" => String.t | nil,
-    :"Subsystem" => String.t | nil,
-    :"Details" => %{optional(String.t) => String.t} | nil,
-    :"Timestamp" => DateTime.t | nil,
-    :"CreateIndex" => integer() | nil
-  }
+          :Message => String.t() | nil,
+          :Subsystem => String.t() | nil,
+          :Details => %{optional(String.t()) => String.t()} | nil,
+          :Timestamp => DateTime.t() | nil,
+          :CreateIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeEvent do
@@ -30,4 +30,3 @@ defimpl Poison.Decoder, for: Nomad.Model.NodeEvent do
     value
   end
 end
-

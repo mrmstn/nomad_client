@@ -4,39 +4,39 @@
 
 defmodule Nomad.Model.Resources do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"CPU",
-    :"Cores",
-    :"MemoryMB",
-    :"MemoryMaxMB",
-    :"DiskMB",
-    :"Networks",
-    :"Devices",
-    :"IOPS"
+    :CPU,
+    :Cores,
+    :MemoryMB,
+    :MemoryMaxMB,
+    :DiskMB,
+    :Networks,
+    :Devices,
+    :IOPS
   ]
 
   @type t :: %__MODULE__{
-    :"CPU" => integer() | nil,
-    :"Cores" => integer() | nil,
-    :"MemoryMB" => integer() | nil,
-    :"MemoryMaxMB" => integer() | nil,
-    :"DiskMB" => integer() | nil,
-    :"Networks" => [Nomad.Model.NetworkResource.t] | nil,
-    :"Devices" => [Nomad.Model.RequestedDevice.t] | nil,
-    :"IOPS" => integer() | nil
-  }
+          :CPU => integer() | nil,
+          :Cores => integer() | nil,
+          :MemoryMB => integer() | nil,
+          :MemoryMaxMB => integer() | nil,
+          :DiskMB => integer() | nil,
+          :Networks => [Nomad.Model.NetworkResource.t()] | nil,
+          :Devices => [Nomad.Model.RequestedDevice.t()] | nil,
+          :IOPS => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Resources do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Networks", :list, Nomad.Model.NetworkResource, options)
-    |> deserialize(:"Devices", :list, Nomad.Model.RequestedDevice, options)
+    |> deserialize(:Networks, :list, Nomad.Model.NetworkResource, options)
+    |> deserialize(:Devices, :list, Nomad.Model.RequestedDevice, options)
   end
 end
-

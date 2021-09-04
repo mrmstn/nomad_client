@@ -10,7 +10,6 @@ defmodule Nomad.Api.Allocations do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   reads information about a specific allocation
 
@@ -24,7 +23,8 @@ defmodule Nomad.Api.Allocations do
   {:ok, Nomad.Model.Allocation.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_allocation(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.Allocation.t} | {:error, Tesla.Env.t}
+  @spec get_allocation(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.Allocation.t()} | {:error, Tesla.Env.t()}
   def get_allocation(connection, alloc_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -32,7 +32,7 @@ defmodule Nomad.Api.Allocations do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.Allocation{}}
+      {200, %Nomad.Model.Allocation{}}
     ])
   end
 
@@ -49,11 +49,13 @@ defmodule Nomad.Api.Allocations do
   {:ok, [%AllocationListStub{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_allocations(Tesla.Env.client, keyword()) :: {:ok, list(Nomad.Model.AllocationListStub.t)} | {:error, Tesla.Env.t}
+  @spec get_allocations(Tesla.Env.client(), keyword()) ::
+          {:ok, list(Nomad.Model.AllocationListStub.t())} | {:error, Tesla.Env.t()}
   def get_allocations(connection, opts \\ []) do
     optional_params = %{
-      :"prefix" => :query
+      :prefix => :query
     }
+
     %{}
     |> method(:get)
     |> url("/allocations")
@@ -61,7 +63,7 @@ defmodule Nomad.Api.Allocations do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.AllocationListStub{}]}
+      {200, [%Nomad.Model.AllocationListStub{}]}
     ])
   end
 
@@ -79,11 +81,13 @@ defmodule Nomad.Api.Allocations do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec restart_allocation(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec restart_allocation(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, nil} | {:error, Tesla.Env.t()}
   def restart_allocation(connection, alloc_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/allocation/#{alloc_id}/restart")
@@ -92,7 +96,7 @@ defmodule Nomad.Api.Allocations do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -110,11 +114,13 @@ defmodule Nomad.Api.Allocations do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec signal_allocation(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec signal_allocation(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, nil} | {:error, Tesla.Env.t()}
   def signal_allocation(connection, alloc_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/allocation/#{alloc_id}/signal")
@@ -123,7 +129,7 @@ defmodule Nomad.Api.Allocations do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -140,7 +146,8 @@ defmodule Nomad.Api.Allocations do
   {:ok, Nomad.Model.AllocStopResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec stop_allocation(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.AllocStopResponse.t} | {:error, Tesla.Env.t}
+  @spec stop_allocation(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.AllocStopResponse.t()} | {:error, Tesla.Env.t()}
   def stop_allocation(connection, alloc_id, _opts \\ []) do
     %{}
     |> method(:post)
@@ -149,7 +156,7 @@ defmodule Nomad.Api.Allocations do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.AllocStopResponse{}}
+      {200, %Nomad.Model.AllocStopResponse{}}
     ])
   end
 end

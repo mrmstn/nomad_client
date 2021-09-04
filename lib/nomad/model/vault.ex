@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.Vault do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Policies",
-    :"Env",
-    :"ChangeMode",
-    :"ChangeSignal"
+    :Policies,
+    :Env,
+    :ChangeMode,
+    :ChangeSignal
   ]
 
   @type t :: %__MODULE__{
-    :"Policies" => [String.t] | nil,
-    :"Env" => boolean() | nil,
-    :"ChangeMode" => String.t | nil,
-    :"ChangeSignal" => String.t | nil
-  }
+          :Policies => [String.t()] | nil,
+          :Env => boolean() | nil,
+          :ChangeMode => String.t() | nil,
+          :ChangeSignal => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Vault do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.Vault do
     value
   end
 end
-

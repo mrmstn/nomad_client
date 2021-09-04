@@ -4,30 +4,30 @@
 
 defmodule Nomad.Model.ConsulProxy do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"LocalServiceAddress",
-    :"LocalServicePort",
-    :"Upstreams",
-    :"Config"
+    :LocalServiceAddress,
+    :LocalServicePort,
+    :Upstreams,
+    :Config
   ]
 
   @type t :: %__MODULE__{
-    :"LocalServiceAddress" => String.t | nil,
-    :"LocalServicePort" => integer() | nil,
-    :"Upstreams" => [Nomad.Model.ConsulUpstream.t] | nil,
-    :"Config" => %{optional(String.t) => map()} | nil
-  }
+          :LocalServiceAddress => String.t() | nil,
+          :LocalServicePort => integer() | nil,
+          :Upstreams => [Nomad.Model.ConsulUpstream.t()] | nil,
+          :Config => %{optional(String.t()) => map()} | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ConsulProxy do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Upstreams", :list, Nomad.Model.ConsulUpstream, options)
+    |> deserialize(:Upstreams, :list, Nomad.Model.ConsulUpstream, options)
   end
 end
-

@@ -4,30 +4,30 @@
 
 defmodule Nomad.Model.CsiNodeInfo do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"MaxVolumes",
-    :"AccessibleTopology",
-    :"RequiresNodeStageVolume"
+    :ID,
+    :MaxVolumes,
+    :AccessibleTopology,
+    :RequiresNodeStageVolume
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"MaxVolumes" => integer() | nil,
-    :"AccessibleTopology" => Nomad.Model.CsiTopology.t | nil,
-    :"RequiresNodeStageVolume" => boolean() | nil
-  }
+          :ID => String.t() | nil,
+          :MaxVolumes => integer() | nil,
+          :AccessibleTopology => Nomad.Model.CsiTopology.t() | nil,
+          :RequiresNodeStageVolume => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.CsiNodeInfo do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"AccessibleTopology", :struct, Nomad.Model.CsiTopology, options)
+    |> deserialize(:AccessibleTopology, :struct, Nomad.Model.CsiTopology, options)
   end
 end
-

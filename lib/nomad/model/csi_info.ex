@@ -4,39 +4,39 @@
 
 defmodule Nomad.Model.CsiInfo do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"PluginID",
-    :"Healthy",
-    :"HealthDescription",
-    :"UpdateTime",
-    :"RequiresControllerPlugin",
-    :"RequiresTopologies",
-    :"ControllerInfo",
-    :"NodeInfo"
+    :PluginID,
+    :Healthy,
+    :HealthDescription,
+    :UpdateTime,
+    :RequiresControllerPlugin,
+    :RequiresTopologies,
+    :ControllerInfo,
+    :NodeInfo
   ]
 
   @type t :: %__MODULE__{
-    :"PluginID" => String.t | nil,
-    :"Healthy" => boolean() | nil,
-    :"HealthDescription" => String.t | nil,
-    :"UpdateTime" => DateTime.t | nil,
-    :"RequiresControllerPlugin" => boolean() | nil,
-    :"RequiresTopologies" => boolean() | nil,
-    :"ControllerInfo" => Nomad.Model.CsiControllerInfo.t | nil,
-    :"NodeInfo" => Nomad.Model.CsiNodeInfo.t | nil
-  }
+          :PluginID => String.t() | nil,
+          :Healthy => boolean() | nil,
+          :HealthDescription => String.t() | nil,
+          :UpdateTime => DateTime.t() | nil,
+          :RequiresControllerPlugin => boolean() | nil,
+          :RequiresTopologies => boolean() | nil,
+          :ControllerInfo => Nomad.Model.CsiControllerInfo.t() | nil,
+          :NodeInfo => Nomad.Model.CsiNodeInfo.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.CsiInfo do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"ControllerInfo", :struct, Nomad.Model.CsiControllerInfo, options)
-    |> deserialize(:"NodeInfo", :struct, Nomad.Model.CsiNodeInfo, options)
+    |> deserialize(:ControllerInfo, :struct, Nomad.Model.CsiControllerInfo, options)
+    |> deserialize(:NodeInfo, :struct, Nomad.Model.CsiNodeInfo, options)
   end
 end
-

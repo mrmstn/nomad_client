@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.AllocSignalRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Task",
-    :"Signal"
+    :Task,
+    :Signal
   ]
 
   @type t :: %__MODULE__{
-    :"Task" => String.t | nil,
-    :"Signal" => String.t | nil
-  }
+          :Task => String.t() | nil,
+          :Signal => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AllocSignalRequest do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AllocSignalRequest do
     value
   end
 end
-

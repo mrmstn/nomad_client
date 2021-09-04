@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.SchedulerSetConfigurationResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Updated"
+    :Updated
   ]
 
   @type t :: %__MODULE__{
-    :"Updated" => boolean() | nil
-  }
+          :Updated => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.SchedulerSetConfigurationResponse do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.SchedulerSetConfigurationResponse do
     value
   end
 end
-

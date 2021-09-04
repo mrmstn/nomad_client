@@ -4,25 +4,25 @@
 
 defmodule Nomad.Model.Namespace do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Name",
-    :"Description",
-    :"Quota",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :Name,
+    :Description,
+    :Quota,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"Name" => String.t | nil,
-    :"Description" => String.t | nil,
-    :"Quota" => String.t | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :Name => String.t() | nil,
+          :Description => String.t() | nil,
+          :Quota => String.t() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Namespace do
@@ -30,4 +30,3 @@ defimpl Poison.Decoder, for: Nomad.Model.Namespace do
     value
   end
 end
-

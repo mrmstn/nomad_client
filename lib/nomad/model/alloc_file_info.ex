@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.AllocFileInfo do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Name",
-    :"IsDir",
-    :"Size",
-    :"FileMode",
-    :"ModTime",
-    :"ContentType"
+    :Name,
+    :IsDir,
+    :Size,
+    :FileMode,
+    :ModTime,
+    :ContentType
   ]
 
   @type t :: %__MODULE__{
-    :"Name" => String.t | nil,
-    :"IsDir" => boolean() | nil,
-    :"Size" => integer() | nil,
-    :"FileMode" => String.t | nil,
-    :"ModTime" => DateTime.t | nil,
-    :"ContentType" => String.t | nil
-  }
+          :Name => String.t() | nil,
+          :IsDir => boolean() | nil,
+          :Size => integer() | nil,
+          :FileMode => String.t() | nil,
+          :ModTime => DateTime.t() | nil,
+          :ContentType => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AllocFileInfo do
@@ -32,4 +32,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AllocFileInfo do
     value
   end
 end
-

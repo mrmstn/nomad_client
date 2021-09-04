@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.NodeUpdateEligibilityRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"NodeID",
-    :"Eligibility"
+    :NodeID,
+    :Eligibility
   ]
 
   @type t :: %__MODULE__{
-    :"NodeID" => String.t | nil,
-    :"Eligibility" => String.t
-  }
+          :NodeID => String.t() | nil,
+          :Eligibility => String.t()
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeUpdateEligibilityRequest do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.NodeUpdateEligibilityRequest do
     value
   end
 end
-

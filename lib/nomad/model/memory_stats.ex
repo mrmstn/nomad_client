@@ -4,31 +4,31 @@
 
 defmodule Nomad.Model.MemoryStats do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Rss",
-    :"Cache",
-    :"Swap",
-    :"Usage",
-    :"MaxUsage",
-    :"KernelUsage",
-    :"KernelMaxUsage",
-    :"Measured"
+    :Rss,
+    :Cache,
+    :Swap,
+    :Usage,
+    :MaxUsage,
+    :KernelUsage,
+    :KernelMaxUsage,
+    :Measured
   ]
 
   @type t :: %__MODULE__{
-    :"Rss" => integer() | nil,
-    :"Cache" => integer() | nil,
-    :"Swap" => integer() | nil,
-    :"Usage" => integer() | nil,
-    :"MaxUsage" => integer() | nil,
-    :"KernelUsage" => integer() | nil,
-    :"KernelMaxUsage" => integer() | nil,
-    :"Measured" => [String.t] | nil
-  }
+          :Rss => integer() | nil,
+          :Cache => integer() | nil,
+          :Swap => integer() | nil,
+          :Usage => integer() | nil,
+          :MaxUsage => integer() | nil,
+          :KernelUsage => integer() | nil,
+          :KernelMaxUsage => integer() | nil,
+          :Measured => [String.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.MemoryStats do
@@ -36,4 +36,3 @@ defimpl Poison.Decoder, for: Nomad.Model.MemoryStats do
     value
   end
 end
-

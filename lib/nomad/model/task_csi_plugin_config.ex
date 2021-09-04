@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.TaskCsiPluginConfig do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"Type",
-    :"MountDir"
+    :ID,
+    :Type,
+    :MountDir
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"Type" => String.t | nil,
-    :"MountDir" => String.t | nil
-  }
+          :ID => String.t() | nil,
+          :Type => String.t() | nil,
+          :MountDir => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.TaskCsiPluginConfig do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.TaskCsiPluginConfig do
     value
   end
 end
-

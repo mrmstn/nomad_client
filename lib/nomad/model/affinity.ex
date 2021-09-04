@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.Affinity do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"LTarget",
-    :"RTarget",
-    :"Operand",
-    :"Weight"
+    :LTarget,
+    :RTarget,
+    :Operand,
+    :Weight
   ]
 
   @type t :: %__MODULE__{
-    :"LTarget" => String.t | nil,
-    :"RTarget" => String.t | nil,
-    :"Operand" => String.t | nil,
-    :"Weight" => integer() | nil
-  }
+          :LTarget => String.t() | nil,
+          :RTarget => String.t() | nil,
+          :Operand => String.t() | nil,
+          :Weight => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Affinity do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.Affinity do
     value
   end
 end
-

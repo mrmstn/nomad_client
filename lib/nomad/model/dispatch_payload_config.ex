@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.DispatchPayloadConfig do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"File"
+    :File
   ]
 
   @type t :: %__MODULE__{
-    :"File" => String.t | nil
-  }
+          :File => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DispatchPayloadConfig do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.DispatchPayloadConfig do
     value
   end
 end
-

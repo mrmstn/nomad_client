@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.DeploymentFailRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"DeploymentID"
+    :DeploymentID
   ]
 
   @type t :: %__MODULE__{
-    :"DeploymentID" => String.t | nil
-  }
+          :DeploymentID => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DeploymentFailRequest do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.DeploymentFailRequest do
     value
   end
 end
-

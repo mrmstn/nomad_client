@@ -10,7 +10,6 @@ defmodule Nomad.Api.Jobs do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   dispatches a new instance of a parameterized job
 
@@ -25,11 +24,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobDispatchResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec dispatch_job(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobDispatchResponse.t} | {:error, Tesla.Env.t}
+  @spec dispatch_job(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobDispatchResponse.t()} | {:error, Tesla.Env.t()}
   def dispatch_job(connection, job_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/dispatch")
@@ -38,7 +39,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobDispatchResponse{}}
+      {200, %Nomad.Model.JobDispatchResponse{}}
     ])
   end
 
@@ -56,11 +57,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobRegisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec evaluate_job(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobRegisterResponse.t} | {:error, Tesla.Env.t}
+  @spec evaluate_job(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
   def evaluate_job(connection, job_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/evaluate")
@@ -69,7 +72,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobRegisterResponse{}}
+      {200, %Nomad.Model.JobRegisterResponse{}}
     ])
   end
 
@@ -86,7 +89,8 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.PeriodicForceResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec force_new_periodic_instance(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.PeriodicForceResponse.t} | {:error, Tesla.Env.t}
+  @spec force_new_periodic_instance(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.PeriodicForceResponse.t()} | {:error, Tesla.Env.t()}
   def force_new_periodic_instance(connection, job_id, _opts \\ []) do
     %{}
     |> method(:post)
@@ -95,7 +99,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.PeriodicForceResponse{}}
+      {200, %Nomad.Model.PeriodicForceResponse{}}
     ])
   end
 
@@ -112,7 +116,8 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.Job.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_job(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.Job.t} | {:error, Tesla.Env.t}
+  @spec get_job(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.Job.t()} | {:error, Tesla.Env.t()}
   def get_job(connection, job_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -120,7 +125,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.Job{}}
+      {200, %Nomad.Model.Job{}}
     ])
   end
 
@@ -138,11 +143,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, [%AllocationListStub{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_job_allocations(Tesla.Env.client, String.t, keyword()) :: {:ok, list(Nomad.Model.AllocationListStub.t)} | {:error, Tesla.Env.t}
+  @spec get_job_allocations(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, list(Nomad.Model.AllocationListStub.t())} | {:error, Tesla.Env.t()}
   def get_job_allocations(connection, job_id, opts \\ []) do
     optional_params = %{
-      :"all" => :query
+      :all => :query
     }
+
     %{}
     |> method(:get)
     |> url("/job/#{job_id}/allocations")
@@ -150,7 +157,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.AllocationListStub{}]}
+      {200, [%Nomad.Model.AllocationListStub{}]}
     ])
   end
 
@@ -168,11 +175,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, [%Deployment{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_job_deployments(Tesla.Env.client, String.t, keyword()) :: {:ok, list(Nomad.Model.Deployment.t)} | {:error, Tesla.Env.t}
+  @spec get_job_deployments(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, list(Nomad.Model.Deployment.t())} | {:error, Tesla.Env.t()}
   def get_job_deployments(connection, job_id, opts \\ []) do
     optional_params = %{
-      :"all" => :query
+      :all => :query
     }
+
     %{}
     |> method(:get)
     |> url("/job/#{job_id}/deployments")
@@ -180,7 +189,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.Deployment{}]}
+      {200, [%Nomad.Model.Deployment{}]}
     ])
   end
 
@@ -197,7 +206,8 @@ defmodule Nomad.Api.Jobs do
   {:ok, [%Evaluation{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_job_evaluations(Tesla.Env.client, String.t, keyword()) :: {:ok, list(Nomad.Model.Evaluation.t)} | {:error, Tesla.Env.t}
+  @spec get_job_evaluations(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, list(Nomad.Model.Evaluation.t())} | {:error, Tesla.Env.t()}
   def get_job_evaluations(connection, job_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -205,7 +215,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.Evaluation{}]}
+      {200, [%Nomad.Model.Evaluation{}]}
     ])
   end
 
@@ -222,7 +232,8 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.Deployment.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_job_latest_deployment(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.Deployment.t} | {:error, Tesla.Env.t}
+  @spec get_job_latest_deployment(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.Deployment.t()} | {:error, Tesla.Env.t()}
   def get_job_latest_deployment(connection, job_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -230,7 +241,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.Deployment{}}
+      {200, %Nomad.Model.Deployment{}}
     ])
   end
 
@@ -247,7 +258,8 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobScaleStatusResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_job_scale_status(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobScaleStatusResponse.t} | {:error, Tesla.Env.t}
+  @spec get_job_scale_status(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobScaleStatusResponse.t()} | {:error, Tesla.Env.t()}
   def get_job_scale_status(connection, job_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -255,7 +267,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobScaleStatusResponse{}}
+      {200, %Nomad.Model.JobScaleStatusResponse{}}
     ])
   end
 
@@ -272,7 +284,8 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobSummary.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_job_summary(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobSummary.t} | {:error, Tesla.Env.t}
+  @spec get_job_summary(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobSummary.t()} | {:error, Tesla.Env.t()}
   def get_job_summary(connection, job_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -280,7 +293,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobSummary{}}
+      {200, %Nomad.Model.JobSummary{}}
     ])
   end
 
@@ -297,7 +310,8 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobVersionsResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_job_versions(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobVersionsResponse.t} | {:error, Tesla.Env.t}
+  @spec get_job_versions(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobVersionsResponse.t()} | {:error, Tesla.Env.t()}
   def get_job_versions(connection, job_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -305,7 +319,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobVersionsResponse{}}
+      {200, %Nomad.Model.JobVersionsResponse{}}
     ])
   end
 
@@ -322,11 +336,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, [%JobListStub{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_jobs(Tesla.Env.client, keyword()) :: {:ok, list(Nomad.Model.JobListStub.t)} | {:error, Tesla.Env.t}
+  @spec get_jobs(Tesla.Env.client(), keyword()) ::
+          {:ok, list(Nomad.Model.JobListStub.t())} | {:error, Tesla.Env.t()}
   def get_jobs(connection, opts \\ []) do
     optional_params = %{
-      :"prefix" => :query
+      :prefix => :query
     }
+
     %{}
     |> method(:get)
     |> url("/jobs")
@@ -334,7 +350,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.JobListStub{}]}
+      {200, [%Nomad.Model.JobListStub{}]}
     ])
   end
 
@@ -351,11 +367,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.Job.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec parse_job_hcl(Tesla.Env.client, keyword()) :: {:ok, Nomad.Model.Job.t} | {:error, Tesla.Env.t}
+  @spec parse_job_hcl(Tesla.Env.client(), keyword()) ::
+          {:ok, Nomad.Model.Job.t()} | {:error, Tesla.Env.t()}
   def parse_job_hcl(connection, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/jobs/parse")
@@ -364,7 +382,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.Job{}}
+      {200, %Nomad.Model.Job{}}
     ])
   end
 
@@ -382,11 +400,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobPlanResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec plan_job(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobPlanResponse.t} | {:error, Tesla.Env.t}
+  @spec plan_job(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobPlanResponse.t()} | {:error, Tesla.Env.t()}
   def plan_job(connection, job_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/plan")
@@ -395,7 +415,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobPlanResponse{}}
+      {200, %Nomad.Model.JobPlanResponse{}}
     ])
   end
 
@@ -412,11 +432,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobRegisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec register_job(Tesla.Env.client, keyword()) :: {:ok, Nomad.Model.JobRegisterResponse.t} | {:error, Tesla.Env.t}
+  @spec register_job(Tesla.Env.client(), keyword()) ::
+          {:ok, Nomad.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
   def register_job(connection, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/jobs")
@@ -425,7 +447,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobRegisterResponse{}}
+      {200, %Nomad.Model.JobRegisterResponse{}}
     ])
   end
 
@@ -443,11 +465,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobRegisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec revert_job(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobRegisterResponse.t} | {:error, Tesla.Env.t}
+  @spec revert_job(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
   def revert_job(connection, job_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/revert")
@@ -456,7 +480,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobRegisterResponse{}}
+      {200, %Nomad.Model.JobRegisterResponse{}}
     ])
   end
 
@@ -474,11 +498,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobRegisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec scale_task_group(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobRegisterResponse.t} | {:error, Tesla.Env.t}
+  @spec scale_task_group(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
   def scale_task_group(connection, job_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/scale")
@@ -487,7 +513,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobRegisterResponse{}}
+      {200, %Nomad.Model.JobRegisterResponse{}}
     ])
   end
 
@@ -505,11 +531,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobStabilityResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec set_job_stability(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobStabilityResponse.t} | {:error, Tesla.Env.t}
+  @spec set_job_stability(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobStabilityResponse.t()} | {:error, Tesla.Env.t()}
   def set_job_stability(connection, job_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/stable")
@@ -518,7 +546,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobStabilityResponse{}}
+      {200, %Nomad.Model.JobStabilityResponse{}}
     ])
   end
 
@@ -536,11 +564,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobDeregisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec stop_job(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobDeregisterResponse.t} | {:error, Tesla.Env.t}
+  @spec stop_job(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobDeregisterResponse.t()} | {:error, Tesla.Env.t()}
   def stop_job(connection, job_id, opts \\ []) do
     optional_params = %{
-      :"purge" => :query
+      :purge => :query
     }
+
     %{}
     |> method(:delete)
     |> url("/job/#{job_id}")
@@ -548,7 +578,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobDeregisterResponse{}}
+      {200, %Nomad.Model.JobDeregisterResponse{}}
     ])
   end
 
@@ -566,11 +596,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobRegisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec update_job(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.JobRegisterResponse.t} | {:error, Tesla.Env.t}
+  @spec update_job(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
   def update_job(connection, job_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}")
@@ -579,7 +611,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobRegisterResponse{}}
+      {200, %Nomad.Model.JobRegisterResponse{}}
     ])
   end
 
@@ -596,11 +628,13 @@ defmodule Nomad.Api.Jobs do
   {:ok, Nomad.Model.JobValidateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec validate_job(Tesla.Env.client, keyword()) :: {:ok, Nomad.Model.JobValidateResponse.t} | {:error, Tesla.Env.t}
+  @spec validate_job(Tesla.Env.client(), keyword()) ::
+          {:ok, Nomad.Model.JobValidateResponse.t()} | {:error, Tesla.Env.t()}
   def validate_job(connection, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/validate/job")
@@ -609,7 +643,7 @@ defmodule Nomad.Api.Jobs do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JobValidateResponse{}}
+      {200, %Nomad.Model.JobValidateResponse{}}
     ])
   end
 end

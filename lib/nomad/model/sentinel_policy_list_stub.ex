@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.SentinelPolicyListStub do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Name",
-    :"Description",
-    :"Scope",
-    :"EnforcementLevel",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :Name,
+    :Description,
+    :Scope,
+    :EnforcementLevel,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"Name" => String.t | nil,
-    :"Description" => String.t | nil,
-    :"Scope" => String.t | nil,
-    :"EnforcementLevel" => String.t | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :Name => String.t() | nil,
+          :Description => String.t() | nil,
+          :Scope => String.t() | nil,
+          :EnforcementLevel => String.t() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.SentinelPolicyListStub do
@@ -32,4 +32,3 @@ defimpl Poison.Decoder, for: Nomad.Model.SentinelPolicyListStub do
     value
   end
 end
-

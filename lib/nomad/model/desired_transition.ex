@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.DesiredTransition do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Migrate",
-    :"Reschedule"
+    :Migrate,
+    :Reschedule
   ]
 
   @type t :: %__MODULE__{
-    :"Migrate" => boolean() | nil,
-    :"Reschedule" => boolean() | nil
-  }
+          :Migrate => boolean() | nil,
+          :Reschedule => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DesiredTransition do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.DesiredTransition do
     value
   end
 end
-

@@ -4,36 +4,36 @@
 
 defmodule Nomad.Model.TaskState do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"State",
-    :"Failed",
-    :"Restarts",
-    :"LastRestart",
-    :"StartedAt",
-    :"FinishedAt",
-    :"Events"
+    :State,
+    :Failed,
+    :Restarts,
+    :LastRestart,
+    :StartedAt,
+    :FinishedAt,
+    :Events
   ]
 
   @type t :: %__MODULE__{
-    :"State" => String.t | nil,
-    :"Failed" => boolean() | nil,
-    :"Restarts" => integer() | nil,
-    :"LastRestart" => DateTime.t | nil,
-    :"StartedAt" => DateTime.t | nil,
-    :"FinishedAt" => DateTime.t | nil,
-    :"Events" => [Nomad.Model.TaskEvent.t] | nil
-  }
+          :State => String.t() | nil,
+          :Failed => boolean() | nil,
+          :Restarts => integer() | nil,
+          :LastRestart => DateTime.t() | nil,
+          :StartedAt => DateTime.t() | nil,
+          :FinishedAt => DateTime.t() | nil,
+          :Events => [Nomad.Model.TaskEvent.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.TaskState do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Events", :list, Nomad.Model.TaskEvent, options)
+    |> deserialize(:Events, :list, Nomad.Model.TaskEvent, options)
   end
 end
-

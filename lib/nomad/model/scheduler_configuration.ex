@@ -4,28 +4,28 @@
 
 defmodule Nomad.Model.SchedulerConfiguration do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"PreemptionConfig",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :PreemptionConfig,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"PreemptionConfig" => Nomad.Model.PreemptionConfig.t | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :PreemptionConfig => Nomad.Model.PreemptionConfig.t() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.SchedulerConfiguration do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"PreemptionConfig", :struct, Nomad.Model.PreemptionConfig, options)
+    |> deserialize(:PreemptionConfig, :struct, Nomad.Model.PreemptionConfig, options)
   end
 end
-

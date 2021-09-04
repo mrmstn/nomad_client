@@ -4,25 +4,25 @@
 
 defmodule Nomad.Model.Attribute do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Float",
-    :"Int",
-    :"String",
-    :"Bool",
-    :"Unit"
+    :Float,
+    :Int,
+    :String,
+    :Bool,
+    :Unit
   ]
 
   @type t :: %__MODULE__{
-    :"Float" => float() | nil,
-    :"Int" => integer() | nil,
-    :"String" => String.t | nil,
-    :"Bool" => boolean() | nil,
-    :"Unit" => String.t | nil
-  }
+          :Float => float() | nil,
+          :Int => integer() | nil,
+          :String => String.t() | nil,
+          :Bool => boolean() | nil,
+          :Unit => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Attribute do
@@ -30,4 +30,3 @@ defimpl Poison.Decoder, for: Nomad.Model.Attribute do
     value
   end
 end
-

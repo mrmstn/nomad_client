@@ -4,25 +4,25 @@
 
 defmodule Nomad.Model.AclPolicy do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Name",
-    :"Description",
-    :"Rules",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :Name,
+    :Description,
+    :Rules,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"Name" => String.t | nil,
-    :"Description" => String.t | nil,
-    :"Rules" => String.t | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :Name => String.t() | nil,
+          :Description => String.t() | nil,
+          :Rules => String.t() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AclPolicy do
@@ -30,4 +30,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AclPolicy do
     value
   end
 end
-

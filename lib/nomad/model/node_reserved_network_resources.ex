@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.NodeReservedNetworkResources do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ReservedHostPorts"
+    :ReservedHostPorts
   ]
 
   @type t :: %__MODULE__{
-    :"ReservedHostPorts" => String.t | nil
-  }
+          :ReservedHostPorts => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeReservedNetworkResources do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.NodeReservedNetworkResources do
     value
   end
 end
-

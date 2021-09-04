@@ -4,35 +4,35 @@
 
 defmodule Nomad.Model.AutopilotConfiguration do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"CleanupDeadServers",
-    :"LastContactThreshold",
-    :"MaxTrailingLogs",
-    :"MinQuorum",
-    :"ServerStabilizationTime",
-    :"EnableRedundancyZones",
-    :"DisableUpgradeMigration",
-    :"EnableCustomUpgrades",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :CleanupDeadServers,
+    :LastContactThreshold,
+    :MaxTrailingLogs,
+    :MinQuorum,
+    :ServerStabilizationTime,
+    :EnableRedundancyZones,
+    :DisableUpgradeMigration,
+    :EnableCustomUpgrades,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"CleanupDeadServers" => boolean() | nil,
-    :"LastContactThreshold" => integer() | nil,
-    :"MaxTrailingLogs" => integer() | nil,
-    :"MinQuorum" => integer() | nil,
-    :"ServerStabilizationTime" => integer() | nil,
-    :"EnableRedundancyZones" => boolean() | nil,
-    :"DisableUpgradeMigration" => boolean() | nil,
-    :"EnableCustomUpgrades" => boolean() | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :CleanupDeadServers => boolean() | nil,
+          :LastContactThreshold => integer() | nil,
+          :MaxTrailingLogs => integer() | nil,
+          :MinQuorum => integer() | nil,
+          :ServerStabilizationTime => integer() | nil,
+          :EnableRedundancyZones => boolean() | nil,
+          :DisableUpgradeMigration => boolean() | nil,
+          :EnableCustomUpgrades => boolean() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AutopilotConfiguration do
@@ -40,4 +40,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AutopilotConfiguration do
     value
   end
 end
-

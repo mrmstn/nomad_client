@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.TaskArtifact do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"GetterSource",
-    :"GetterOptions",
-    :"GetterMode",
-    :"RelativeDest"
+    :GetterSource,
+    :GetterOptions,
+    :GetterMode,
+    :RelativeDest
   ]
 
   @type t :: %__MODULE__{
-    :"GetterSource" => String.t | nil,
-    :"GetterOptions" => %{optional(String.t) => String.t} | nil,
-    :"GetterMode" => String.t | nil,
-    :"RelativeDest" => String.t | nil
-  }
+          :GetterSource => String.t() | nil,
+          :GetterOptions => %{optional(String.t()) => String.t()} | nil,
+          :GetterMode => String.t() | nil,
+          :RelativeDest => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.TaskArtifact do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.TaskArtifact do
     value
   end
 end
-

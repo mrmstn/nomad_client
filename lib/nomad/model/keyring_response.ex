@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.KeyringResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Messages",
-    :"Keys",
-    :"NumNodes"
+    :Messages,
+    :Keys,
+    :NumNodes
   ]
 
   @type t :: %__MODULE__{
-    :"Messages" => %{optional(String.t) => String.t} | nil,
-    :"Keys" => %{optional(String.t) => integer()} | nil,
-    :"NumNodes" => integer() | nil
-  }
+          :Messages => %{optional(String.t()) => String.t()} | nil,
+          :Keys => %{optional(String.t()) => integer()} | nil,
+          :NumNodes => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.KeyringResponse do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.KeyringResponse do
     value
   end
 end
-

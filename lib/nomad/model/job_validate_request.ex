@@ -4,24 +4,24 @@
 
 defmodule Nomad.Model.JobValidateRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Job"
+    :Job
   ]
 
   @type t :: %__MODULE__{
-    :"Job" => Nomad.Model.Job.t | nil
-  }
+          :Job => Nomad.Model.Job.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobValidateRequest do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Job", :struct, Nomad.Model.Job, options)
+    |> deserialize(:Job, :struct, Nomad.Model.Job, options)
   end
 end
-

@@ -4,36 +4,36 @@
 
 defmodule Nomad.Model.NodeResources do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"CPU",
-    :"Memory",
-    :"Disk",
-    :"Networks",
-    :"Devices"
+    :CPU,
+    :Memory,
+    :Disk,
+    :Networks,
+    :Devices
   ]
 
   @type t :: %__MODULE__{
-    :"CPU" => Nomad.Model.NodeCpuResources.t | nil,
-    :"Memory" => Nomad.Model.NodeMemoryResources.t | nil,
-    :"Disk" => Nomad.Model.NodeDiskResources.t | nil,
-    :"Networks" => [Nomad.Model.NetworkResource.t] | nil,
-    :"Devices" => [Nomad.Model.NodeDeviceResource.t] | nil
-  }
+          :CPU => Nomad.Model.NodeCpuResources.t() | nil,
+          :Memory => Nomad.Model.NodeMemoryResources.t() | nil,
+          :Disk => Nomad.Model.NodeDiskResources.t() | nil,
+          :Networks => [Nomad.Model.NetworkResource.t()] | nil,
+          :Devices => [Nomad.Model.NodeDeviceResource.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeResources do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"CPU", :struct, Nomad.Model.NodeCpuResources, options)
-    |> deserialize(:"Memory", :struct, Nomad.Model.NodeMemoryResources, options)
-    |> deserialize(:"Disk", :struct, Nomad.Model.NodeDiskResources, options)
-    |> deserialize(:"Networks", :list, Nomad.Model.NetworkResource, options)
-    |> deserialize(:"Devices", :list, Nomad.Model.NodeDeviceResource, options)
+    |> deserialize(:CPU, :struct, Nomad.Model.NodeCpuResources, options)
+    |> deserialize(:Memory, :struct, Nomad.Model.NodeMemoryResources, options)
+    |> deserialize(:Disk, :struct, Nomad.Model.NodeDiskResources, options)
+    |> deserialize(:Networks, :list, Nomad.Model.NetworkResource, options)
+    |> deserialize(:Devices, :list, Nomad.Model.NodeDeviceResource, options)
   end
 end
-

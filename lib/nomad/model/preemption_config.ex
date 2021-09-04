@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.PreemptionConfig do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"SystemSchedulerEnabled",
-    :"BatchSchedulerEnabled",
-    :"ServiceSchedulerEnabled"
+    :SystemSchedulerEnabled,
+    :BatchSchedulerEnabled,
+    :ServiceSchedulerEnabled
   ]
 
   @type t :: %__MODULE__{
-    :"SystemSchedulerEnabled" => boolean() | nil,
-    :"BatchSchedulerEnabled" => boolean() | nil,
-    :"ServiceSchedulerEnabled" => boolean() | nil
-  }
+          :SystemSchedulerEnabled => boolean() | nil,
+          :BatchSchedulerEnabled => boolean() | nil,
+          :ServiceSchedulerEnabled => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.PreemptionConfig do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.PreemptionConfig do
     value
   end
 end
-

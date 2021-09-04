@@ -4,37 +4,37 @@
 
 defmodule Nomad.Model.HostStats do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Memory",
-    :"CPU",
-    :"DiskStats",
-    :"DeviceStats",
-    :"Uptime",
-    :"CpuTicksConsumed"
+    :Memory,
+    :CPU,
+    :DiskStats,
+    :DeviceStats,
+    :Uptime,
+    :CpuTicksConsumed
   ]
 
   @type t :: %__MODULE__{
-    :"Memory" => Nomad.Model.HostMemoryStats.t | nil,
-    :"CPU" => [Nomad.Model.HostCpuStats.t] | nil,
-    :"DiskStats" => [Nomad.Model.HostDiskStats.t] | nil,
-    :"DeviceStats" => [Nomad.Model.DeviceGroupStats.t] | nil,
-    :"Uptime" => integer() | nil,
-    :"CpuTicksConsumed" => float() | nil
-  }
+          :Memory => Nomad.Model.HostMemoryStats.t() | nil,
+          :CPU => [Nomad.Model.HostCpuStats.t()] | nil,
+          :DiskStats => [Nomad.Model.HostDiskStats.t()] | nil,
+          :DeviceStats => [Nomad.Model.DeviceGroupStats.t()] | nil,
+          :Uptime => integer() | nil,
+          :CpuTicksConsumed => float() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.HostStats do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Memory", :struct, Nomad.Model.HostMemoryStats, options)
-    |> deserialize(:"CPU", :list, Nomad.Model.HostCpuStats, options)
-    |> deserialize(:"DiskStats", :list, Nomad.Model.HostDiskStats, options)
-    |> deserialize(:"DeviceStats", :list, Nomad.Model.DeviceGroupStats, options)
+    |> deserialize(:Memory, :struct, Nomad.Model.HostMemoryStats, options)
+    |> deserialize(:CPU, :list, Nomad.Model.HostCpuStats, options)
+    |> deserialize(:DiskStats, :list, Nomad.Model.HostDiskStats, options)
+    |> deserialize(:DeviceStats, :list, Nomad.Model.DeviceGroupStats, options)
   end
 end
-

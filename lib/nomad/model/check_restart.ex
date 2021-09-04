@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.CheckRestart do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Limit",
-    :"Grace",
-    :"IgnoreWarnings"
+    :Limit,
+    :Grace,
+    :IgnoreWarnings
   ]
 
   @type t :: %__MODULE__{
-    :"Limit" => integer() | nil,
-    :"Grace" => integer() | nil,
-    :"IgnoreWarnings" => boolean() | nil
-  }
+          :Limit => integer() | nil,
+          :Grace => integer() | nil,
+          :IgnoreWarnings => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.CheckRestart do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.CheckRestart do
     value
   end
 end
-

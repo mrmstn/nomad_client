@@ -4,32 +4,32 @@
 
 defmodule Nomad.Model.JobScaleStatusResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"JobID",
-    :"JobCreateIndex",
-    :"JobModifyIndex",
-    :"JobStopped",
-    :"TaskGroups"
+    :JobID,
+    :JobCreateIndex,
+    :JobModifyIndex,
+    :JobStopped,
+    :TaskGroups
   ]
 
   @type t :: %__MODULE__{
-    :"JobID" => String.t | nil,
-    :"JobCreateIndex" => integer() | nil,
-    :"JobModifyIndex" => integer() | nil,
-    :"JobStopped" => boolean() | nil,
-    :"TaskGroups" => %{optional(String.t) => Nomad.Model.TaskGroupScaleStatus.t} | nil
-  }
+          :JobID => String.t() | nil,
+          :JobCreateIndex => integer() | nil,
+          :JobModifyIndex => integer() | nil,
+          :JobStopped => boolean() | nil,
+          :TaskGroups => %{optional(String.t()) => Nomad.Model.TaskGroupScaleStatus.t()} | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobScaleStatusResponse do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"TaskGroups", :map, Nomad.Model.TaskGroupScaleStatus, options)
+    |> deserialize(:TaskGroups, :map, Nomad.Model.TaskGroupScaleStatus, options)
   end
 end
-

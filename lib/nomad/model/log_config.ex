@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.LogConfig do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"MaxFiles",
-    :"MaxFileSizeMB"
+    :MaxFiles,
+    :MaxFileSizeMB
   ]
 
   @type t :: %__MODULE__{
-    :"MaxFiles" => integer() | nil,
-    :"MaxFileSizeMB" => integer() | nil
-  }
+          :MaxFiles => integer() | nil,
+          :MaxFileSizeMB => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.LogConfig do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.LogConfig do
     value
   end
 end
-

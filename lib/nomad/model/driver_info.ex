@@ -4,25 +4,25 @@
 
 defmodule Nomad.Model.DriverInfo do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Attributes",
-    :"Detected",
-    :"Healthy",
-    :"HealthDescription",
-    :"UpdateTime"
+    :Attributes,
+    :Detected,
+    :Healthy,
+    :HealthDescription,
+    :UpdateTime
   ]
 
   @type t :: %__MODULE__{
-    :"Attributes" => %{optional(String.t) => String.t} | nil,
-    :"Detected" => boolean() | nil,
-    :"Healthy" => boolean() | nil,
-    :"HealthDescription" => String.t | nil,
-    :"UpdateTime" => DateTime.t | nil
-  }
+          :Attributes => %{optional(String.t()) => String.t()} | nil,
+          :Detected => boolean() | nil,
+          :Healthy => boolean() | nil,
+          :HealthDescription => String.t() | nil,
+          :UpdateTime => DateTime.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DriverInfo do
@@ -30,4 +30,3 @@ defimpl Poison.Decoder, for: Nomad.Model.DriverInfo do
     value
   end
 end
-

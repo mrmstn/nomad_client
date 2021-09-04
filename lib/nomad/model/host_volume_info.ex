@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.HostVolumeInfo do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Path",
-    :"ReadOnly"
+    :Path,
+    :ReadOnly
   ]
 
   @type t :: %__MODULE__{
-    :"Path" => String.t | nil,
-    :"ReadOnly" => boolean() | nil
-  }
+          :Path => String.t() | nil,
+          :ReadOnly => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.HostVolumeInfo do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.HostVolumeInfo do
     value
   end
 end
-

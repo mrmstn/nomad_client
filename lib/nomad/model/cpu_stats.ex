@@ -4,29 +4,29 @@
 
 defmodule Nomad.Model.CpuStats do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"SystemMode",
-    :"UserMode",
-    :"TotalTicks",
-    :"ThrottledPeriods",
-    :"ThrottledTime",
-    :"Percent",
-    :"Measured"
+    :SystemMode,
+    :UserMode,
+    :TotalTicks,
+    :ThrottledPeriods,
+    :ThrottledTime,
+    :Percent,
+    :Measured
   ]
 
   @type t :: %__MODULE__{
-    :"SystemMode" => float() | nil,
-    :"UserMode" => float() | nil,
-    :"TotalTicks" => float() | nil,
-    :"ThrottledPeriods" => integer() | nil,
-    :"ThrottledTime" => integer() | nil,
-    :"Percent" => float() | nil,
-    :"Measured" => [String.t] | nil
-  }
+          :SystemMode => float() | nil,
+          :UserMode => float() | nil,
+          :TotalTicks => float() | nil,
+          :ThrottledPeriods => integer() | nil,
+          :ThrottledTime => integer() | nil,
+          :Percent => float() | nil,
+          :Measured => [String.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.CpuStats do
@@ -34,4 +34,3 @@ defimpl Poison.Decoder, for: Nomad.Model.CpuStats do
     value
   end
 end
-

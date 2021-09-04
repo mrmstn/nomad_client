@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.AclPolicyListStub do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Name",
-    :"Description",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :Name,
+    :Description,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"Name" => String.t | nil,
-    :"Description" => String.t | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :Name => String.t() | nil,
+          :Description => String.t() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AclPolicyListStub do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AclPolicyListStub do
     value
   end
 end
-

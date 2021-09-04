@@ -4,26 +4,26 @@
 
 defmodule Nomad.Model.RaftConfiguration do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Servers",
-    :"Index"
+    :Servers,
+    :Index
   ]
 
   @type t :: %__MODULE__{
-    :"Servers" => [Nomad.Model.RaftServer.t] | nil,
-    :"Index" => integer() | nil
-  }
+          :Servers => [Nomad.Model.RaftServer.t()] | nil,
+          :Index => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.RaftConfiguration do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Servers", :list, Nomad.Model.RaftServer, options)
+    |> deserialize(:Servers, :list, Nomad.Model.RaftServer, options)
   end
 end
-

@@ -4,35 +4,35 @@
 
 defmodule Nomad.Model.JobSummary do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"JobID",
-    :"Namespace",
-    :"Summary",
-    :"Children",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :JobID,
+    :Namespace,
+    :Summary,
+    :Children,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"JobID" => String.t | nil,
-    :"Namespace" => String.t | nil,
-    :"Summary" => %{optional(String.t) => Nomad.Model.TaskGroupSummary.t} | nil,
-    :"Children" => Nomad.Model.JobChildrenSummary.t | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :JobID => String.t() | nil,
+          :Namespace => String.t() | nil,
+          :Summary => %{optional(String.t()) => Nomad.Model.TaskGroupSummary.t()} | nil,
+          :Children => Nomad.Model.JobChildrenSummary.t() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobSummary do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Summary", :map, Nomad.Model.TaskGroupSummary, options)
-    |> deserialize(:"Children", :struct, Nomad.Model.JobChildrenSummary, options)
+    |> deserialize(:Summary, :map, Nomad.Model.TaskGroupSummary, options)
+    |> deserialize(:Children, :struct, Nomad.Model.JobChildrenSummary, options)
   end
 end
-

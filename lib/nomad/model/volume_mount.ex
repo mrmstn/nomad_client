@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.VolumeMount do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Volume",
-    :"Destination",
-    :"ReadOnly",
-    :"PropagationMode"
+    :Volume,
+    :Destination,
+    :ReadOnly,
+    :PropagationMode
   ]
 
   @type t :: %__MODULE__{
-    :"Volume" => String.t | nil,
-    :"Destination" => String.t | nil,
-    :"ReadOnly" => boolean() | nil,
-    :"PropagationMode" => String.t | nil
-  }
+          :Volume => String.t() | nil,
+          :Destination => String.t() | nil,
+          :ReadOnly => boolean() | nil,
+          :PropagationMode => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.VolumeMount do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.VolumeMount do
     value
   end
 end
-

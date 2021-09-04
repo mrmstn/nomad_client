@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.JobChildrenSummary do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Pending",
-    :"Running",
-    :"Dead"
+    :Pending,
+    :Running,
+    :Dead
   ]
 
   @type t :: %__MODULE__{
-    :"Pending" => integer() | nil,
-    :"Running" => integer() | nil,
-    :"Dead" => integer() | nil
-  }
+          :Pending => integer() | nil,
+          :Running => integer() | nil,
+          :Dead => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobChildrenSummary do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.JobChildrenSummary do
     value
   end
 end
-

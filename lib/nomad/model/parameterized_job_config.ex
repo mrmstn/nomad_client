@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.ParameterizedJobConfig do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Payload",
-    :"MetaRequired",
-    :"MetaOptional"
+    :Payload,
+    :MetaRequired,
+    :MetaOptional
   ]
 
   @type t :: %__MODULE__{
-    :"Payload" => String.t | nil,
-    :"MetaRequired" => [String.t] | nil,
-    :"MetaOptional" => [String.t] | nil
-  }
+          :Payload => String.t() | nil,
+          :MetaRequired => [String.t()] | nil,
+          :MetaOptional => [String.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ParameterizedJobConfig do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.ParameterizedJobConfig do
     value
   end
 end
-

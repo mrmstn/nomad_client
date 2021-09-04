@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.TaskLifecycle do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Hook",
-    :"Sidecar"
+    :Hook,
+    :Sidecar
   ]
 
   @type t :: %__MODULE__{
-    :"Hook" => String.t | nil,
-    :"Sidecar" => boolean() | nil
-  }
+          :Hook => String.t() | nil,
+          :Sidecar => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.TaskLifecycle do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.TaskLifecycle do
     value
   end
 end
-

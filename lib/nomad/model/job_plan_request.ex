@@ -4,28 +4,28 @@
 
 defmodule Nomad.Model.JobPlanRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Job",
-    :"Diff",
-    :"PolicyOverride"
+    :Job,
+    :Diff,
+    :PolicyOverride
   ]
 
   @type t :: %__MODULE__{
-    :"Job" => Nomad.Model.Job.t | nil,
-    :"Diff" => boolean() | nil,
-    :"PolicyOverride" => boolean() | nil
-  }
+          :Job => Nomad.Model.Job.t() | nil,
+          :Diff => boolean() | nil,
+          :PolicyOverride => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobPlanRequest do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Job", :struct, Nomad.Model.Job, options)
+    |> deserialize(:Job, :struct, Nomad.Model.Job, options)
   end
 end
-

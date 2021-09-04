@@ -4,39 +4,39 @@
 
 defmodule Nomad.Model.JobPlanResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"JobModifyIndex",
-    :"CreatedEvals",
-    :"Diff",
-    :"Annotations",
-    :"FailedTgAllocs",
-    :"NextPeriodicLaunch",
-    :"Warnings"
+    :JobModifyIndex,
+    :CreatedEvals,
+    :Diff,
+    :Annotations,
+    :FailedTgAllocs,
+    :NextPeriodicLaunch,
+    :Warnings
   ]
 
   @type t :: %__MODULE__{
-    :"JobModifyIndex" => integer() | nil,
-    :"CreatedEvals" => [Nomad.Model.Evaluation.t] | nil,
-    :"Diff" => Nomad.Model.JobDiff.t | nil,
-    :"Annotations" => Nomad.Model.PlanAnnotations.t | nil,
-    :"FailedTgAllocs" => %{optional(String.t) => Nomad.Model.AllocationMetric.t} | nil,
-    :"NextPeriodicLaunch" => DateTime.t | nil,
-    :"Warnings" => String.t | nil
-  }
+          :JobModifyIndex => integer() | nil,
+          :CreatedEvals => [Nomad.Model.Evaluation.t()] | nil,
+          :Diff => Nomad.Model.JobDiff.t() | nil,
+          :Annotations => Nomad.Model.PlanAnnotations.t() | nil,
+          :FailedTgAllocs => %{optional(String.t()) => Nomad.Model.AllocationMetric.t()} | nil,
+          :NextPeriodicLaunch => DateTime.t() | nil,
+          :Warnings => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobPlanResponse do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"CreatedEvals", :list, Nomad.Model.Evaluation, options)
-    |> deserialize(:"Diff", :struct, Nomad.Model.JobDiff, options)
-    |> deserialize(:"Annotations", :struct, Nomad.Model.PlanAnnotations, options)
-    |> deserialize(:"FailedTgAllocs", :map, Nomad.Model.AllocationMetric, options)
+    |> deserialize(:CreatedEvals, :list, Nomad.Model.Evaluation, options)
+    |> deserialize(:Diff, :struct, Nomad.Model.JobDiff, options)
+    |> deserialize(:Annotations, :struct, Nomad.Model.PlanAnnotations, options)
+    |> deserialize(:FailedTgAllocs, :map, Nomad.Model.AllocationMetric, options)
   end
 end
-

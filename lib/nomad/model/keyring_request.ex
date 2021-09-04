@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.KeyringRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Key"
+    :Key
   ]
 
   @type t :: %__MODULE__{
-    :"Key" => String.t | nil
-  }
+          :Key => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.KeyringRequest do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.KeyringRequest do
     value
   end
 end
-

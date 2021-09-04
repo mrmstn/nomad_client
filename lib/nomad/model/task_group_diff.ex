@@ -4,36 +4,36 @@
 
 defmodule Nomad.Model.TaskGroupDiff do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Type",
-    :"Name",
-    :"Fields",
-    :"Objects",
-    :"Tasks",
-    :"Updates"
+    :Type,
+    :Name,
+    :Fields,
+    :Objects,
+    :Tasks,
+    :Updates
   ]
 
   @type t :: %__MODULE__{
-    :"Type" => String.t | nil,
-    :"Name" => String.t | nil,
-    :"Fields" => [Nomad.Model.FieldDiff.t] | nil,
-    :"Objects" => [Nomad.Model.ObjectDiff.t] | nil,
-    :"Tasks" => [Nomad.Model.TaskDiff.t] | nil,
-    :"Updates" => %{optional(String.t) => Nomad.Model.Integer.t} | nil
-  }
+          :Type => String.t() | nil,
+          :Name => String.t() | nil,
+          :Fields => [Nomad.Model.FieldDiff.t()] | nil,
+          :Objects => [Nomad.Model.ObjectDiff.t()] | nil,
+          :Tasks => [Nomad.Model.TaskDiff.t()] | nil,
+          :Updates => %{optional(String.t()) => Nomad.Model.Integer.t()} | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.TaskGroupDiff do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Fields", :list, Nomad.Model.FieldDiff, options)
-    |> deserialize(:"Objects", :list, Nomad.Model.ObjectDiff, options)
-    |> deserialize(:"Tasks", :list, Nomad.Model.TaskDiff, options)
+    |> deserialize(:Fields, :list, Nomad.Model.FieldDiff, options)
+    |> deserialize(:Objects, :list, Nomad.Model.ObjectDiff, options)
+    |> deserialize(:Tasks, :list, Nomad.Model.TaskDiff, options)
   end
 end
-

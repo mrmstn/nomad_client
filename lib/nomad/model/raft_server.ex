@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.RaftServer do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"Node",
-    :"Address",
-    :"Leader",
-    :"Voter",
-    :"RaftProtocol"
+    :ID,
+    :Node,
+    :Address,
+    :Leader,
+    :Voter,
+    :RaftProtocol
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"Node" => String.t | nil,
-    :"Address" => String.t | nil,
-    :"Leader" => boolean() | nil,
-    :"Voter" => boolean() | nil,
-    :"RaftProtocol" => String.t | nil
-  }
+          :ID => String.t() | nil,
+          :Node => String.t() | nil,
+          :Address => String.t() | nil,
+          :Leader => boolean() | nil,
+          :Voter => boolean() | nil,
+          :RaftProtocol => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.RaftServer do
@@ -32,4 +32,3 @@ defimpl Poison.Decoder, for: Nomad.Model.RaftServer do
     value
   end
 end
-

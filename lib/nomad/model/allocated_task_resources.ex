@@ -4,30 +4,30 @@
 
 defmodule Nomad.Model.AllocatedTaskResources do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"CPU",
-    :"Memory",
-    :"Networks"
+    :CPU,
+    :Memory,
+    :Networks
   ]
 
   @type t :: %__MODULE__{
-    :"CPU" => Nomad.Model.AllocatedCpuResources.t | nil,
-    :"Memory" => Nomad.Model.AllocatedMemoryResources.t | nil,
-    :"Networks" => [Nomad.Model.NetworkResource.t] | nil
-  }
+          :CPU => Nomad.Model.AllocatedCpuResources.t() | nil,
+          :Memory => Nomad.Model.AllocatedMemoryResources.t() | nil,
+          :Networks => [Nomad.Model.NetworkResource.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AllocatedTaskResources do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"CPU", :struct, Nomad.Model.AllocatedCpuResources, options)
-    |> deserialize(:"Memory", :struct, Nomad.Model.AllocatedMemoryResources, options)
-    |> deserialize(:"Networks", :list, Nomad.Model.NetworkResource, options)
+    |> deserialize(:CPU, :struct, Nomad.Model.AllocatedCpuResources, options)
+    |> deserialize(:Memory, :struct, Nomad.Model.AllocatedMemoryResources, options)
+    |> deserialize(:Networks, :list, Nomad.Model.NetworkResource, options)
   end
 end
-

@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.NodeReservedDiskResources do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"DiskMB"
+    :DiskMB
   ]
 
   @type t :: %__MODULE__{
-    :"DiskMB" => integer() | nil
-  }
+          :DiskMB => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeReservedDiskResources do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.NodeReservedDiskResources do
     value
   end
 end
-

@@ -4,33 +4,33 @@
 
 defmodule Nomad.Model.UpdateStrategy do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Stagger",
-    :"MaxParallel",
-    :"HealthCheck",
-    :"MinHealthyTime",
-    :"HealthyDeadline",
-    :"ProgressDeadline",
-    :"Canary",
-    :"AutoRevert",
-    :"AutoPromote"
+    :Stagger,
+    :MaxParallel,
+    :HealthCheck,
+    :MinHealthyTime,
+    :HealthyDeadline,
+    :ProgressDeadline,
+    :Canary,
+    :AutoRevert,
+    :AutoPromote
   ]
 
   @type t :: %__MODULE__{
-    :"Stagger" => integer() | nil,
-    :"MaxParallel" => integer() | nil,
-    :"HealthCheck" => String.t | nil,
-    :"MinHealthyTime" => integer() | nil,
-    :"HealthyDeadline" => integer() | nil,
-    :"ProgressDeadline" => integer() | nil,
-    :"Canary" => integer() | nil,
-    :"AutoRevert" => boolean() | nil,
-    :"AutoPromote" => boolean() | nil
-  }
+          :Stagger => integer() | nil,
+          :MaxParallel => integer() | nil,
+          :HealthCheck => String.t() | nil,
+          :MinHealthyTime => integer() | nil,
+          :HealthyDeadline => integer() | nil,
+          :ProgressDeadline => integer() | nil,
+          :Canary => integer() | nil,
+          :AutoRevert => boolean() | nil,
+          :AutoPromote => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.UpdateStrategy do
@@ -38,4 +38,3 @@ defimpl Poison.Decoder, for: Nomad.Model.UpdateStrategy do
     value
   end
 end
-

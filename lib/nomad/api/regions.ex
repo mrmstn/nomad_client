@@ -10,7 +10,6 @@ defmodule Nomad.Api.Regions do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   list all known regions
 
@@ -23,7 +22,8 @@ defmodule Nomad.Api.Regions do
   {:ok, [%String{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_regions(Tesla.Env.client, keyword()) :: {:ok, list(String.t)} | {:error, Tesla.Env.t}
+  @spec get_regions(Tesla.Env.client(), keyword()) ::
+          {:ok, list(String.t())} | {:error, Tesla.Env.t()}
   def get_regions(connection, _opts \\ []) do
     %{}
     |> method(:get)
@@ -31,7 +31,7 @@ defmodule Nomad.Api.Regions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, []}
+      {200, []}
     ])
   end
 end

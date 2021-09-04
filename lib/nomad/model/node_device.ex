@@ -4,30 +4,30 @@
 
 defmodule Nomad.Model.NodeDevice do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"Healthy",
-    :"HealthDescription",
-    :"Locality"
+    :ID,
+    :Healthy,
+    :HealthDescription,
+    :Locality
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"Healthy" => boolean() | nil,
-    :"HealthDescription" => String.t | nil,
-    :"Locality" => Nomad.Model.NodeDeviceLocality.t | nil
-  }
+          :ID => String.t() | nil,
+          :Healthy => boolean() | nil,
+          :HealthDescription => String.t() | nil,
+          :Locality => Nomad.Model.NodeDeviceLocality.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeDevice do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Locality", :struct, Nomad.Model.NodeDeviceLocality, options)
+    |> deserialize(:Locality, :struct, Nomad.Model.NodeDeviceLocality, options)
   end
 end
-

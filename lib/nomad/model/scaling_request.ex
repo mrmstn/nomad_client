@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.ScalingRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Count",
-    :"Target",
-    :"Reason",
-    :"Error",
-    :"Meta",
-    :"PolicyOverride"
+    :Count,
+    :Target,
+    :Reason,
+    :Error,
+    :Meta,
+    :PolicyOverride
   ]
 
   @type t :: %__MODULE__{
-    :"Count" => integer() | nil,
-    :"Target" => %{optional(String.t) => String.t} | nil,
-    :"Reason" => String.t | nil,
-    :"Error" => String.t | nil,
-    :"Meta" => %{optional(String.t) => map()} | nil,
-    :"PolicyOverride" => boolean() | nil
-  }
+          :Count => integer() | nil,
+          :Target => %{optional(String.t()) => String.t()} | nil,
+          :Reason => String.t() | nil,
+          :Error => String.t() | nil,
+          :Meta => %{optional(String.t()) => map()} | nil,
+          :PolicyOverride => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ScalingRequest do
@@ -32,4 +32,3 @@ defimpl Poison.Decoder, for: Nomad.Model.ScalingRequest do
     value
   end
 end
-

@@ -4,48 +4,48 @@
 
 defmodule Nomad.Model.Service do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"Name",
-    :"Tags",
-    :"CanaryTags",
-    :"EnableTagOverride",
-    :"PortLabel",
-    :"AddressMode",
-    :"Checks",
-    :"CheckRestart",
-    :"Connect",
-    :"Meta",
-    :"CanaryMeta"
+    :ID,
+    :Name,
+    :Tags,
+    :CanaryTags,
+    :EnableTagOverride,
+    :PortLabel,
+    :AddressMode,
+    :Checks,
+    :CheckRestart,
+    :Connect,
+    :Meta,
+    :CanaryMeta
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"Name" => String.t | nil,
-    :"Tags" => [String.t] | nil,
-    :"CanaryTags" => [String.t] | nil,
-    :"EnableTagOverride" => boolean() | nil,
-    :"PortLabel" => String.t | nil,
-    :"AddressMode" => String.t | nil,
-    :"Checks" => [Nomad.Model.ServiceCheck.t] | nil,
-    :"CheckRestart" => Nomad.Model.CheckRestart.t | nil,
-    :"Connect" => Nomad.Model.ConsulConnect.t | nil,
-    :"Meta" => %{optional(String.t) => String.t} | nil,
-    :"CanaryMeta" => %{optional(String.t) => String.t} | nil
-  }
+          :ID => String.t() | nil,
+          :Name => String.t() | nil,
+          :Tags => [String.t()] | nil,
+          :CanaryTags => [String.t()] | nil,
+          :EnableTagOverride => boolean() | nil,
+          :PortLabel => String.t() | nil,
+          :AddressMode => String.t() | nil,
+          :Checks => [Nomad.Model.ServiceCheck.t()] | nil,
+          :CheckRestart => Nomad.Model.CheckRestart.t() | nil,
+          :Connect => Nomad.Model.ConsulConnect.t() | nil,
+          :Meta => %{optional(String.t()) => String.t()} | nil,
+          :CanaryMeta => %{optional(String.t()) => String.t()} | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Service do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Checks", :list, Nomad.Model.ServiceCheck, options)
-    |> deserialize(:"CheckRestart", :struct, Nomad.Model.CheckRestart, options)
-    |> deserialize(:"Connect", :struct, Nomad.Model.ConsulConnect, options)
+    |> deserialize(:Checks, :list, Nomad.Model.ServiceCheck, options)
+    |> deserialize(:CheckRestart, :struct, Nomad.Model.CheckRestart, options)
+    |> deserialize(:Connect, :struct, Nomad.Model.ConsulConnect, options)
   end
 end
-

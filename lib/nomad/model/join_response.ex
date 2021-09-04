@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.JoinResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"error",
-    :"num_joined"
+    :error,
+    :num_joined
   ]
 
   @type t :: %__MODULE__{
-    :"error" => String.t | nil,
-    :"num_joined" => integer() | nil
-  }
+          :error => String.t() | nil,
+          :num_joined => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JoinResponse do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.JoinResponse do
     value
   end
 end
-

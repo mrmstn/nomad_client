@@ -4,31 +4,31 @@
 
 defmodule Nomad.Model.QueryOptions do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Region",
-    :"Namespace",
-    :"AllowStale",
-    :"WaitIndex",
-    :"WaitTime",
-    :"Prefix",
-    :"Params",
-    :"AuthToken"
+    :Region,
+    :Namespace,
+    :AllowStale,
+    :WaitIndex,
+    :WaitTime,
+    :Prefix,
+    :Params,
+    :AuthToken
   ]
 
   @type t :: %__MODULE__{
-    :"Region" => String.t | nil,
-    :"Namespace" => String.t | nil,
-    :"AllowStale" => boolean() | nil,
-    :"WaitIndex" => integer() | nil,
-    :"WaitTime" => integer() | nil,
-    :"Prefix" => String.t | nil,
-    :"Params" => %{optional(String.t) => String.t} | nil,
-    :"AuthToken" => String.t | nil
-  }
+          :Region => String.t() | nil,
+          :Namespace => String.t() | nil,
+          :AllowStale => boolean() | nil,
+          :WaitIndex => integer() | nil,
+          :WaitTime => integer() | nil,
+          :Prefix => String.t() | nil,
+          :Params => %{optional(String.t()) => String.t()} | nil,
+          :AuthToken => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.QueryOptions do
@@ -36,4 +36,3 @@ defimpl Poison.Decoder, for: Nomad.Model.QueryOptions do
     value
   end
 end
-

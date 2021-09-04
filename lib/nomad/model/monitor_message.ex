@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.MonitorMessage do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Level",
-    :"Message"
+    :Level,
+    :Message
   ]
 
   @type t :: %__MODULE__{
-    :"Level" => integer() | nil,
-    :"Message" => String.t | nil
-  }
+          :Level => integer() | nil,
+          :Message => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.MonitorMessage do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.MonitorMessage do
     value
   end
 end
-

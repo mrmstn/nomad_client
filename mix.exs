@@ -2,14 +2,16 @@ defmodule Nomad.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :nomad_client,
-     version: "0.11.0",
-     elixir: "~> 1.6",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     package: package(),
-     description: "Nomad OpenApi specification",
-     deps: deps()]
+    [
+      app: :nomad_client,
+      version: "0.11.0",
+      elixir: "~> 1.6",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      package: package(),
+      description: "Nomad OpenApi specification",
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application
@@ -36,7 +38,7 @@ defmodule Nomad.Mixfile do
     ]
   end
 
-   defp package() do
+  defp package() do
     [
       name: "nomad_client",
       files: ~w(lib mix.exs README* LICENSE*),

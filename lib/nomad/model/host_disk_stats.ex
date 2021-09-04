@@ -4,29 +4,29 @@
 
 defmodule Nomad.Model.HostDiskStats do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Device",
-    :"Mountpoint",
-    :"Size",
-    :"Used",
-    :"Available",
-    :"UsedPercent",
-    :"InodesUsedPercent"
+    :Device,
+    :Mountpoint,
+    :Size,
+    :Used,
+    :Available,
+    :UsedPercent,
+    :InodesUsedPercent
   ]
 
   @type t :: %__MODULE__{
-    :"Device" => String.t | nil,
-    :"Mountpoint" => String.t | nil,
-    :"Size" => integer() | nil,
-    :"Used" => integer() | nil,
-    :"Available" => integer() | nil,
-    :"UsedPercent" => float() | nil,
-    :"InodesUsedPercent" => float() | nil
-  }
+          :Device => String.t() | nil,
+          :Mountpoint => String.t() | nil,
+          :Size => integer() | nil,
+          :Used => integer() | nil,
+          :Available => integer() | nil,
+          :UsedPercent => float() | nil,
+          :InodesUsedPercent => float() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.HostDiskStats do
@@ -34,4 +34,3 @@ defimpl Poison.Decoder, for: Nomad.Model.HostDiskStats do
     value
   end
 end
-

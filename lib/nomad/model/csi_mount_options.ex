@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.CsiMountOptions do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"FsType",
-    :"MountFlags"
+    :FsType,
+    :MountFlags
   ]
 
   @type t :: %__MODULE__{
-    :"FsType" => String.t | nil,
-    :"MountFlags" => [String.t] | nil
-  }
+          :FsType => String.t() | nil,
+          :MountFlags => [String.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.CsiMountOptions do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.CsiMountOptions do
     value
   end
 end
-

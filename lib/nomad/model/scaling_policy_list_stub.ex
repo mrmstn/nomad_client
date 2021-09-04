@@ -4,25 +4,25 @@
 
 defmodule Nomad.Model.ScalingPolicyListStub do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"Enabled",
-    :"Target",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :ID,
+    :Enabled,
+    :Target,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"Enabled" => boolean() | nil,
-    :"Target" => %{optional(String.t) => String.t} | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :ID => String.t() | nil,
+          :Enabled => boolean() | nil,
+          :Target => %{optional(String.t()) => String.t()} | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ScalingPolicyListStub do
@@ -30,4 +30,3 @@ defimpl Poison.Decoder, for: Nomad.Model.ScalingPolicyListStub do
     value
   end
 end
-

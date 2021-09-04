@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.Port do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Label",
-    :"Value",
-    :"To"
+    :Label,
+    :Value,
+    :To
   ]
 
   @type t :: %__MODULE__{
-    :"Label" => String.t | nil,
-    :"Value" => integer() | nil,
-    :"To" => integer() | nil
-  }
+          :Label => String.t() | nil,
+          :Value => integer() | nil,
+          :To => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Port do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.Port do
     value
   end
 end
-

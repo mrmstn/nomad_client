@@ -4,37 +4,37 @@
 
 defmodule Nomad.Model.AgentMember do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Name",
-    :"Addr",
-    :"Port",
-    :"Tags",
-    :"Status",
-    :"ProtocolMin",
-    :"ProtocolMax",
-    :"ProtocolCur",
-    :"DelegateMin",
-    :"DelegateMax",
-    :"DelegateCur"
+    :Name,
+    :Addr,
+    :Port,
+    :Tags,
+    :Status,
+    :ProtocolMin,
+    :ProtocolMax,
+    :ProtocolCur,
+    :DelegateMin,
+    :DelegateMax,
+    :DelegateCur
   ]
 
   @type t :: %__MODULE__{
-    :"Name" => String.t | nil,
-    :"Addr" => String.t | nil,
-    :"Port" => integer() | nil,
-    :"Tags" => %{optional(String.t) => String.t} | nil,
-    :"Status" => String.t | nil,
-    :"ProtocolMin" => integer() | nil,
-    :"ProtocolMax" => integer() | nil,
-    :"ProtocolCur" => integer() | nil,
-    :"DelegateMin" => integer() | nil,
-    :"DelegateMax" => integer() | nil,
-    :"DelegateCur" => integer() | nil
-  }
+          :Name => String.t() | nil,
+          :Addr => String.t() | nil,
+          :Port => integer() | nil,
+          :Tags => %{optional(String.t()) => String.t()} | nil,
+          :Status => String.t() | nil,
+          :ProtocolMin => integer() | nil,
+          :ProtocolMax => integer() | nil,
+          :ProtocolCur => integer() | nil,
+          :DelegateMin => integer() | nil,
+          :DelegateMax => integer() | nil,
+          :DelegateCur => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AgentMember do
@@ -42,4 +42,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AgentMember do
     value
   end
 end
-

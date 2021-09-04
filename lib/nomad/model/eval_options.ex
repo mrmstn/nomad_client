@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.EvalOptions do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ForceReschedule"
+    :ForceReschedule
   ]
 
   @type t :: %__MODULE__{
-    :"ForceReschedule" => boolean() | nil
-  }
+          :ForceReschedule => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.EvalOptions do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.EvalOptions do
     value
   end
 end
-

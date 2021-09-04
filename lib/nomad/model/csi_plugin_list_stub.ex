@@ -4,33 +4,33 @@
 
 defmodule Nomad.Model.CsiPluginListStub do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"Provider",
-    :"ControllerRequired",
-    :"ControllersHealthy",
-    :"ControllersExpected",
-    :"NodesHealthy",
-    :"NodesExpected",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :ID,
+    :Provider,
+    :ControllerRequired,
+    :ControllersHealthy,
+    :ControllersExpected,
+    :NodesHealthy,
+    :NodesExpected,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"Provider" => String.t | nil,
-    :"ControllerRequired" => boolean() | nil,
-    :"ControllersHealthy" => integer() | nil,
-    :"ControllersExpected" => integer() | nil,
-    :"NodesHealthy" => integer() | nil,
-    :"NodesExpected" => integer() | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :ID => String.t() | nil,
+          :Provider => String.t() | nil,
+          :ControllerRequired => boolean() | nil,
+          :ControllersHealthy => integer() | nil,
+          :ControllersExpected => integer() | nil,
+          :NodesHealthy => integer() | nil,
+          :NodesExpected => integer() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.CsiPluginListStub do
@@ -38,4 +38,3 @@ defimpl Poison.Decoder, for: Nomad.Model.CsiPluginListStub do
     value
   end
 end
-

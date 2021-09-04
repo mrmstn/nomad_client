@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.JobVersionsResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Versions",
-    :"Diffs"
+    :Versions,
+    :Diffs
   ]
 
   @type t :: %__MODULE__{
-    :"Versions" => [Nomad.Model.Job.t] | nil,
-    :"Diffs" => [Nomad.Model.JobDiff.t] | nil
-  }
+          :Versions => [Nomad.Model.Job.t()] | nil,
+          :Diffs => [Nomad.Model.JobDiff.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobVersionsResponse do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Versions", :list, Nomad.Model.Job, options)
-    |> deserialize(:"Diffs", :list, Nomad.Model.JobDiff, options)
+    |> deserialize(:Versions, :list, Nomad.Model.Job, options)
+    |> deserialize(:Diffs, :list, Nomad.Model.JobDiff, options)
   end
 end
-

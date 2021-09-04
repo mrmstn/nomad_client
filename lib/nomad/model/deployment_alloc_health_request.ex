@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.DeploymentAllocHealthRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"DeploymentID",
-    :"HealthyAllocationIDs",
-    :"UnhealthyAllocationIDs"
+    :DeploymentID,
+    :HealthyAllocationIDs,
+    :UnhealthyAllocationIDs
   ]
 
   @type t :: %__MODULE__{
-    :"DeploymentID" => String.t | nil,
-    :"HealthyAllocationIDs" => [String.t] | nil,
-    :"UnhealthyAllocationIDs" => [String.t] | nil
-  }
+          :DeploymentID => String.t() | nil,
+          :HealthyAllocationIDs => [String.t()] | nil,
+          :UnhealthyAllocationIDs => [String.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DeploymentAllocHealthRequest do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.DeploymentAllocHealthRequest do
     value
   end
 end
-

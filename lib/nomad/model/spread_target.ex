@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.SpreadTarget do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Value",
-    :"Percent"
+    :Value,
+    :Percent
   ]
 
   @type t :: %__MODULE__{
-    :"Value" => String.t | nil,
-    :"Percent" => integer() | nil
-  }
+          :Value => String.t() | nil,
+          :Percent => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.SpreadTarget do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.SpreadTarget do
     value
   end
 end
-

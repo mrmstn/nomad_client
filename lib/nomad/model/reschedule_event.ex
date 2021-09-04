@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.RescheduleEvent do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"RescheduleTime",
-    :"PrevAllocID",
-    :"PrevNodeID"
+    :RescheduleTime,
+    :PrevAllocID,
+    :PrevNodeID
   ]
 
   @type t :: %__MODULE__{
-    :"RescheduleTime" => integer() | nil,
-    :"PrevAllocID" => String.t | nil,
-    :"PrevNodeID" => String.t | nil
-  }
+          :RescheduleTime => integer() | nil,
+          :PrevAllocID => String.t() | nil,
+          :PrevNodeID => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.RescheduleEvent do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.RescheduleEvent do
     value
   end
 end
-

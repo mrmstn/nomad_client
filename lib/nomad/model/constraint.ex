@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.Constraint do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"LTarget",
-    :"RTarget",
-    :"Operand"
+    :LTarget,
+    :RTarget,
+    :Operand
   ]
 
   @type t :: %__MODULE__{
-    :"LTarget" => String.t | nil,
-    :"RTarget" => String.t | nil,
-    :"Operand" => String.t | nil
-  }
+          :LTarget => String.t() | nil,
+          :RTarget => String.t() | nil,
+          :Operand => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Constraint do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.Constraint do
     value
   end
 end
-

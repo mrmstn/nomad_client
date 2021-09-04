@@ -4,46 +4,46 @@
 
 defmodule Nomad.Model.Deployment do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"Namespace",
-    :"JobID",
-    :"JobVersion",
-    :"JobModifyIndex",
-    :"JobSpecModifyIndex",
-    :"JobCreateIndex",
-    :"TaskGroups",
-    :"Status",
-    :"StatusDescription",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :ID,
+    :Namespace,
+    :JobID,
+    :JobVersion,
+    :JobModifyIndex,
+    :JobSpecModifyIndex,
+    :JobCreateIndex,
+    :TaskGroups,
+    :Status,
+    :StatusDescription,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"Namespace" => String.t | nil,
-    :"JobID" => String.t | nil,
-    :"JobVersion" => integer() | nil,
-    :"JobModifyIndex" => integer() | nil,
-    :"JobSpecModifyIndex" => integer() | nil,
-    :"JobCreateIndex" => integer() | nil,
-    :"TaskGroups" => %{optional(String.t) => Nomad.Model.DeploymentState.t} | nil,
-    :"Status" => String.t | nil,
-    :"StatusDescription" => String.t | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :ID => String.t() | nil,
+          :Namespace => String.t() | nil,
+          :JobID => String.t() | nil,
+          :JobVersion => integer() | nil,
+          :JobModifyIndex => integer() | nil,
+          :JobSpecModifyIndex => integer() | nil,
+          :JobCreateIndex => integer() | nil,
+          :TaskGroups => %{optional(String.t()) => Nomad.Model.DeploymentState.t()} | nil,
+          :Status => String.t() | nil,
+          :StatusDescription => String.t() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Deployment do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"TaskGroups", :map, Nomad.Model.DeploymentState, options)
+    |> deserialize(:TaskGroups, :map, Nomad.Model.DeploymentState, options)
   end
 end
-

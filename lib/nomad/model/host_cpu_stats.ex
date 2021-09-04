@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.HostCpuStats do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"CPU",
-    :"User",
-    :"System",
-    :"Idle"
+    :CPU,
+    :User,
+    :System,
+    :Idle
   ]
 
   @type t :: %__MODULE__{
-    :"CPU" => String.t | nil,
-    :"User" => float() | nil,
-    :"System" => float() | nil,
-    :"Idle" => float() | nil
-  }
+          :CPU => String.t() | nil,
+          :User => float() | nil,
+          :System => float() | nil,
+          :Idle => float() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.HostCpuStats do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.HostCpuStats do
     value
   end
 end
-

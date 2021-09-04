@@ -4,33 +4,33 @@
 
 defmodule Nomad.Model.NodeReservedResources do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"CPU",
-    :"Memory",
-    :"Disk",
-    :"Networks"
+    :CPU,
+    :Memory,
+    :Disk,
+    :Networks
   ]
 
   @type t :: %__MODULE__{
-    :"CPU" => Nomad.Model.NodeReservedCpuResources.t | nil,
-    :"Memory" => Nomad.Model.NodeReservedMemoryResources.t | nil,
-    :"Disk" => Nomad.Model.NodeReservedDiskResources.t | nil,
-    :"Networks" => Nomad.Model.NodeReservedNetworkResources.t | nil
-  }
+          :CPU => Nomad.Model.NodeReservedCpuResources.t() | nil,
+          :Memory => Nomad.Model.NodeReservedMemoryResources.t() | nil,
+          :Disk => Nomad.Model.NodeReservedDiskResources.t() | nil,
+          :Networks => Nomad.Model.NodeReservedNetworkResources.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeReservedResources do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"CPU", :struct, Nomad.Model.NodeReservedCpuResources, options)
-    |> deserialize(:"Memory", :struct, Nomad.Model.NodeReservedMemoryResources, options)
-    |> deserialize(:"Disk", :struct, Nomad.Model.NodeReservedDiskResources, options)
-    |> deserialize(:"Networks", :struct, Nomad.Model.NodeReservedNetworkResources, options)
+    |> deserialize(:CPU, :struct, Nomad.Model.NodeReservedCpuResources, options)
+    |> deserialize(:Memory, :struct, Nomad.Model.NodeReservedMemoryResources, options)
+    |> deserialize(:Disk, :struct, Nomad.Model.NodeReservedDiskResources, options)
+    |> deserialize(:Networks, :struct, Nomad.Model.NodeReservedNetworkResources, options)
   end
 end
-

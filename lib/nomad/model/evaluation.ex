@@ -4,78 +4,78 @@
 
 defmodule Nomad.Model.Evaluation do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"Priority",
-    :"Type",
-    :"TriggeredBy",
-    :"Namespace",
-    :"JobID",
-    :"JobModifyIndex",
-    :"NodeID",
-    :"NodeModifyIndex",
-    :"DeploymentID",
-    :"Status",
-    :"StatusDescription",
-    :"Wait",
-    :"WaitUntil",
-    :"NextEval",
-    :"PreviousEval",
-    :"BlockedEval",
-    :"FailedTgAllocs",
-    :"ClassEligibility",
-    :"EscapedComputedClass",
-    :"QuotaLimitReached",
-    :"AnnotatePlan",
-    :"QueuedAllocations",
-    :"SnapshotIndex",
-    :"CreateIndex",
-    :"ModifyIndex",
-    :"CreateTime",
-    :"ModifyTime"
+    :ID,
+    :Priority,
+    :Type,
+    :TriggeredBy,
+    :Namespace,
+    :JobID,
+    :JobModifyIndex,
+    :NodeID,
+    :NodeModifyIndex,
+    :DeploymentID,
+    :Status,
+    :StatusDescription,
+    :Wait,
+    :WaitUntil,
+    :NextEval,
+    :PreviousEval,
+    :BlockedEval,
+    :FailedTgAllocs,
+    :ClassEligibility,
+    :EscapedComputedClass,
+    :QuotaLimitReached,
+    :AnnotatePlan,
+    :QueuedAllocations,
+    :SnapshotIndex,
+    :CreateIndex,
+    :ModifyIndex,
+    :CreateTime,
+    :ModifyTime
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"Priority" => integer() | nil,
-    :"Type" => String.t | nil,
-    :"TriggeredBy" => String.t | nil,
-    :"Namespace" => String.t | nil,
-    :"JobID" => String.t | nil,
-    :"JobModifyIndex" => integer() | nil,
-    :"NodeID" => String.t | nil,
-    :"NodeModifyIndex" => integer() | nil,
-    :"DeploymentID" => String.t | nil,
-    :"Status" => String.t | nil,
-    :"StatusDescription" => String.t | nil,
-    :"Wait" => integer() | nil,
-    :"WaitUntil" => DateTime.t | nil,
-    :"NextEval" => String.t | nil,
-    :"PreviousEval" => String.t | nil,
-    :"BlockedEval" => String.t | nil,
-    :"FailedTgAllocs" => %{optional(String.t) => Nomad.Model.AllocationMetric.t} | nil,
-    :"ClassEligibility" => %{optional(String.t) => boolean()} | nil,
-    :"EscapedComputedClass" => boolean() | nil,
-    :"QuotaLimitReached" => String.t | nil,
-    :"AnnotatePlan" => boolean() | nil,
-    :"QueuedAllocations" => %{optional(String.t) => integer()} | nil,
-    :"SnapshotIndex" => integer() | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil,
-    :"CreateTime" => integer() | nil,
-    :"ModifyTime" => integer() | nil
-  }
+          :ID => String.t() | nil,
+          :Priority => integer() | nil,
+          :Type => String.t() | nil,
+          :TriggeredBy => String.t() | nil,
+          :Namespace => String.t() | nil,
+          :JobID => String.t() | nil,
+          :JobModifyIndex => integer() | nil,
+          :NodeID => String.t() | nil,
+          :NodeModifyIndex => integer() | nil,
+          :DeploymentID => String.t() | nil,
+          :Status => String.t() | nil,
+          :StatusDescription => String.t() | nil,
+          :Wait => integer() | nil,
+          :WaitUntil => DateTime.t() | nil,
+          :NextEval => String.t() | nil,
+          :PreviousEval => String.t() | nil,
+          :BlockedEval => String.t() | nil,
+          :FailedTgAllocs => %{optional(String.t()) => Nomad.Model.AllocationMetric.t()} | nil,
+          :ClassEligibility => %{optional(String.t()) => boolean()} | nil,
+          :EscapedComputedClass => boolean() | nil,
+          :QuotaLimitReached => String.t() | nil,
+          :AnnotatePlan => boolean() | nil,
+          :QueuedAllocations => %{optional(String.t()) => integer()} | nil,
+          :SnapshotIndex => integer() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil,
+          :CreateTime => integer() | nil,
+          :ModifyTime => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.Evaluation do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"FailedTgAllocs", :map, Nomad.Model.AllocationMetric, options)
+    |> deserialize(:FailedTgAllocs, :map, Nomad.Model.AllocationMetric, options)
   end
 end
-

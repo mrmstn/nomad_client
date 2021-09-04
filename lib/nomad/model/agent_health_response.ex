@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.AgentHealthResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Client",
-    :"Server"
+    :Client,
+    :Server
   ]
 
   @type t :: %__MODULE__{
-    :"Client" => Nomad.Model.AgentHealth.t | nil,
-    :"Server" => Nomad.Model.AgentHealth.t | nil
-  }
+          :Client => Nomad.Model.AgentHealth.t() | nil,
+          :Server => Nomad.Model.AgentHealth.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AgentHealthResponse do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Client", :struct, Nomad.Model.AgentHealth, options)
-    |> deserialize(:"Server", :struct, Nomad.Model.AgentHealth, options)
+    |> deserialize(:Client, :struct, Nomad.Model.AgentHealth, options)
+    |> deserialize(:Server, :struct, Nomad.Model.AgentHealth, options)
   end
 end
-

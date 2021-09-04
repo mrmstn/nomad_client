@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.JobValidateResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"DriverConfigValidated",
-    :"ValidationErrors",
-    :"Error",
-    :"Warnings"
+    :DriverConfigValidated,
+    :ValidationErrors,
+    :Error,
+    :Warnings
   ]
 
   @type t :: %__MODULE__{
-    :"DriverConfigValidated" => boolean() | nil,
-    :"ValidationErrors" => [String.t] | nil,
-    :"Error" => String.t | nil,
-    :"Warnings" => String.t | nil
-  }
+          :DriverConfigValidated => boolean() | nil,
+          :ValidationErrors => [String.t()] | nil,
+          :Error => String.t() | nil,
+          :Warnings => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobValidateResponse do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.JobValidateResponse do
     value
   end
 end
-

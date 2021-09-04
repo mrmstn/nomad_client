@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.ConsulUpstream do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"DestinationName",
-    :"LocalBindPort"
+    :DestinationName,
+    :LocalBindPort
   ]
 
   @type t :: %__MODULE__{
-    :"DestinationName" => String.t | nil,
-    :"LocalBindPort" => integer() | nil
-  }
+          :DestinationName => String.t() | nil,
+          :LocalBindPort => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ConsulUpstream do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.ConsulUpstream do
     value
   end
 end
-

@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.DrainSpec do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Deadline",
-    :"IgnoreSystemJobs"
+    :Deadline,
+    :IgnoreSystemJobs
   ]
 
   @type t :: %__MODULE__{
-    :"Deadline" => integer(),
-    :"IgnoreSystemJobs" => boolean() | nil
-  }
+          :Deadline => integer(),
+          :IgnoreSystemJobs => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DrainSpec do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.DrainSpec do
     value
   end
 end
-

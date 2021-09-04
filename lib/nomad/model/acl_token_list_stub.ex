@@ -4,31 +4,31 @@
 
 defmodule Nomad.Model.AclTokenListStub do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"AccessorID",
-    :"Name",
-    :"Type",
-    :"Policies",
-    :"Global",
-    :"CreateTime",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :AccessorID,
+    :Name,
+    :Type,
+    :Policies,
+    :Global,
+    :CreateTime,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"AccessorID" => String.t | nil,
-    :"Name" => String.t | nil,
-    :"Type" => String.t | nil,
-    :"Policies" => [String.t] | nil,
-    :"Global" => boolean() | nil,
-    :"CreateTime" => DateTime.t | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :AccessorID => String.t() | nil,
+          :Name => String.t() | nil,
+          :Type => String.t() | nil,
+          :Policies => [String.t()] | nil,
+          :Global => boolean() | nil,
+          :CreateTime => DateTime.t() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AclTokenListStub do
@@ -36,4 +36,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AclTokenListStub do
     value
   end
 end
-

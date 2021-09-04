@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.JobsParseRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"JobHcl",
-    :"Canonicalize"
+    :JobHcl,
+    :Canonicalize
   ]
 
   @type t :: %__MODULE__{
-    :"JobHcl" => String.t,
-    :"Canonicalize" => boolean() | nil
-  }
+          :JobHcl => String.t(),
+          :Canonicalize => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobsParseRequest do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.JobsParseRequest do
     value
   end
 end
-

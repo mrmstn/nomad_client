@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.DeploymentPromoteRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"DeploymentID",
-    :"All",
-    :"Groups"
+    :DeploymentID,
+    :All,
+    :Groups
   ]
 
   @type t :: %__MODULE__{
-    :"DeploymentID" => String.t | nil,
-    :"All" => boolean() | nil,
-    :"Groups" => [String.t] | nil
-  }
+          :DeploymentID => String.t() | nil,
+          :All => boolean() | nil,
+          :Groups => [String.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DeploymentPromoteRequest do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.DeploymentPromoteRequest do
     value
   end
 end
-

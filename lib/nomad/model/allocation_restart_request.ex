@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.AllocationRestartRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"TaskName"
+    :TaskName
   ]
 
   @type t :: %__MODULE__{
-    :"TaskName" => String.t | nil
-  }
+          :TaskName => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AllocationRestartRequest do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.AllocationRestartRequest do
     value
   end
 end
-

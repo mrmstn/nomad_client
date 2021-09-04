@@ -10,7 +10,6 @@ defmodule Nomad.Api.Status do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   returns the address of the current leader in the region
 
@@ -23,7 +22,7 @@ defmodule Nomad.Api.Status do
   {:ok, String.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_leader(Tesla.Env.client, keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
+  @spec get_leader(Tesla.Env.client(), keyword()) :: {:ok, String.t()} | {:error, Tesla.Env.t()}
   def get_leader(connection, _opts \\ []) do
     %{}
     |> method(:get)
@@ -31,7 +30,7 @@ defmodule Nomad.Api.Status do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -47,7 +46,8 @@ defmodule Nomad.Api.Status do
   {:ok, [%String{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_peers(Tesla.Env.client, keyword()) :: {:ok, list(String.t)} | {:error, Tesla.Env.t}
+  @spec get_peers(Tesla.Env.client(), keyword()) ::
+          {:ok, list(String.t())} | {:error, Tesla.Env.t()}
   def get_peers(connection, _opts \\ []) do
     %{}
     |> method(:get)
@@ -55,7 +55,7 @@ defmodule Nomad.Api.Status do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, []}
+      {200, []}
     ])
   end
 end

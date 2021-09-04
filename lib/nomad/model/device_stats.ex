@@ -4,29 +4,29 @@
 
 defmodule Nomad.Model.DeviceStats do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Summary",
-    :"Stats",
-    :"Timestamp"
+    :Summary,
+    :Stats,
+    :Timestamp
   ]
 
   @type t :: %__MODULE__{
-    :"Summary" => Nomad.Model.StatValue.t | nil,
-    :"Stats" => Nomad.Model.StatObject.t | nil,
-    :"Timestamp" => DateTime.t | nil
-  }
+          :Summary => Nomad.Model.StatValue.t() | nil,
+          :Stats => Nomad.Model.StatObject.t() | nil,
+          :Timestamp => DateTime.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DeviceStats do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Summary", :struct, Nomad.Model.StatValue, options)
-    |> deserialize(:"Stats", :struct, Nomad.Model.StatObject, options)
+    |> deserialize(:Summary, :struct, Nomad.Model.StatValue, options)
+    |> deserialize(:Stats, :struct, Nomad.Model.StatObject, options)
   end
 end
-

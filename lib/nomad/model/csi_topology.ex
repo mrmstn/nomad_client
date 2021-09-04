@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.CsiTopology do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Segments"
+    :Segments
   ]
 
   @type t :: %__MODULE__{
-    :"Segments" => %{optional(String.t) => String.t} | nil
-  }
+          :Segments => %{optional(String.t()) => String.t()} | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.CsiTopology do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.CsiTopology do
     value
   end
 end
-

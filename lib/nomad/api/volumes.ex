@@ -10,7 +10,6 @@ defmodule Nomad.Api.Volumes do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   deregisters an external volume with Nomad. It is an error to deregister a volume that is in use
 
@@ -24,7 +23,8 @@ defmodule Nomad.Api.Volumes do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec deregister_volume(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec deregister_volume(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, nil} | {:error, Tesla.Env.t()}
   def deregister_volume(connection, volume_id, _opts \\ []) do
     %{}
     |> method(:delete)
@@ -32,7 +32,7 @@ defmodule Nomad.Api.Volumes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -49,7 +49,8 @@ defmodule Nomad.Api.Volumes do
   {:ok, Nomad.Model.CsiVolume.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_volume(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.CsiVolume.t} | {:error, Tesla.Env.t}
+  @spec get_volume(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.CsiVolume.t()} | {:error, Tesla.Env.t()}
   def get_volume(connection, volume_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -57,7 +58,7 @@ defmodule Nomad.Api.Volumes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.CsiVolume{}}
+      {200, %Nomad.Model.CsiVolume{}}
     ])
   end
 
@@ -76,13 +77,15 @@ defmodule Nomad.Api.Volumes do
   {:ok, [%CsiVolumeListStub{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_volumes(Tesla.Env.client, keyword()) :: {:ok, list(Nomad.Model.CsiVolumeListStub.t)} | {:error, Tesla.Env.t}
+  @spec get_volumes(Tesla.Env.client(), keyword()) ::
+          {:ok, list(Nomad.Model.CsiVolumeListStub.t())} | {:error, Tesla.Env.t()}
   def get_volumes(connection, opts \\ []) do
     optional_params = %{
-      :"type" => :query,
-      :"node_id" => :query,
-      :"plugin_id" => :query
+      :type => :query,
+      :node_id => :query,
+      :plugin_id => :query
     }
+
     %{}
     |> method(:get)
     |> url("/volumes")
@@ -90,7 +93,7 @@ defmodule Nomad.Api.Volumes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.CsiVolumeListStub{}]}
+      {200, [%Nomad.Model.CsiVolumeListStub{}]}
     ])
   end
 
@@ -108,11 +111,13 @@ defmodule Nomad.Api.Volumes do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec register_volume(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec register_volume(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, nil} | {:error, Tesla.Env.t()}
   def register_volume(connection, volume_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:put)
     |> url("/volume/csi/#{volume_id}")
@@ -121,7 +126,7 @@ defmodule Nomad.Api.Volumes do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 end

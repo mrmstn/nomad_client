@@ -4,25 +4,25 @@
 
 defmodule Nomad.Model.ScalingEvent do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Reason",
-    :"Error",
-    :"Meta",
-    :"Time",
-    :"EvalID"
+    :Reason,
+    :Error,
+    :Meta,
+    :Time,
+    :EvalID
   ]
 
   @type t :: %__MODULE__{
-    :"Reason" => String.t | nil,
-    :"Error" => String.t | nil,
-    :"Meta" => %{optional(String.t) => map()} | nil,
-    :"Time" => integer() | nil,
-    :"EvalID" => String.t | nil
-  }
+          :Reason => String.t() | nil,
+          :Error => String.t() | nil,
+          :Meta => %{optional(String.t()) => map()} | nil,
+          :Time => integer() | nil,
+          :EvalID => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ScalingEvent do
@@ -30,4 +30,3 @@ defimpl Poison.Decoder, for: Nomad.Model.ScalingEvent do
     value
   end
 end
-

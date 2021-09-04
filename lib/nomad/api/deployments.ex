@@ -10,7 +10,6 @@ defmodule Nomad.Api.Deployments do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   mark a deployment as failed. This should be done to force the scheduler to stop creating allocations as part of the deployment or to cause a rollback to a previous job version. This endpoint only triggers a rollback if the most recent stable version of the job has a different specification than the job being reverted
 
@@ -24,7 +23,8 @@ defmodule Nomad.Api.Deployments do
   {:ok, Nomad.Model.DeploymentUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec fail_deployment(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.DeploymentUpdateResponse.t} | {:error, Tesla.Env.t}
+  @spec fail_deployment(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
   def fail_deployment(connection, deployment_id, _opts \\ []) do
     %{}
     |> method(:post)
@@ -33,7 +33,7 @@ defmodule Nomad.Api.Deployments do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.DeploymentUpdateResponse{}}
+      {200, %Nomad.Model.DeploymentUpdateResponse{}}
     ])
   end
 
@@ -50,7 +50,8 @@ defmodule Nomad.Api.Deployments do
   {:ok, [%AllocationListStub{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_allocations_for_deployment(Tesla.Env.client, String.t, keyword()) :: {:ok, list(Nomad.Model.AllocationListStub.t)} | {:error, Tesla.Env.t}
+  @spec get_allocations_for_deployment(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, list(Nomad.Model.AllocationListStub.t())} | {:error, Tesla.Env.t()}
   def get_allocations_for_deployment(connection, deployment_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -58,7 +59,7 @@ defmodule Nomad.Api.Deployments do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.AllocationListStub{}]}
+      {200, [%Nomad.Model.AllocationListStub{}]}
     ])
   end
 
@@ -75,7 +76,8 @@ defmodule Nomad.Api.Deployments do
   {:ok, Nomad.Model.Deployment.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_deployment(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.Deployment.t} | {:error, Tesla.Env.t}
+  @spec get_deployment(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.Deployment.t()} | {:error, Tesla.Env.t()}
   def get_deployment(connection, deployment_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -83,7 +85,7 @@ defmodule Nomad.Api.Deployments do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.Deployment{}}
+      {200, %Nomad.Model.Deployment{}}
     ])
   end
 
@@ -100,11 +102,13 @@ defmodule Nomad.Api.Deployments do
   {:ok, [%Deployment{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_deployments(Tesla.Env.client, keyword()) :: {:ok, list(Nomad.Model.Deployment.t)} | {:error, Tesla.Env.t}
+  @spec get_deployments(Tesla.Env.client(), keyword()) ::
+          {:ok, list(Nomad.Model.Deployment.t())} | {:error, Tesla.Env.t()}
   def get_deployments(connection, opts \\ []) do
     optional_params = %{
-      :"prefix" => :query
+      :prefix => :query
     }
+
     %{}
     |> method(:get)
     |> url("/deployments")
@@ -112,7 +116,7 @@ defmodule Nomad.Api.Deployments do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%Nomad.Model.Deployment{}]}
+      {200, [%Nomad.Model.Deployment{}]}
     ])
   end
 
@@ -130,11 +134,13 @@ defmodule Nomad.Api.Deployments do
   {:ok, Nomad.Model.DeploymentUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec pause_deployment(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.DeploymentUpdateResponse.t} | {:error, Tesla.Env.t}
+  @spec pause_deployment(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
   def pause_deployment(connection, deployment_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/deployment/pause/#{deployment_id}")
@@ -143,7 +149,7 @@ defmodule Nomad.Api.Deployments do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.DeploymentUpdateResponse{}}
+      {200, %Nomad.Model.DeploymentUpdateResponse{}}
     ])
   end
 
@@ -161,11 +167,13 @@ defmodule Nomad.Api.Deployments do
   {:ok, Nomad.Model.DeploymentUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec promote_deployment(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.DeploymentUpdateResponse.t} | {:error, Tesla.Env.t}
+  @spec promote_deployment(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
   def promote_deployment(connection, deployment_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/deployment/promote/#{deployment_id}")
@@ -174,7 +182,7 @@ defmodule Nomad.Api.Deployments do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.DeploymentUpdateResponse{}}
+      {200, %Nomad.Model.DeploymentUpdateResponse{}}
     ])
   end
 
@@ -193,11 +201,13 @@ defmodule Nomad.Api.Deployments do
   {:ok, Nomad.Model.DeploymentUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec set_allocation_health_in_deployment(Tesla.Env.client, String.t, keyword()) :: {:ok, Nomad.Model.DeploymentUpdateResponse.t} | {:error, Tesla.Env.t}
+  @spec set_allocation_health_in_deployment(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, Nomad.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
   def set_allocation_health_in_deployment(connection, deployment_id, opts \\ []) do
     optional_params = %{
       :body => :body
     }
+
     %{}
     |> method(:post)
     |> url("/deployment/allocation-health/#{deployment_id}")
@@ -206,7 +216,7 @@ defmodule Nomad.Api.Deployments do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.DeploymentUpdateResponse{}}
+      {200, %Nomad.Model.DeploymentUpdateResponse{}}
     ])
   end
 end

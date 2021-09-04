@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.JobStabilityResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"JobModifyIndex"
+    :JobModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"JobModifyIndex" => integer() | nil
-  }
+          :JobModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobStabilityResponse do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.JobStabilityResponse do
     value
   end
 end
-

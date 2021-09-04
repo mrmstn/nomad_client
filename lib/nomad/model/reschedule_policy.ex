@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.ReschedulePolicy do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Attempts",
-    :"Interval",
-    :"Delay",
-    :"DelayFunction",
-    :"MaxDelay",
-    :"Unlimited"
+    :Attempts,
+    :Interval,
+    :Delay,
+    :DelayFunction,
+    :MaxDelay,
+    :Unlimited
   ]
 
   @type t :: %__MODULE__{
-    :"Attempts" => integer() | nil,
-    :"Interval" => integer() | nil,
-    :"Delay" => integer() | nil,
-    :"DelayFunction" => String.t | nil,
-    :"MaxDelay" => integer() | nil,
-    :"Unlimited" => boolean() | nil
-  }
+          :Attempts => integer() | nil,
+          :Interval => integer() | nil,
+          :Delay => integer() | nil,
+          :DelayFunction => String.t() | nil,
+          :MaxDelay => integer() | nil,
+          :Unlimited => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ReschedulePolicy do
@@ -32,4 +32,3 @@ defimpl Poison.Decoder, for: Nomad.Model.ReschedulePolicy do
     value
   end
 end
-

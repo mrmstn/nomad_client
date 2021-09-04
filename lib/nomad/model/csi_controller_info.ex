@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.CsiControllerInfo do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"SupportsReadOnlyAttach",
-    :"SupportsAttachDetach",
-    :"SupportsListVolumes",
-    :"SupportsListVolumesAttachedNodes"
+    :SupportsReadOnlyAttach,
+    :SupportsAttachDetach,
+    :SupportsListVolumes,
+    :SupportsListVolumesAttachedNodes
   ]
 
   @type t :: %__MODULE__{
-    :"SupportsReadOnlyAttach" => boolean() | nil,
-    :"SupportsAttachDetach" => boolean() | nil,
-    :"SupportsListVolumes" => boolean() | nil,
-    :"SupportsListVolumesAttachedNodes" => boolean() | nil
-  }
+          :SupportsReadOnlyAttach => boolean() | nil,
+          :SupportsAttachDetach => boolean() | nil,
+          :SupportsListVolumes => boolean() | nil,
+          :SupportsListVolumesAttachedNodes => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.CsiControllerInfo do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.CsiControllerInfo do
     value
   end
 end
-

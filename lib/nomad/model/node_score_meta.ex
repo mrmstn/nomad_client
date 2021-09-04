@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.NodeScoreMeta do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"NodeID",
-    :"Scores",
-    :"NormScore"
+    :NodeID,
+    :Scores,
+    :NormScore
   ]
 
   @type t :: %__MODULE__{
-    :"NodeID" => String.t | nil,
-    :"Scores" => %{optional(String.t) => Nomad.Model.Float.t} | nil,
-    :"NormScore" => float() | nil
-  }
+          :NodeID => String.t() | nil,
+          :Scores => %{optional(String.t()) => Nomad.Model.Float.t()} | nil,
+          :NormScore => float() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeScoreMeta do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.NodeScoreMeta do
     value
   end
 end
-

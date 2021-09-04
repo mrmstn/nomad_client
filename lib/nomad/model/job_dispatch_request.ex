@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.JobDispatchRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Payload",
-    :"Meta"
+    :Payload,
+    :Meta
   ]
 
   @type t :: %__MODULE__{
-    :"Payload" => binary() | nil,
-    :"Meta" => %{optional(String.t) => String.t} | nil
-  }
+          :Payload => binary() | nil,
+          :Meta => %{optional(String.t()) => String.t()} | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobDispatchRequest do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.JobDispatchRequest do
     value
   end
 end
-

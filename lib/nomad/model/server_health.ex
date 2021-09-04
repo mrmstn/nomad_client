@@ -4,39 +4,39 @@
 
 defmodule Nomad.Model.ServerHealth do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"Name",
-    :"Address",
-    :"SerfStatus",
-    :"Version",
-    :"Leader",
-    :"LastContact",
-    :"LastTerm",
-    :"LastIndex",
-    :"Healthy",
-    :"Voter",
-    :"StableSince"
+    :ID,
+    :Name,
+    :Address,
+    :SerfStatus,
+    :Version,
+    :Leader,
+    :LastContact,
+    :LastTerm,
+    :LastIndex,
+    :Healthy,
+    :Voter,
+    :StableSince
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"Name" => String.t | nil,
-    :"Address" => String.t | nil,
-    :"SerfStatus" => String.t | nil,
-    :"Version" => String.t | nil,
-    :"Leader" => boolean() | nil,
-    :"LastContact" => integer() | nil,
-    :"LastTerm" => integer() | nil,
-    :"LastIndex" => integer() | nil,
-    :"Healthy" => boolean() | nil,
-    :"Voter" => boolean() | nil,
-    :"StableSince" => DateTime.t | nil
-  }
+          :ID => String.t() | nil,
+          :Name => String.t() | nil,
+          :Address => String.t() | nil,
+          :SerfStatus => String.t() | nil,
+          :Version => String.t() | nil,
+          :Leader => boolean() | nil,
+          :LastContact => integer() | nil,
+          :LastTerm => integer() | nil,
+          :LastIndex => integer() | nil,
+          :Healthy => boolean() | nil,
+          :Voter => boolean() | nil,
+          :StableSince => DateTime.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ServerHealth do
@@ -44,4 +44,3 @@ defimpl Poison.Decoder, for: Nomad.Model.ServerHealth do
     value
   end
 end
-

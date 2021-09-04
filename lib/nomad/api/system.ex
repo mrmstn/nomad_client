@@ -10,7 +10,6 @@ defmodule Nomad.Api.System do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   initializes a garbage collection of jobs, evaluations, allocations, and nodes. This is an asynchronous operation
 
@@ -23,7 +22,7 @@ defmodule Nomad.Api.System do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec force_gc(Tesla.Env.client, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec force_gc(Tesla.Env.client(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t()}
   def force_gc(connection, _opts \\ []) do
     %{}
     |> method(:put)
@@ -32,7 +31,7 @@ defmodule Nomad.Api.System do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -48,7 +47,7 @@ defmodule Nomad.Api.System do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec reconcile_summary(Tesla.Env.client, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec reconcile_summary(Tesla.Env.client(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t()}
   def reconcile_summary(connection, _opts \\ []) do
     %{}
     |> method(:put)
@@ -57,7 +56,7 @@ defmodule Nomad.Api.System do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 end

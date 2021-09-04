@@ -4,30 +4,30 @@
 
 defmodule Nomad.Model.QuotaUsage do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Name",
-    :"Used",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :Name,
+    :Used,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"Name" => String.t | nil,
-    :"Used" => %{optional(String.t) => Nomad.Model.QuotaLimit.t} | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :Name => String.t() | nil,
+          :Used => %{optional(String.t()) => Nomad.Model.QuotaLimit.t()} | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.QuotaUsage do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Used", :map, Nomad.Model.QuotaLimit, options)
+    |> deserialize(:Used, :map, Nomad.Model.QuotaLimit, options)
   end
 end
-

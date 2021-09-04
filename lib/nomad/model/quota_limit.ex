@@ -4,28 +4,28 @@
 
 defmodule Nomad.Model.QuotaLimit do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Region",
-    :"RegionLimit",
-    :"Hash"
+    :Region,
+    :RegionLimit,
+    :Hash
   ]
 
   @type t :: %__MODULE__{
-    :"Region" => String.t | nil,
-    :"RegionLimit" => Nomad.Model.Resources.t | nil,
-    :"Hash" => binary() | nil
-  }
+          :Region => String.t() | nil,
+          :RegionLimit => Nomad.Model.Resources.t() | nil,
+          :Hash => binary() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.QuotaLimit do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"RegionLimit", :struct, Nomad.Model.Resources, options)
+    |> deserialize(:RegionLimit, :struct, Nomad.Model.Resources, options)
   end
 end
-

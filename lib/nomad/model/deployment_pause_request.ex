@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.DeploymentPauseRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"DeploymentID",
-    :"Pause"
+    :DeploymentID,
+    :Pause
   ]
 
   @type t :: %__MODULE__{
-    :"DeploymentID" => String.t | nil,
-    :"Pause" => boolean() | nil
-  }
+          :DeploymentID => String.t() | nil,
+          :Pause => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DeploymentPauseRequest do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.DeploymentPauseRequest do
     value
   end
 end
-

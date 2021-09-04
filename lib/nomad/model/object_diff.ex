@@ -4,31 +4,31 @@
 
 defmodule Nomad.Model.ObjectDiff do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Type",
-    :"Name",
-    :"Fields",
-    :"Objects"
+    :Type,
+    :Name,
+    :Fields,
+    :Objects
   ]
 
   @type t :: %__MODULE__{
-    :"Type" => String.t | nil,
-    :"Name" => String.t | nil,
-    :"Fields" => [Nomad.Model.FieldDiff.t] | nil,
-    :"Objects" => [Nomad.Model.ObjectDiff.t] | nil
-  }
+          :Type => String.t() | nil,
+          :Name => String.t() | nil,
+          :Fields => [Nomad.Model.FieldDiff.t()] | nil,
+          :Objects => [Nomad.Model.ObjectDiff.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ObjectDiff do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Fields", :list, Nomad.Model.FieldDiff, options)
-    |> deserialize(:"Objects", :list, Nomad.Model.ObjectDiff, options)
+    |> deserialize(:Fields, :list, Nomad.Model.FieldDiff, options)
+    |> deserialize(:Objects, :list, Nomad.Model.ObjectDiff, options)
   end
 end
-

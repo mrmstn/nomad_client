@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.TaskGroupSummary do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Queued",
-    :"Complete",
-    :"Failed",
-    :"Running",
-    :"Starting",
-    :"Lost"
+    :Queued,
+    :Complete,
+    :Failed,
+    :Running,
+    :Starting,
+    :Lost
   ]
 
   @type t :: %__MODULE__{
-    :"Queued" => integer() | nil,
-    :"Complete" => integer() | nil,
-    :"Failed" => integer() | nil,
-    :"Running" => integer() | nil,
-    :"Starting" => integer() | nil,
-    :"Lost" => integer() | nil
-  }
+          :Queued => integer() | nil,
+          :Complete => integer() | nil,
+          :Failed => integer() | nil,
+          :Running => integer() | nil,
+          :Starting => integer() | nil,
+          :Lost => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.TaskGroupSummary do
@@ -32,4 +32,3 @@ defimpl Poison.Decoder, for: Nomad.Model.TaskGroupSummary do
     value
   end
 end
-

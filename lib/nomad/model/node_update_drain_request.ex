@@ -4,28 +4,28 @@
 
 defmodule Nomad.Model.NodeUpdateDrainRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"NodeID",
-    :"DrainSpec",
-    :"MarkEligible"
+    :NodeID,
+    :DrainSpec,
+    :MarkEligible
   ]
 
   @type t :: %__MODULE__{
-    :"NodeID" => String.t | nil,
-    :"DrainSpec" => Nomad.Model.DrainSpec.t | nil,
-    :"MarkEligible" => boolean() | nil
-  }
+          :NodeID => String.t() | nil,
+          :DrainSpec => Nomad.Model.DrainSpec.t() | nil,
+          :MarkEligible => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeUpdateDrainRequest do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"DrainSpec", :struct, Nomad.Model.DrainSpec, options)
+    |> deserialize(:DrainSpec, :struct, Nomad.Model.DrainSpec, options)
   end
 end
-

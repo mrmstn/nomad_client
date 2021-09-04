@@ -4,32 +4,32 @@
 
 defmodule Nomad.Model.VolumeRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Name",
-    :"Type",
-    :"Source",
-    :"ReadOnly",
-    :"MountOptions"
+    :Name,
+    :Type,
+    :Source,
+    :ReadOnly,
+    :MountOptions
   ]
 
   @type t :: %__MODULE__{
-    :"Name" => String.t | nil,
-    :"Type" => String.t | nil,
-    :"Source" => String.t | nil,
-    :"ReadOnly" => boolean() | nil,
-    :"MountOptions" => Nomad.Model.CsiMountOptions.t | nil
-  }
+          :Name => String.t() | nil,
+          :Type => String.t() | nil,
+          :Source => String.t() | nil,
+          :ReadOnly => boolean() | nil,
+          :MountOptions => Nomad.Model.CsiMountOptions.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.VolumeRequest do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"MountOptions", :struct, Nomad.Model.CsiMountOptions, options)
+    |> deserialize(:MountOptions, :struct, Nomad.Model.CsiMountOptions, options)
   end
 end
-

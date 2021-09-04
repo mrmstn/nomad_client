@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.NetworkDns do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Servers",
-    :"Searches",
-    :"Options"
+    :Servers,
+    :Searches,
+    :Options
   ]
 
   @type t :: %__MODULE__{
-    :"Servers" => [String.t] | nil,
-    :"Searches" => [String.t] | nil,
-    :"Options" => [String.t] | nil
-  }
+          :Servers => [String.t()] | nil,
+          :Searches => [String.t()] | nil,
+          :Options => [String.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NetworkDns do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.NetworkDns do
     value
   end
 end
-

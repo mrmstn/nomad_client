@@ -4,26 +4,26 @@
 
 defmodule Nomad.Model.AllocatedSharedResources do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"DiskMB",
-    :"Networks"
+    :DiskMB,
+    :Networks
   ]
 
   @type t :: %__MODULE__{
-    :"DiskMB" => integer() | nil,
-    :"Networks" => [Nomad.Model.NetworkResource.t] | nil
-  }
+          :DiskMB => integer() | nil,
+          :Networks => [Nomad.Model.NetworkResource.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AllocatedSharedResources do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Networks", :list, Nomad.Model.NetworkResource, options)
+    |> deserialize(:Networks, :list, Nomad.Model.NetworkResource, options)
   end
 end
-

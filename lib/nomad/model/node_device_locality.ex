@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.NodeDeviceLocality do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"PciBusID"
+    :PciBusID
   ]
 
   @type t :: %__MODULE__{
-    :"PciBusID" => String.t | nil
-  }
+          :PciBusID => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeDeviceLocality do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.NodeDeviceLocality do
     value
   end
 end
-

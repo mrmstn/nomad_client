@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.RestartPolicy do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Interval",
-    :"Attempts",
-    :"Delay",
-    :"Mode"
+    :Interval,
+    :Attempts,
+    :Delay,
+    :Mode
   ]
 
   @type t :: %__MODULE__{
-    :"Interval" => integer() | nil,
-    :"Attempts" => integer() | nil,
-    :"Delay" => integer() | nil,
-    :"Mode" => String.t | nil
-  }
+          :Interval => integer() | nil,
+          :Attempts => integer() | nil,
+          :Delay => integer() | nil,
+          :Mode => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.RestartPolicy do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.RestartPolicy do
     value
   end
 end
-

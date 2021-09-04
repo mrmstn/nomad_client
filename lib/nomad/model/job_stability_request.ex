@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.JobStabilityRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"JobID",
-    :"JobVersion",
-    :"Stable"
+    :JobID,
+    :JobVersion,
+    :Stable
   ]
 
   @type t :: %__MODULE__{
-    :"JobID" => String.t,
-    :"JobVersion" => integer() | nil,
-    :"Stable" => boolean() | nil
-  }
+          :JobID => String.t(),
+          :JobVersion => integer() | nil,
+          :Stable => boolean() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.JobStabilityRequest do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.JobStabilityRequest do
     value
   end
 end
-

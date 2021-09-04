@@ -4,17 +4,17 @@
 
 defmodule Nomad.Model.NodeEvalResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"EvalID"
+    :EvalID
   ]
 
   @type t :: %__MODULE__{
-    :"EvalID" => String.t | nil
-  }
+          :EvalID => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.NodeEvalResponse do
@@ -22,4 +22,3 @@ defimpl Poison.Decoder, for: Nomad.Model.NodeEvalResponse do
     value
   end
 end
-

@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.StatObject do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Nested",
-    :"Attributes"
+    :Nested,
+    :Attributes
   ]
 
   @type t :: %__MODULE__{
-    :"Nested" => %{optional(String.t) => Nomad.Model.StatObject.t} | nil,
-    :"Attributes" => %{optional(String.t) => Nomad.Model.StatValue.t} | nil
-  }
+          :Nested => %{optional(String.t()) => Nomad.Model.StatObject.t()} | nil,
+          :Attributes => %{optional(String.t()) => Nomad.Model.StatValue.t()} | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.StatObject do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Nested", :map, Nomad.Model.StatObject, options)
-    |> deserialize(:"Attributes", :map, Nomad.Model.StatValue, options)
+    |> deserialize(:Nested, :map, Nomad.Model.StatObject, options)
+    |> deserialize(:Attributes, :map, Nomad.Model.StatValue, options)
   end
 end
-

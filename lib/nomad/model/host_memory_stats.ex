@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.HostMemoryStats do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Total",
-    :"Available",
-    :"Used",
-    :"Free"
+    :Total,
+    :Available,
+    :Used,
+    :Free
   ]
 
   @type t :: %__MODULE__{
-    :"Total" => integer() | nil,
-    :"Available" => integer() | nil,
-    :"Used" => integer() | nil,
-    :"Free" => integer() | nil
-  }
+          :Total => integer() | nil,
+          :Available => integer() | nil,
+          :Used => integer() | nil,
+          :Free => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.HostMemoryStats do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.HostMemoryStats do
     value
   end
 end
-

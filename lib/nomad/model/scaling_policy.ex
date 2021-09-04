@@ -4,33 +4,33 @@
 
 defmodule Nomad.Model.ScalingPolicy do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ID",
-    :"Namespace",
-    :"Target",
-    :"Min",
-    :"Max",
-    :"Policy",
-    :"Enabled",
-    :"CreateIndex",
-    :"ModifyIndex"
+    :ID,
+    :Namespace,
+    :Target,
+    :Min,
+    :Max,
+    :Policy,
+    :Enabled,
+    :CreateIndex,
+    :ModifyIndex
   ]
 
   @type t :: %__MODULE__{
-    :"ID" => String.t | nil,
-    :"Namespace" => String.t | nil,
-    :"Target" => %{optional(String.t) => String.t} | nil,
-    :"Min" => integer() | nil,
-    :"Max" => integer() | nil,
-    :"Policy" => %{optional(String.t) => map()} | nil,
-    :"Enabled" => boolean() | nil,
-    :"CreateIndex" => integer() | nil,
-    :"ModifyIndex" => integer() | nil
-  }
+          :ID => String.t() | nil,
+          :Namespace => String.t() | nil,
+          :Target => %{optional(String.t()) => String.t()} | nil,
+          :Min => integer() | nil,
+          :Max => integer() | nil,
+          :Policy => %{optional(String.t()) => map()} | nil,
+          :Enabled => boolean() | nil,
+          :CreateIndex => integer() | nil,
+          :ModifyIndex => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ScalingPolicy do
@@ -38,4 +38,3 @@ defimpl Poison.Decoder, for: Nomad.Model.ScalingPolicy do
     value
   end
 end
-

@@ -4,19 +4,19 @@
 
 defmodule Nomad.Model.SearchResponse do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Matches",
-    :"Truncations"
+    :Matches,
+    :Truncations
   ]
 
   @type t :: %__MODULE__{
-    :"Matches" => %{optional(String.t) => [String.t]} | nil,
-    :"Truncations" => %{optional(String.t) => boolean()} | nil
-  }
+          :Matches => %{optional(String.t()) => [String.t()]} | nil,
+          :Truncations => %{optional(String.t()) => boolean()} | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.SearchResponse do
@@ -24,4 +24,3 @@ defimpl Poison.Decoder, for: Nomad.Model.SearchResponse do
     value
   end
 end
-

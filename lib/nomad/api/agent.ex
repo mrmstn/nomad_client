@@ -10,7 +10,6 @@ defmodule Nomad.Api.Agent do
   alias Nomad.Connection
   import Nomad.RequestBuilder
 
-
   @doc """
   Forces a member of the gossip pool from the \"failed\" state into the \"left\" state.
 
@@ -24,17 +23,18 @@ defmodule Nomad.Api.Agent do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec force_leave(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec force_leave(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, nil} | {:error, Tesla.Env.t()}
   def force_leave(connection, node, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/agent/force-leave")
-    |> add_param(:query, :"node", node)
+    |> add_param(:query, :node, node)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      {200, false}
     ])
   end
 
@@ -50,7 +50,8 @@ defmodule Nomad.Api.Agent do
   {:ok, Nomad.Model.AgentHealthResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_health(Tesla.Env.client, keyword()) :: {:ok, Nomad.Model.AgentHealthResponse.t} | {:error, Tesla.Env.t}
+  @spec get_health(Tesla.Env.client(), keyword()) ::
+          {:ok, Nomad.Model.AgentHealthResponse.t()} | {:error, Tesla.Env.t()}
   def get_health(connection, _opts \\ []) do
     %{}
     |> method(:get)
@@ -58,7 +59,7 @@ defmodule Nomad.Api.Agent do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.AgentHealthResponse{}}
+      {200, %Nomad.Model.AgentHealthResponse{}}
     ])
   end
 
@@ -74,7 +75,8 @@ defmodule Nomad.Api.Agent do
   {:ok, Nomad.Model.ServerMembers.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_members(Tesla.Env.client, keyword()) :: {:ok, Nomad.Model.ServerMembers.t} | {:error, Tesla.Env.t}
+  @spec get_members(Tesla.Env.client(), keyword()) ::
+          {:ok, Nomad.Model.ServerMembers.t()} | {:error, Tesla.Env.t()}
   def get_members(connection, _opts \\ []) do
     %{}
     |> method(:get)
@@ -82,7 +84,7 @@ defmodule Nomad.Api.Agent do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.ServerMembers{}}
+      {200, %Nomad.Model.ServerMembers{}}
     ])
   end
 
@@ -98,7 +100,8 @@ defmodule Nomad.Api.Agent do
   {:ok, Nomad.Model.AgentSelf.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_self(Tesla.Env.client, keyword()) :: {:ok, Nomad.Model.AgentSelf.t} | {:error, Tesla.Env.t}
+  @spec get_self(Tesla.Env.client(), keyword()) ::
+          {:ok, Nomad.Model.AgentSelf.t()} | {:error, Tesla.Env.t()}
   def get_self(connection, _opts \\ []) do
     %{}
     |> method(:get)
@@ -106,7 +109,7 @@ defmodule Nomad.Api.Agent do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.AgentSelf{}}
+      {200, %Nomad.Model.AgentSelf{}}
     ])
   end
 
@@ -122,7 +125,8 @@ defmodule Nomad.Api.Agent do
   {:ok, [%String{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_servers(Tesla.Env.client, keyword()) :: {:ok, list(String.t)} | {:error, Tesla.Env.t}
+  @spec get_servers(Tesla.Env.client(), keyword()) ::
+          {:ok, list(String.t())} | {:error, Tesla.Env.t()}
   def get_servers(connection, _opts \\ []) do
     %{}
     |> method(:get)
@@ -130,7 +134,7 @@ defmodule Nomad.Api.Agent do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, []}
+      {200, []}
     ])
   end
 
@@ -147,17 +151,18 @@ defmodule Nomad.Api.Agent do
   {:ok, Nomad.Model.JoinResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec join(Tesla.Env.client, list(String.t), keyword()) :: {:ok, Nomad.Model.JoinResponse.t} | {:error, Tesla.Env.t}
+  @spec join(Tesla.Env.client(), list(String.t()), keyword()) ::
+          {:ok, Nomad.Model.JoinResponse.t()} | {:error, Tesla.Env.t()}
   def join(connection, address, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/agent/join")
-    |> add_param(:query, :"address", address)
+    |> add_param(:query, :address, address)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.JoinResponse{}}
+      {200, %Nomad.Model.JoinResponse{}}
     ])
   end
 
@@ -178,15 +183,17 @@ defmodule Nomad.Api.Agent do
   {:ok, Nomad.Model.StreamFrame.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec stream_logs(Tesla.Env.client, keyword()) :: {:ok, Nomad.Model.StreamFrame.t} | {:error, Tesla.Env.t}
+  @spec stream_logs(Tesla.Env.client(), keyword()) ::
+          {:ok, Nomad.Model.StreamFrame.t()} | {:error, Tesla.Env.t()}
   def stream_logs(connection, opts \\ []) do
     optional_params = %{
-      :"log_level" => :query,
-      :"node_id" => :query,
-      :"server_id" => :query,
-      :"json" => :query,
-      :"plain" => :query
+      :log_level => :query,
+      :node_id => :query,
+      :server_id => :query,
+      :json => :query,
+      :plain => :query
     }
+
     %{}
     |> method(:get)
     |> url("/agent/monitor")
@@ -194,7 +201,7 @@ defmodule Nomad.Api.Agent do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %Nomad.Model.StreamFrame{}}
+      {200, %Nomad.Model.StreamFrame{}}
     ])
   end
 
@@ -211,17 +218,18 @@ defmodule Nomad.Api.Agent do
   {:ok, [%String{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec update_servers(Tesla.Env.client, list(String.t), keyword()) :: {:ok, list(String.t)} | {:error, Tesla.Env.t}
+  @spec update_servers(Tesla.Env.client(), list(String.t()), keyword()) ::
+          {:ok, list(String.t())} | {:error, Tesla.Env.t()}
   def update_servers(connection, address, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/agent/servers")
-    |> add_param(:query, :"address", address)
+    |> add_param(:query, :address, address)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, []}
+      {200, []}
     ])
   end
 end

@@ -4,21 +4,21 @@
 
 defmodule Nomad.Model.EphemeralDisk do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Sticky",
-    :"Migrate",
-    :"SizeMB"
+    :Sticky,
+    :Migrate,
+    :SizeMB
   ]
 
   @type t :: %__MODULE__{
-    :"Sticky" => boolean() | nil,
-    :"Migrate" => boolean() | nil,
-    :"SizeMB" => integer() | nil
-  }
+          :Sticky => boolean() | nil,
+          :Migrate => boolean() | nil,
+          :SizeMB => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.EphemeralDisk do
@@ -26,4 +26,3 @@ defimpl Poison.Decoder, for: Nomad.Model.EphemeralDisk do
     value
   end
 end
-

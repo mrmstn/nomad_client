@@ -4,23 +4,23 @@
 
 defmodule Nomad.Model.StreamFrame do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Offset",
-    :"Data",
-    :"File",
-    :"FileEvent"
+    :Offset,
+    :Data,
+    :File,
+    :FileEvent
   ]
 
   @type t :: %__MODULE__{
-    :"Offset" => integer() | nil,
-    :"Data" => binary() | nil,
-    :"File" => String.t | nil,
-    :"FileEvent" => String.t | nil
-  }
+          :Offset => integer() | nil,
+          :Data => binary() | nil,
+          :File => String.t() | nil,
+          :FileEvent => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.StreamFrame do
@@ -28,4 +28,3 @@ defimpl Poison.Decoder, for: Nomad.Model.StreamFrame do
     value
   end
 end
-

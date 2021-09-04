@@ -4,35 +4,35 @@
 
 defmodule Nomad.Model.DeploymentState do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"PlacedCanaries",
-    :"AutoRevert",
-    :"ProgressDeadline",
-    :"RequireProgressBy",
-    :"Promoted",
-    :"DesiredCanaries",
-    :"DesiredTotal",
-    :"PlacedAllocs",
-    :"HealthyAllocs",
-    :"UnhealthyAllocs"
+    :PlacedCanaries,
+    :AutoRevert,
+    :ProgressDeadline,
+    :RequireProgressBy,
+    :Promoted,
+    :DesiredCanaries,
+    :DesiredTotal,
+    :PlacedAllocs,
+    :HealthyAllocs,
+    :UnhealthyAllocs
   ]
 
   @type t :: %__MODULE__{
-    :"PlacedCanaries" => [String.t] | nil,
-    :"AutoRevert" => boolean() | nil,
-    :"ProgressDeadline" => integer() | nil,
-    :"RequireProgressBy" => DateTime.t | nil,
-    :"Promoted" => boolean() | nil,
-    :"DesiredCanaries" => integer() | nil,
-    :"DesiredTotal" => integer() | nil,
-    :"PlacedAllocs" => integer() | nil,
-    :"HealthyAllocs" => integer() | nil,
-    :"UnhealthyAllocs" => integer() | nil
-  }
+          :PlacedCanaries => [String.t()] | nil,
+          :AutoRevert => boolean() | nil,
+          :ProgressDeadline => integer() | nil,
+          :RequireProgressBy => DateTime.t() | nil,
+          :Promoted => boolean() | nil,
+          :DesiredCanaries => integer() | nil,
+          :DesiredTotal => integer() | nil,
+          :PlacedAllocs => integer() | nil,
+          :HealthyAllocs => integer() | nil,
+          :UnhealthyAllocs => integer() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.DeploymentState do
@@ -40,4 +40,3 @@ defimpl Poison.Decoder, for: Nomad.Model.DeploymentState do
     value
   end
 end
-

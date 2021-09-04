@@ -4,27 +4,27 @@
 
 defmodule Nomad.Model.AllocatedResources do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"Tasks",
-    :"Shared"
+    :Tasks,
+    :Shared
   ]
 
   @type t :: %__MODULE__{
-    :"Tasks" => %{optional(String.t) => Nomad.Model.AllocatedTaskResources.t} | nil,
-    :"Shared" => Nomad.Model.AllocatedSharedResources.t | nil
-  }
+          :Tasks => %{optional(String.t()) => Nomad.Model.AllocatedTaskResources.t()} | nil,
+          :Shared => Nomad.Model.AllocatedSharedResources.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.AllocatedResources do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Tasks", :map, Nomad.Model.AllocatedTaskResources, options)
-    |> deserialize(:"Shared", :struct, Nomad.Model.AllocatedSharedResources, options)
+    |> deserialize(:Tasks, :map, Nomad.Model.AllocatedTaskResources, options)
+    |> deserialize(:Shared, :struct, Nomad.Model.AllocatedSharedResources, options)
   end
 end
-

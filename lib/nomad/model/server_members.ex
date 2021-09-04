@@ -4,30 +4,30 @@
 
 defmodule Nomad.Model.ServerMembers do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"ServerName",
-    :"ServerRegion",
-    :"ServerDc",
-    :"Members"
+    :ServerName,
+    :ServerRegion,
+    :ServerDc,
+    :Members
   ]
 
   @type t :: %__MODULE__{
-    :"ServerName" => String.t | nil,
-    :"ServerRegion" => String.t | nil,
-    :"ServerDc" => String.t | nil,
-    :"Members" => [Nomad.Model.AgentMember.t] | nil
-  }
+          :ServerName => String.t() | nil,
+          :ServerRegion => String.t() | nil,
+          :ServerDc => String.t() | nil,
+          :Members => [Nomad.Model.AgentMember.t()] | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.ServerMembers do
   import Nomad.Deserializer
+
   def decode(value, options) do
     value
-    |> deserialize(:"Members", :list, Nomad.Model.AgentMember, options)
+    |> deserialize(:Members, :list, Nomad.Model.AgentMember, options)
   end
 end
-

@@ -4,31 +4,31 @@
 
 defmodule Nomad.Model.StatValue do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"FloatNumeratorVal",
-    :"FloatDenominatorVal",
-    :"IntNumeratorVal",
-    :"IntDenominatorVal",
-    :"StringVal",
-    :"BoolVal",
-    :"Unit",
-    :"Desc"
+    :FloatNumeratorVal,
+    :FloatDenominatorVal,
+    :IntNumeratorVal,
+    :IntDenominatorVal,
+    :StringVal,
+    :BoolVal,
+    :Unit,
+    :Desc
   ]
 
   @type t :: %__MODULE__{
-    :"FloatNumeratorVal" => float() | nil,
-    :"FloatDenominatorVal" => float() | nil,
-    :"IntNumeratorVal" => integer() | nil,
-    :"IntDenominatorVal" => integer() | nil,
-    :"StringVal" => String.t | nil,
-    :"BoolVal" => boolean() | nil,
-    :"Unit" => String.t | nil,
-    :"Desc" => String.t | nil
-  }
+          :FloatNumeratorVal => float() | nil,
+          :FloatDenominatorVal => float() | nil,
+          :IntNumeratorVal => integer() | nil,
+          :IntDenominatorVal => integer() | nil,
+          :StringVal => String.t() | nil,
+          :BoolVal => boolean() | nil,
+          :Unit => String.t() | nil,
+          :Desc => String.t() | nil
+        }
 end
 
 defimpl Poison.Decoder, for: Nomad.Model.StatValue do
@@ -36,4 +36,3 @@ defimpl Poison.Decoder, for: Nomad.Model.StatValue do
     value
   end
 end
-
