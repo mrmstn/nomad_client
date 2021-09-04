@@ -37,7 +37,8 @@ defmodule Nomad.Mixfile do
   defp deps do
     [
       {:tesla, "~> 1.2"},
-      {:poison, "~> 3.0"}
+      {:poison, "~> 3.0"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
