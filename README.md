@@ -1,6 +1,6 @@
 # Nomad
 
-Nomad OpenApi specification
+A elixir client for HashiCorp Nomad's API.
 
 ### Building
 

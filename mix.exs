@@ -1,15 +1,18 @@
 defmodule Nomad.Mixfile do
   use Mix.Project
 
+  @source_url "https://github.com/mrmstn/nomad_client.git"
+  @version "1.0.0"
+
   def project do
     [
       app: :nomad_client,
-      version: "0.11.0",
+      version: @version,
       elixir: "~> 1.6",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       package: package(),
-      description: "Nomad OpenApi specification",
+      description: "A elixir client for HashiCorp Nomad's API.",
       deps: deps()
     ]
   end
@@ -41,8 +44,10 @@ defmodule Nomad.Mixfile do
   defp package() do
     [
       name: "nomad_client",
+      maintainers: ["Michael Ramstein"],
       files: ~w(lib mix.exs README* LICENSE*),
-      licenses: [""]
+      licenses: ["Apache-2.0"],
+      links: %{"GitHub" => @source_url}
     ]
   end
 end
