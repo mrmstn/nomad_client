@@ -14,14 +14,14 @@ defmodule NomadClient.Connection do
 
   ## Parameters
 
-  - url (String): Nomad URL Endpoint (including /v1)
+  - url (String): Nomad URL Endpoint)
   - token (String): ACL Token
 
   # Returns
 
   Tesla.Env.client
   """
-  def new(url \\ "http://localhost:4646/v1", token \\ nil)
+  def new(url \\ "http://localhost:4646", token \\ nil)
 
   def new(url, nil) do
     Tesla.client(default_opts(url), default_adapter())
@@ -38,13 +38,19 @@ defmodule NomadClient.Connection do
   end
 
   defp default_opts(url) do
+    base_url =
+      url
+      |> URI.parse()
+      |> maybe_fix_path()
+      |> URI.to_string()
+
     middleware =
       :tesla
       |> Application.get_env(__MODULE__, [])
       |> Keyword.get(:middleware, [])
 
     [
-      {Tesla.Middleware.BaseUrl, url || "http://localhost:4646/v1"},
+      {Tesla.Middleware.BaseUrl, base_url},
       {Tesla.Middleware.Headers, [{"User-Agent", "Elixir"}]},
       {Tesla.Middleware.EncodeJson, [engine: Poison]}
       | middleware
@@ -56,4 +62,10 @@ defmodule NomadClient.Connection do
     |> Application.get_env(__MODULE__, [])
     |> Keyword.get(:adapter, nil)
   end
+
+  defp maybe_fix_path(%{path: path} = uri) when path in [nil, "/", ""] do
+    %{uri | path: "/v1"}
+  end
+
+  defp maybe_fix_path(uri), do: uri
 end

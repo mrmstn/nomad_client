@@ -17,7 +17,7 @@ by adding `nomad_client` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:nomad_client, "~> 0.11.0"}]
+  [{:nomad_client, "~> 0.12.1"}]
 end
 ```
 
@@ -30,9 +30,9 @@ First, you have to initiate the `Tesla.Env.Conn`.
     # Use Application defaults
     conn = NomadClient.Connection.new()
     # Differente URL, no ACL token
-    conn = NomadClient.Connection.new("http://172.17.0.1:4646/v1")
+    conn = NomadClient.Connection.new("http://172.17.0.1:4646")
     # Custom URL with ACL token
-    conn = NomadClient.Connection.new("http://172.17.0.1:4646/v1", "00000000-0000-0000-0000-000000000000")
+    conn = NomadClient.Connection.new("http://172.17.0.1:4646", "00000000-0000-0000-0000-000000000000")
 ```
 
 After that, you can use your `conn` to make requests the api requests by using the API Modules.
