@@ -127,25 +127,24 @@ defmodule NomadClient.Api.Deployments do
 
   - connection (NomadClient.Connection): Connection to server
   - deployment_id (String.t): Specifies the UUID of the deployment. This must be the full UUID, not the short 8-character one. This is specified as part of the path
+  - deployment_pause_request (DeploymentPauseRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (DeploymentPauseRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.DeploymentUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec pause_deployment(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
-  def pause_deployment(connection, deployment_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec pause_deployment(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.DeploymentPauseRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
+  def pause_deployment(connection, deployment_id, deployment_pause_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/deployment/pause/#{deployment_id}")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, deployment_pause_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -160,25 +159,24 @@ defmodule NomadClient.Api.Deployments do
 
   - connection (NomadClient.Connection): Connection to server
   - deployment_id (String.t): Specifies the UUID of the deployment. This must be the full UUID, not the short 8-character one. This is specified as part of the path
+  - deployment_promote_request (DeploymentPromoteRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (DeploymentPromoteRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.DeploymentUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec promote_deployment(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
-  def promote_deployment(connection, deployment_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec promote_deployment(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.DeploymentPromoteRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
+  def promote_deployment(connection, deployment_id, deployment_promote_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/deployment/promote/#{deployment_id}")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, deployment_promote_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -194,25 +192,29 @@ defmodule NomadClient.Api.Deployments do
 
   - connection (NomadClient.Connection): Connection to server
   - deployment_id (String.t): Specifies the UUID of the deployment. This must be the full UUID, not the short 8-character one. This is specified as part of the path
+  - deployment_alloc_health_request (DeploymentAllocHealthRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (DeploymentAllocHealthRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.DeploymentUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec set_allocation_health_in_deployment(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
-  def set_allocation_health_in_deployment(connection, deployment_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec set_allocation_health_in_deployment(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.DeploymentAllocHealthRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
+  def set_allocation_health_in_deployment(
+        connection,
+        deployment_id,
+        deployment_alloc_health_request,
+        _opts \\ []
+      ) do
     %{}
     |> method(:post)
     |> url("/deployment/allocation-health/#{deployment_id}")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, deployment_alloc_health_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

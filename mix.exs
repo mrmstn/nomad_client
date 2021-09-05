@@ -2,7 +2,7 @@ defmodule NomadClient.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/mrmstn/nomad_client"
-  @version "0.11.0"
+  @version "0.12.0"
 
   def project do
     [

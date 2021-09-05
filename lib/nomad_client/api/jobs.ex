@@ -17,25 +17,24 @@ defmodule NomadClient.Api.Jobs do
 
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
+  - job_dispatch_request (JobDispatchRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (JobDispatchRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.JobDispatchResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec dispatch_job(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.JobDispatchResponse.t()} | {:error, Tesla.Env.t()}
-  def dispatch_job(connection, job_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec dispatch_job(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.JobDispatchRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.JobDispatchResponse.t()} | {:error, Tesla.Env.t()}
+  def dispatch_job(connection, job_id, job_dispatch_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/dispatch")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, job_dispatch_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -50,25 +49,24 @@ defmodule NomadClient.Api.Jobs do
 
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
+  - job_evaluate_request (JobEvaluateRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (JobEvaluateRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.JobRegisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec evaluate_job(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
-  def evaluate_job(connection, job_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec evaluate_job(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.JobEvaluateRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
+  def evaluate_job(connection, job_id, job_evaluate_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/evaluate")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, job_evaluate_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -360,25 +358,20 @@ defmodule NomadClient.Api.Jobs do
   ## Parameters
 
   - connection (NomadClient.Connection): Connection to server
+  - jobs_parse_request (JobsParseRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (JobsParseRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.Job.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec parse_job_hcl(Tesla.Env.client(), keyword()) ::
+  @spec parse_job_hcl(Tesla.Env.client(), NomadClient.Model.JobsParseRequest.t(), keyword()) ::
           {:ok, NomadClient.Model.Job.t()} | {:error, Tesla.Env.t()}
-  def parse_job_hcl(connection, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  def parse_job_hcl(connection, jobs_parse_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/jobs/parse")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, jobs_parse_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -393,25 +386,20 @@ defmodule NomadClient.Api.Jobs do
 
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
+  - job_plan_request (JobPlanRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (JobPlanRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.JobPlanResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec plan_job(Tesla.Env.client(), String.t(), keyword()) ::
+  @spec plan_job(Tesla.Env.client(), String.t(), NomadClient.Model.JobPlanRequest.t(), keyword()) ::
           {:ok, NomadClient.Model.JobPlanResponse.t()} | {:error, Tesla.Env.t()}
-  def plan_job(connection, job_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  def plan_job(connection, job_id, job_plan_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/plan")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, job_plan_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -425,25 +413,20 @@ defmodule NomadClient.Api.Jobs do
   ## Parameters
 
   - connection (NomadClient.Connection): Connection to server
+  - register_job_request (RegisterJobRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (RegisterJobRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.JobRegisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec register_job(Tesla.Env.client(), keyword()) ::
+  @spec register_job(Tesla.Env.client(), NomadClient.Model.RegisterJobRequest.t(), keyword()) ::
           {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
-  def register_job(connection, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  def register_job(connection, register_job_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/jobs")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, register_job_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -458,25 +441,24 @@ defmodule NomadClient.Api.Jobs do
 
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
+  - job_revert_request (JobRevertRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (JobRevertRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.JobRegisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec revert_job(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
-  def revert_job(connection, job_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec revert_job(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.JobRevertRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
+  def revert_job(connection, job_id, job_revert_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/revert")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, job_revert_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -491,25 +473,24 @@ defmodule NomadClient.Api.Jobs do
 
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
+  - scaling_request (ScalingRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (ScalingRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.JobRegisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec scale_task_group(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
-  def scale_task_group(connection, job_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec scale_task_group(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.ScalingRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
+  def scale_task_group(connection, job_id, scaling_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/scale")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, scaling_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -524,25 +505,24 @@ defmodule NomadClient.Api.Jobs do
 
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
+  - job_stability_request (JobStabilityRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (JobStabilityRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.JobStabilityResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec set_job_stability(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.JobStabilityResponse.t()} | {:error, Tesla.Env.t()}
-  def set_job_stability(connection, job_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec set_job_stability(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.JobStabilityRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.JobStabilityResponse.t()} | {:error, Tesla.Env.t()}
+  def set_job_stability(connection, job_id, job_stability_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/stable")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, job_stability_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -589,25 +569,24 @@ defmodule NomadClient.Api.Jobs do
 
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
+  - register_job_request (RegisterJobRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (RegisterJobRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.JobRegisterResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec update_job(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
-  def update_job(connection, job_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec update_job(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.RegisterJobRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
+  def update_job(connection, job_id, register_job_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/job/#{job_id}")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, register_job_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -621,25 +600,20 @@ defmodule NomadClient.Api.Jobs do
   ## Parameters
 
   - connection (NomadClient.Connection): Connection to server
+  - job_validate_request (JobValidateRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (JobValidateRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.JobValidateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec validate_job(Tesla.Env.client(), keyword()) ::
+  @spec validate_job(Tesla.Env.client(), NomadClient.Model.JobValidateRequest.t(), keyword()) ::
           {:ok, NomadClient.Model.JobValidateResponse.t()} | {:error, Tesla.Env.t()}
-  def validate_job(connection, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  def validate_job(connection, job_validate_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/validate/job")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, job_validate_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

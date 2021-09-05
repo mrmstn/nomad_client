@@ -74,25 +74,24 @@ defmodule NomadClient.Api.Allocations do
 
   - connection (NomadClient.Connection): Connection to server
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
+  - allocation_restart_request (AllocationRestartRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (AllocationRestartRequest): 
   ## Returns
 
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec restart_allocation(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, nil} | {:error, Tesla.Env.t()}
-  def restart_allocation(connection, alloc_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec restart_allocation(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.AllocationRestartRequest.t(),
+          keyword()
+        ) :: {:ok, nil} | {:error, Tesla.Env.t()}
+  def restart_allocation(connection, alloc_id, allocation_restart_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/allocation/#{alloc_id}/restart")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, allocation_restart_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -107,25 +106,24 @@ defmodule NomadClient.Api.Allocations do
 
   - connection (NomadClient.Connection): Connection to server
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
+  - alloc_signal_request (AllocSignalRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (AllocSignalRequest): 
   ## Returns
 
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec signal_allocation(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, nil} | {:error, Tesla.Env.t()}
-  def signal_allocation(connection, alloc_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec signal_allocation(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.AllocSignalRequest.t(),
+          keyword()
+        ) :: {:ok, nil} | {:error, Tesla.Env.t()}
+  def signal_allocation(connection, alloc_id, alloc_signal_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/allocation/#{alloc_id}/signal")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, alloc_signal_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

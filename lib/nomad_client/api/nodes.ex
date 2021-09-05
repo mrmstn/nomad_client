@@ -128,25 +128,20 @@ defmodule NomadClient.Api.Nodes do
   ## Parameters
 
   - connection (NomadClient.Connection): Connection to server
+  - search_request (SearchRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (SearchRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.SearchResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec search(Tesla.Env.client(), keyword()) ::
+  @spec search(Tesla.Env.client(), NomadClient.Model.SearchRequest.t(), keyword()) ::
           {:ok, NomadClient.Model.SearchResponse.t()} | {:error, Tesla.Env.t()}
-  def search(connection, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  def search(connection, search_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/search")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, search_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -162,25 +157,24 @@ defmodule NomadClient.Api.Nodes do
 
   - connection (NomadClient.Connection): Connection to server
   - node_id (String.t): Specifies the ID of the node. This must be the full UUID, not the short 8-character one. This is specified as part of the path
+  - node_update_drain_request (NodeUpdateDrainRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (NodeUpdateDrainRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.NodeDrainUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec update_drain_mode_for_node(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.NodeDrainUpdateResponse.t()} | {:error, Tesla.Env.t()}
-  def update_drain_mode_for_node(connection, node_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec update_drain_mode_for_node(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.NodeUpdateDrainRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.NodeDrainUpdateResponse.t()} | {:error, Tesla.Env.t()}
+  def update_drain_mode_for_node(connection, node_id, node_update_drain_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/node/#{node_id}/drain")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, node_update_drain_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -195,25 +189,24 @@ defmodule NomadClient.Api.Nodes do
 
   - connection (NomadClient.Connection): Connection to server
   - node_id (String.t): Specifies the ID of the node. This must be the full UUID, not the short 8-character one. This is specified as part of the path
+  - node_update_eligibility_request (NodeUpdateEligibilityRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (NodeUpdateEligibilityRequest): 
   ## Returns
 
   {:ok, NomadClient.Model.NodeEligibilityUpdateResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec update_node_eligibility(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, NomadClient.Model.NodeEligibilityUpdateResponse.t()} | {:error, Tesla.Env.t()}
-  def update_node_eligibility(connection, node_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec update_node_eligibility(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.NodeUpdateEligibilityRequest.t(),
+          keyword()
+        ) :: {:ok, NomadClient.Model.NodeEligibilityUpdateResponse.t()} | {:error, Tesla.Env.t()}
+  def update_node_eligibility(connection, node_id, node_update_eligibility_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/node/#{node_id}/eligibility")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, node_update_eligibility_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

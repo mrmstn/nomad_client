@@ -104,25 +104,24 @@ defmodule NomadClient.Api.Volumes do
 
   - connection (NomadClient.Connection): Connection to server
   - volume_id (String.t): Specifies the ID of the volume. This must be the full ID. This is specified as part of the path
+  - csi_volume_register_request (CsiVolumeRegisterRequest): 
   - opts (KeywordList): [optional] Optional parameters
-    - :body (CsiVolumeRegisterRequest): 
   ## Returns
 
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec register_volume(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, nil} | {:error, Tesla.Env.t()}
-  def register_volume(connection, volume_id, opts \\ []) do
-    optional_params = %{
-      :body => :body
-    }
-
+  @spec register_volume(
+          Tesla.Env.client(),
+          String.t(),
+          NomadClient.Model.CsiVolumeRegisterRequest.t(),
+          keyword()
+        ) :: {:ok, nil} | {:error, Tesla.Env.t()}
+  def register_volume(connection, volume_id, csi_volume_register_request, _opts \\ []) do
     %{}
     |> method(:put)
     |> url("/volume/csi/#{volume_id}")
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
+    |> add_param(:body, :body, csi_volume_register_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
