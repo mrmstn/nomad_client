@@ -23,7 +23,18 @@ end
 
 The Documentation can be found at [https://hexdocs.pm/nomad_client](https://hexdocs.pm/nomad_client).
 
+## Usage
+
+```
+
+```
+
+
+
 ## Development
+
+
+
 ### Regenerationg the client
 
 You can basicly regenerate this client without the custom modifications by running the following command:
@@ -34,6 +45,7 @@ docker run \
     --user "$UID:$GID" \
     openapitools/openapi-generator-cli:v5.2.1 \
       generate \
+      --invoker-package NomadClient \
       --generator-name elixir \
       --skip-validate-spec \
       --input-spec /local/openapi.json \

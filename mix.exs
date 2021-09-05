@@ -38,6 +38,7 @@ defmodule Nomad.Mixfile do
     [
       {:tesla, "~> 1.2"},
       {:poison, "~> 3.0"},
+      {:hackney, "~> 1.0", optional: true},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
