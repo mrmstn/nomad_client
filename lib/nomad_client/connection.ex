@@ -7,22 +7,53 @@ defmodule NomadClient.Connection do
   Handle Tesla connections for NomadClient.
   """
 
-  use Tesla
-
-  # Add any middleware here (authentication)
-  plug(Tesla.Middleware.BaseUrl, "http://localhost:4646/v1")
-  plug(Tesla.Middleware.Headers, [{"user-agent", "Elixir"}])
-  plug(Tesla.Middleware.EncodeJson, engine: Poison)
+  defdelegate request(conn, request), to: Tesla
 
   @doc """
-  Configure an authless client connection
+  Configure a client connection using Basic authentication.
+
+  ## Parameters
+
+  - url (String): Nomad URL Endpoint (including /v1)
+  - token (String): ACL Token
 
   # Returns
 
   Tesla.Env.client
   """
-  @spec new() :: Tesla.Env.client()
-  def new do
-    Tesla.client([])
+  def new(url \\ "http://localhost:4646/v1", token \\ nil)
+
+  def new(url, nil) do
+    Tesla.client(default_opts(url), default_adapter())
+  end
+
+  def new(url, token) do
+    Tesla.client(
+      [
+        {Tesla.Middleware.Headers, [{"X-NOMAD-TOKEN", token}]}
+        | default_opts(url)
+      ],
+      default_adapter()
+    )
+  end
+
+  defp default_opts(url) do
+    middleware =
+      :tesla
+      |> Application.get_env(__MODULE__, [])
+      |> Keyword.get(:middleware, [])
+
+    [
+      {Tesla.Middleware.BaseUrl, url || "http://localhost:4646/v1"},
+      {Tesla.Middleware.Headers, [{"User-Agent", "Elixir"}]},
+      {Tesla.Middleware.EncodeJson, [engine: Poison]}
+      | middleware
+    ]
+  end
+
+  defp default_adapter do
+    :tesla
+    |> Application.get_env(__MODULE__, [])
+    |> Keyword.get(:adapter, nil)
   end
 end
