@@ -17,7 +17,7 @@ by adding `nomad_client` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:nomad_client, "~> 0.10.0"}]
+  [{:nomad_client, "~> 0.11.0"}]
 end
 ```
 
