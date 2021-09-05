@@ -1,5 +1,4 @@
 .gitignore
-README.md
 config/config.exs
 lib/nomad/api/agent.ex
 lib/nomad/api/allocations.ex
@@ -192,5 +191,4 @@ lib/nomad/model/vault.ex
 lib/nomad/model/volume_mount.ex
 lib/nomad/model/volume_request.ex
 lib/nomad/request_builder.ex
-mix.exs
 test/test_helper.exs
