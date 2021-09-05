@@ -1,0 +1,7167 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "0.11.0",
+    "title": "Nomad",
+    "description": "Nomad OpenApi specification",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4646/v1"
+    }
+  ],
+  "paths": {
+    "/agent/force-leave": {
+      "post": {
+        "summary": "Forces a member of the gossip pool from the \"failed\" state into the \"left\" state.",
+        "operationId": "forceLeave",
+        "tags": [
+          "agent"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/node"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful"
+          }
+        }
+      }
+    },
+    "/agent/health": {
+      "get": {
+        "summary": "Performs a basic healthcheck",
+        "operationId": "getHealth",
+        "tags": [
+          "agent"
+        ],
+        "responses": {
+          "200": {
+            "description": "agent health response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentHealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/join": {
+      "post": {
+        "summary": "Causes the agent to join a cluster by joining the gossip pool at one of the given addresses",
+        "operationId": "join",
+        "tags": [
+          "agent"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/addresses"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "join response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JoinResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/members": {
+      "get": {
+        "summary": "Queries for the known peers in the gossip pool",
+        "operationId": "getMembers",
+        "tags": [
+          "agent"
+        ],
+        "responses": {
+          "200": {
+            "description": "server members",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerMembers"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/self": {
+      "get": {
+        "summary": "Queries for information about the agent we are connected to",
+        "operationId": "getSelf",
+        "tags": [
+          "agent"
+        ],
+        "responses": {
+          "200": {
+            "description": "agent self",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentSelf"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/servers": {
+      "get": {
+        "summary": "Queries an agent in client mode for its list of known servers",
+        "operationId": "getServers",
+        "tags": [
+          "agent"
+        ],
+        "responses": {
+          "200": {
+            "description": "servers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Updates the list of known servers to the given addresses, replacing all previous addresses",
+        "operationId": "updateServers",
+        "tags": [
+          "agent"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/addresses"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "servers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/monitor": {
+      "get": {
+        "summary": "Streams logs from a specific Nomad server node",
+        "operationId": "streamLogs",
+        "tags": [
+          "agent"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/log_level"
+          },
+          {
+            "$ref": "#/components/parameters/node_id"
+          },
+          {
+            "$ref": "#/components/parameters/server_id"
+          },
+          {
+            "$ref": "#/components/parameters/json_format"
+          },
+          {
+            "$ref": "#/components/parameters/plain_format"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "agent health response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamFrame"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/allocation/{alloc_id}": {
+      "get": {
+        "summary": "reads information about a specific allocation",
+        "operationId": "getAllocation",
+        "tags": [
+          "allocations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "allocation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Allocation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/allocation/{alloc_id}/restart": {
+      "post": {
+        "summary": "restarts an allocation or task in-place",
+        "operationId": "restartAllocation",
+        "tags": [
+          "allocations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AllocationRestartRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/NullResponse"
+          }
+        }
+      }
+    },
+    "/allocation/{alloc_id}/signal": {
+      "post": {
+        "summary": "sends a signal to an allocation or task",
+        "operationId": "signalAllocation",
+        "tags": [
+          "allocations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AllocSignalRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/NullResponse"
+          }
+        }
+      }
+    },
+    "/allocation/{alloc_id}/stop": {
+      "post": {
+        "summary": "stops and reschedules a specific allocation",
+        "operationId": "stopAllocation",
+        "tags": [
+          "allocations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "allocation stop response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllocStopResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/allocations": {
+      "get": {
+        "summary": "query for and interact with allocations",
+        "operationId": "getAllocations",
+        "tags": [
+          "allocations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/prefix"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "allocation list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AllocationListStub"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/allocation/{alloc_id}/gc": {
+      "get": {
+        "summary": "forces a garbage collection of a particular, stopped allocation on a node",
+        "operationId": "garbageCollectAllocation",
+        "tags": [
+          "client"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/NullResponse"
+          }
+        }
+      }
+    },
+    "/client/allocation/{alloc_id}/stats": {
+      "get": {
+        "summary": "query the actual resources consumed by an allocation",
+        "operationId": "getClientAllocationStats",
+        "tags": [
+          "client"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "allocation resource usage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllocResourceUsage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/fs/cat/{alloc_id}": {
+      "get": {
+        "summary": "reads the contents of a file in an allocation directory",
+        "operationId": "getClientFile",
+        "tags": [
+          "client"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          },
+          {
+            "$ref": "#/components/parameters/path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "file response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/fs/logs/{alloc_id}": {
+      "get": {
+        "summary": "streams a task's stderr/stdout logs",
+        "operationId": "streamClientLogs",
+        "tags": [
+          "client"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          },
+          {
+            "$ref": "#/components/parameters/task"
+          },
+          {
+            "$ref": "#/components/parameters/follow"
+          },
+          {
+            "$ref": "#/components/parameters/io_type"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/origin"
+          },
+          {
+            "$ref": "#/components/parameters/plain_format"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "file response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/fs/ls/{alloc_id}": {
+      "get": {
+        "summary": "lists files in an allocation directory",
+        "operationId": "listClientFiles",
+        "tags": [
+          "client"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          },
+          {
+            "$ref": "#/components/parameters/path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "allocation file information list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AllocFileInfo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/fs/readat/{alloc_id}": {
+      "get": {
+        "summary": "reads the contents of a file in an allocation directory at a particular offset and limit",
+        "operationId": "getClientFileAtOffest",
+        "tags": [
+          "client"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          },
+          {
+            "$ref": "#/components/parameters/path"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "file response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/fs/stat/{alloc_id}": {
+      "get": {
+        "summary": "stats a file in an allocation",
+        "operationId": "statClientFile",
+        "tags": [
+          "client"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          },
+          {
+            "$ref": "#/components/parameters/path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "allocation file information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllocFileInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/fs/stream/{alloc_id}": {
+      "get": {
+        "summary": "streams the contents of a file in an allocation directory",
+        "operationId": "streamClientFile",
+        "tags": [
+          "client"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/alloc_id"
+          },
+          {
+            "$ref": "#/components/parameters/path"
+          },
+          {
+            "$ref": "#/components/parameters/follow"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/origin"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "file response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/gc": {
+      "get": {
+        "summary": "forces a garbage collection of all stopped allocations on a node",
+        "operationId": "garbageCollectAllocation",
+        "tags": [
+          "client"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/node_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/NullResponse"
+          }
+        }
+      }
+    },
+    "/client/stats": {
+      "get": {
+        "summary": "queries the actual resources consumed on a node. The API endpoint is hosted by the Nomad client and requests have to be made to the nomad client whose resource usage metrics are of interest",
+        "operationId": "getClientStats",
+        "tags": [
+          "client"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/node_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "host stats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HostStats"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deployment/{deployment_id}": {
+      "get": {
+        "summary": "reads information about a specific deployment by ID",
+        "operationId": "getDeployment",
+        "tags": [
+          "deployments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/deployment_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deployment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deployment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deployment/allocation-health/{deployment_id}": {
+      "post": {
+        "summary": "set the health of an allocation that is in the deployment manually",
+        "description": "In some use cases, automatic detection of allocation health may not be desired. As such those task groups can be marked with an upgrade policy that uses health_check = \"manual\". Those allocations must have their health marked manually using this endpoint. Marking an allocation as healthy will allow the rolling upgrade to proceed. Marking it as failed will cause the deployment to fail. This endpoint only triggers a rollback if the most recent stable version of the job has a different specification than the job being reverted",
+        "operationId": "setAllocationHealthInDeployment",
+        "tags": [
+          "deployments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/deployment_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeploymentAllocHealthRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "deployment update response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeploymentUpdateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deployment/allocations/{deployment_id}": {
+      "get": {
+        "summary": "lists the allocations created or modified for the given deployment",
+        "operationId": "getAllocationsForDeployment",
+        "tags": [
+          "deployments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/deployment_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "allocation list response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AllocationListStub"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deployment/fail/{deployment_id}": {
+      "post": {
+        "summary": "mark a deployment as failed. This should be done to force the scheduler to stop creating allocations as part of the deployment or to cause a rollback to a previous job version. This endpoint only triggers a rollback if the most recent stable version of the job has a different specification than the job being reverted",
+        "operationId": "failDeployment",
+        "tags": [
+          "deployments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/deployment_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deployment update response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeploymentUpdateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deployment/pause/{deployment_id}": {
+      "post": {
+        "summary": "pause or unpause a deployment. This is done to pause a rolling upgrade or resume it",
+        "operationId": "pauseDeployment",
+        "tags": [
+          "deployments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/deployment_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeploymentPauseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "deployment update response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeploymentUpdateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deployment/promote/{deployment_id}": {
+      "post": {
+        "summary": "promote task groups that have canaries for a deployment. This should be done when the placed canaries are healthy and the rolling upgrade of the remaining allocations should begin",
+        "operationId": "promoteDeployment",
+        "tags": [
+          "deployments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/deployment_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeploymentPromoteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "deployment update response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeploymentUpdateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deployments": {
+      "get": {
+        "summary": "lists all deployments",
+        "operationId": "getDeployments",
+        "tags": [
+          "deployments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/prefix"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deployment list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Deployment"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/{eval_id}": {
+      "get": {
+        "summary": "reads information about a specific evaluation by ID",
+        "operationId": "getEvaluation",
+        "tags": [
+          "evaluations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/eval_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "evaluation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evaluation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/{eval_id}/allocations": {
+      "get": {
+        "summary": "lists the allocations created or modified for the given evaluation",
+        "operationId": "getAllocationsForEvaluation",
+        "tags": [
+          "evaluations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/eval_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "allocation list response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AllocationListStub"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluations": {
+      "get": {
+        "summary": "lists all evaluations",
+        "operationId": "getEvaluations",
+        "tags": [
+          "evaluations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/prefix"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "evaluation list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Evaluation"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}": {
+      "get": {
+        "summary": "reads information about a single job for its specification and status",
+        "operationId": "getJob",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "job",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "registers a new job or updates an existing job",
+        "operationId": "updateJob",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterJobRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "job register response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobRegisterResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "deregisters a job, and stops all allocations part of it",
+        "operationId": "stopJob",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          },
+          {
+            "$ref": "#/components/parameters/purge"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "job deregister response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobDeregisterResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/allocations": {
+      "get": {
+        "summary": "reads information about a single job's allocations",
+        "operationId": "getJobAllocations",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          },
+          {
+            "$ref": "#/components/parameters/all"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "job allocations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AllocationListStub"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/deployment": {
+      "get": {
+        "summary": "get a single job's most recent deployment",
+        "operationId": "getJobLatestDeployment",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "job deployment response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deployment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/deployments": {
+      "get": {
+        "summary": "lists a single job's deployments",
+        "operationId": "getJobDeployments",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          },
+          {
+            "$ref": "#/components/parameters/all"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "job deployments response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Deployment"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/dispatch": {
+      "post": {
+        "summary": "dispatches a new instance of a parameterized job",
+        "operationId": "dispatchJob",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobDispatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "job dispatch response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobDispatchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/evaluate": {
+      "post": {
+        "summary": "creates a new evaluation for the given job. This can be used to force run the scheduling logic if necessary",
+        "operationId": "evaluateJob",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobEvaluateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "job register response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobRegisterResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/evaluations": {
+      "get": {
+        "summary": "reads information about a single job's evaluations",
+        "operationId": "getJobEvaluations",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "job evaluations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Evaluation"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/periodic/force": {
+      "post": {
+        "summary": "forces a new instance of the periodic job. A new instance will be created even if it violates the job's prohibit_overlap settings. As such, this should be only used to immediately run a periodic job",
+        "operationId": "forceNewPeriodicInstance",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "periodic force response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PeriodicForceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/plan": {
+      "post": {
+        "summary": "invokes a dry-run of the scheduler for the job",
+        "operationId": "planJob",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobPlanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "job plan response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobPlanResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/revert": {
+      "post": {
+        "summary": "reverts the job to an older version",
+        "operationId": "revertJob",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobRevertRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "job register response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobRegisterResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/scale": {
+      "get": {
+        "summary": "reads scale information about a job",
+        "operationId": "getJobScaleStatus",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "job scale status response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobScaleStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "performs a scaling action against a job. Currently, this endpoint supports scaling the count for a task group",
+        "operationId": "scaleTaskGroup",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScalingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "job register response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobRegisterResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/stable": {
+      "post": {
+        "summary": "sets the job's stability",
+        "operationId": "setJobStability",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobStabilityRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "job stability response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStabilityResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/summary": {
+      "get": {
+        "summary": "reads summary information about a job",
+        "operationId": "getJobSummary",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "job summary response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/versions": {
+      "get": {
+        "summary": "reads information about all versions of a job",
+        "operationId": "getJobVersions",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/job_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "job versions response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobVersionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobs": {
+      "get": {
+        "summary": "lists all known jobs in the system registered with Nomad",
+        "operationId": "getJobs",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/prefix"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "job list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobListStub"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "creates (aka \"registers\") a new job in the system",
+        "operationId": "registerJob",
+        "tags": [
+          "jobs"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterJobRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "job register response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobRegisterResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobs/parse": {
+      "post": {
+        "summary": "parse a HCL jobspec and produce the equivalent JSON encoded job",
+        "operationId": "parseJobHCL",
+        "tags": [
+          "jobs"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobsParseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "job",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/node/{node_id}/allocations": {
+      "get": {
+        "summary": "lists all of the allocations for the given node",
+        "description": "This can be used to determine what allocations have been scheduled on the node, their current status, and the values of dynamically assigned resources, like ports",
+        "operationId": "getAllocationsForNode",
+        "tags": [
+          "nodes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/node_id_"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "allocation list response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AllocationListStub"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/node/{node_id}/drain": {
+      "post": {
+        "summary": "toggles the drain mode of the node",
+        "description": "When draining is enabled, no further allocations will be assigned to this node, and existing allocations will be migrated to new nodes",
+        "operationId": "updateDrainModeForNode",
+        "tags": [
+          "nodes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/node_id_"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NodeUpdateDrainRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "node drain update response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeDrainUpdateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/node/{node_id}/eligibility": {
+      "post": {
+        "summary": "toggles the scheduling eligibility of the node",
+        "operationId": "updateNodeEligibility",
+        "tags": [
+          "nodes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/node_id_"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NodeUpdateEligibilityRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "node eligibility update response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeEligibilityUpdateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/node/{node_id}/evaluate": {
+      "post": {
+        "summary": "creates a new evaluation for the given node. This can be used to force a run of the scheduling logic",
+        "operationId": "evaluateNode",
+        "tags": [
+          "nodes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/node_id_"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "node evaluation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeEvalResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/node/{node_id}": {
+      "get": {
+        "summary": "queries the status of a client node",
+        "operationId": "getNode",
+        "tags": [
+          "nodes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/node_id_"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "node",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Node"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nodes": {
+      "get": {
+        "summary": "lists all nodes registered with Nomad",
+        "operationId": "getNodes",
+        "tags": [
+          "nodes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/prefix"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "node list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NodeListStub"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/regions": {
+      "get": {
+        "summary": "list all known regions",
+        "operationId": "getRegions",
+        "tags": [
+          "regions"
+        ],
+        "responses": {
+          "200": {
+            "description": "region list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "post": {
+        "summary": "returns matches for a given prefix and context, where a context can be jobs, allocations, evaluations, nodes, or deployments",
+        "description": "When using Nomad Enterprise, the allowed contexts include quotas and namespaces. Additionally, a prefix can be searched for within every context",
+        "operationId": "search",
+        "tags": [
+          "nodes"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "search response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status/leader": {
+      "get": {
+        "summary": "returns the address of the current leader in the region",
+        "operationId": "getLeader",
+        "tags": [
+          "status"
+        ],
+        "responses": {
+          "200": {
+            "description": "leader name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status/peers": {
+      "get": {
+        "summary": "returns the set of raft peers in the region",
+        "operationId": "getPeers",
+        "tags": [
+          "status"
+        ],
+        "responses": {
+          "200": {
+            "description": "peer list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/system/gc": {
+      "put": {
+        "summary": "initializes a garbage collection of jobs, evaluations, allocations, and nodes. This is an asynchronous operation",
+        "operationId": "forceGC",
+        "tags": [
+          "system"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/NullResponse"
+          }
+        }
+      }
+    },
+    "/system/reconcile/summaries": {
+      "put": {
+        "summary": "reconciles the summaries of all registered jobs",
+        "operationId": "reconcileSummary",
+        "tags": [
+          "system"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/NullResponse"
+          }
+        }
+      }
+    },
+    "/validate/job": {
+      "post": {
+        "summary": "validate object structs, fields, and types",
+        "operationId": "validateJob",
+        "tags": [
+          "jobs"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobValidateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "job validate response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobValidateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/volume/csi/{volume_id}": {
+      "get": {
+        "summary": "reads information about a specific volume",
+        "operationId": "getVolume",
+        "tags": [
+          "volumes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/volume_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "volume",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CsiVolume"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "registers an external volume with Nomad. It is an error to register an existing volume",
+        "operationId": "registerVolume",
+        "tags": [
+          "volumes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/volume_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CsiVolumeRegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/NullResponse"
+          }
+        }
+      },
+      "delete": {
+        "summary": "deregisters an external volume with Nomad. It is an error to deregister a volume that is in use",
+        "operationId": "deregisterVolume",
+        "tags": [
+          "volumes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/volume_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/NullResponse"
+          }
+        }
+      }
+    },
+    "/volumes": {
+      "get": {
+        "summary": "lists all volumes",
+        "operationId": "getVolumes",
+        "tags": [
+          "volumes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/volume_type"
+          },
+          {
+            "$ref": "#/components/parameters/node_id"
+          },
+          {
+            "$ref": "#/components/parameters/plugin_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "volume list stub",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CsiVolumeListStub"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "NomadTokenAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-NOMAD-TOKEN",
+        "description": "Several endpoints in Nomad use or require ACL tokens to operate.\nThe token are used to authenticate the request and determine if the request is allowed based on the associated authorizations.\nTokens are specified per-request by using the X-Nomad-Token request header set to the SecretID of an ACL Token.\n"
+      }
+    },
+    "parameters": {
+      "alloc_id": {
+        "name": "alloc_id",
+        "in": "path",
+        "description": "Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "deployment_id": {
+        "name": "deployment_id",
+        "in": "path",
+        "description": "Specifies the UUID of the deployment. This must be the full UUID, not the short 8-character one. This is specified as part of the path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "eval_id": {
+        "name": "eval_id",
+        "in": "path",
+        "description": "Specifies the UUID of the evaluation. This must be the full UUID, not the short 8-character one. This is specified as part of the path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "job_id": {
+        "name": "job_id",
+        "in": "path",
+        "description": "job id",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "node_id_": {
+        "name": "node_id",
+        "in": "path",
+        "description": "Specifies the ID of the node. This must be the full UUID, not the short 8-character one. This is specified as part of the path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "volume_id": {
+        "name": "volume_id",
+        "in": "path",
+        "description": "Specifies the ID of the volume. This must be the full ID. This is specified as part of the path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "addresses": {
+        "name": "address",
+        "in": "query",
+        "description": "server address (ip:port)",
+        "explode": true,
+        "required": true,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "all": {
+        "name": "all",
+        "in": "query",
+        "required": false,
+        "description": "Specifies whether should include * from a previously registered job with the same ID. This is possible if the job is deregistered and reregistered.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "follow": {
+        "name": "follow",
+        "in": "query",
+        "description": "Specifies whether to tail the file",
+        "required": false,
+        "schema": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "format": {
+        "name": "format",
+        "in": "query",
+        "description": "Specifies the metrics format to be other than the JSON default. Currently, only prometheus is supported as an alternative format. This is specified as a query string parameter",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "io_type": {
+        "name": "type",
+        "in": "query",
+        "description": "Specifies the stream to stream",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "stderr",
+            "stdout"
+          ]
+        }
+      },
+      "json_format": {
+        "name": "json",
+        "in": "query",
+        "description": "is json format",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Specifies the number of bytes to read from the offset",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "log_level": {
+        "name": "log_level",
+        "in": "query",
+        "description": "log level",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "node": {
+        "name": "node",
+        "in": "query",
+        "description": "the name of the node",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "node_id": {
+        "name": "node_id",
+        "in": "query",
+        "description": "node id",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "offset": {
+        "name": "offset",
+        "in": "query",
+        "description": "Specifies the byte offset from where content will be read",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "origin": {
+        "name": "origin",
+        "in": "query",
+        "description": "Applies the relative offset to either the start or end of the file",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "start",
+            "end"
+          ],
+          "default": "start"
+        }
+      },
+      "path": {
+        "name": "path",
+        "in": "query",
+        "description": "Specifies the path of the file to read, relative to the root of the allocation directory",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "plain_format": {
+        "name": "plain",
+        "in": "query",
+        "description": "is plain text format",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "plugin_id": {
+        "name": "plugin_id",
+        "in": "query",
+        "description": "Specifies a string to filter volumes based on a plugin ID prefix",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "plugin_type": {
+        "name": "type",
+        "in": "query",
+        "description": "Specifies the type of plugin to query. Currently only supports csi. This is specified as a query string parameter. Returns an empty list if omitted",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "prefix": {
+        "name": "prefix",
+        "in": "query",
+        "description": "Specifies a string to filter jobs on based on an index prefix. This is specified as a query string parameter",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "purge": {
+        "name": "purge",
+        "in": "query",
+        "description": "Specifies that the job should stopped and purged immediately. This means the job will not be queryable after being stopped. If not set, the job will be purged by the garbage collector",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "server_id": {
+        "name": "server_id",
+        "in": "query",
+        "description": "server id",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "task": {
+        "name": "task",
+        "in": "query",
+        "description": "Specifies the name of the task inside the allocation to stream logs from",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "volume_type": {
+        "name": "type",
+        "in": "query",
+        "description": "Specifies the type of volume to query. Currently only supports csi. This is specified as a query string parameter. Returns an empty list if omitted",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "AclPolicy": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Rules": {
+            "type": "string"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "AclPolicyListStub": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "AclToken": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "AccessorID": {
+            "type": "string"
+          },
+          "SecretID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          },
+          "Policies": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Global": {
+            "type": "boolean"
+          },
+          "CreateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "AclTokenListStub": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "AccessorID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          },
+          "Policies": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Global": {
+            "type": "boolean"
+          },
+          "CreateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "Affinity": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "LTarget": {
+            "type": "string"
+          },
+          "RTarget": {
+            "type": "string"
+          },
+          "Operand": {
+            "type": "string"
+          },
+          "Weight": {
+            "$ref": "#/components/schemas/Short"
+          }
+        }
+      },
+      "AgentHealth": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Ok": {
+            "type": "boolean"
+          },
+          "Message": {
+            "type": "string"
+          }
+        }
+      },
+      "AgentHealthResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Client": {
+            "$ref": "#/components/schemas/AgentHealth"
+          },
+          "Server": {
+            "$ref": "#/components/schemas/AgentHealth"
+          }
+        }
+      },
+      "AgentMember": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Addr": {
+            "type": "string"
+          },
+          "Port": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Tags": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Status": {
+            "type": "string"
+          },
+          "ProtocolMin": {
+            "$ref": "#/components/schemas/Byte"
+          },
+          "ProtocolMax": {
+            "$ref": "#/components/schemas/Byte"
+          },
+          "ProtocolCur": {
+            "$ref": "#/components/schemas/Byte"
+          },
+          "DelegateMin": {
+            "$ref": "#/components/schemas/Byte"
+          },
+          "DelegateMax": {
+            "$ref": "#/components/schemas/Byte"
+          },
+          "DelegateCur": {
+            "$ref": "#/components/schemas/Byte"
+          }
+        }
+      },
+      "AgentSelf": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Config": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "Member": {
+            "$ref": "#/components/schemas/AgentMember"
+          },
+          "Stats": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "AllocatedCpuResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "CpuShares": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AllocatedMemoryResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "MemoryMB": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AllocatedResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Tasks": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AllocatedTaskResources"
+            }
+          },
+          "Shared": {
+            "$ref": "#/components/schemas/AllocatedSharedResources"
+          }
+        }
+      },
+      "AllocatedSharedResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DiskMB": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Networks": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/NetworkResource"
+            }
+          }
+        }
+      },
+      "AllocatedTaskResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "CPU": {
+            "$ref": "#/components/schemas/AllocatedCpuResources"
+          },
+          "Memory": {
+            "$ref": "#/components/schemas/AllocatedMemoryResources"
+          },
+          "Networks": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/NetworkResource"
+            }
+          }
+        }
+      },
+      "Allocation": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Namespace": {
+            "type": "string"
+          },
+          "EvalID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "NodeID": {
+            "type": "string"
+          },
+          "NodeName": {
+            "type": "string"
+          },
+          "JobID": {
+            "type": "string"
+          },
+          "Job": {
+            "$ref": "#/components/schemas/Job"
+          },
+          "TaskGroup": {
+            "type": "string"
+          },
+          "Resources": {
+            "$ref": "#/components/schemas/Resources"
+          },
+          "TaskResources": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Resources"
+            }
+          },
+          "AllocatedResources": {
+            "$ref": "#/components/schemas/AllocatedResources"
+          },
+          "Services": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Metrics": {
+            "$ref": "#/components/schemas/AllocationMetric"
+          },
+          "DesiredStatus": {
+            "type": "string"
+          },
+          "DesiredDescription": {
+            "type": "string"
+          },
+          "DesiredTransition": {
+            "$ref": "#/components/schemas/DesiredTransition"
+          },
+          "ClientStatus": {
+            "type": "string"
+          },
+          "ClientDescription": {
+            "type": "string"
+          },
+          "TaskStates": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TaskState"
+            }
+          },
+          "DeploymentID": {
+            "type": "string"
+          },
+          "DeploymentStatus": {
+            "$ref": "#/components/schemas/AllocDeploymentStatus"
+          },
+          "FollowupEvalID": {
+            "type": "string"
+          },
+          "PreviousAllocation": {
+            "type": "string"
+          },
+          "NextAllocation": {
+            "type": "string"
+          },
+          "RescheduleTracker": {
+            "$ref": "#/components/schemas/RescheduleTracker"
+          },
+          "PreemptedAllocations": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "PreemptedByAllocation": {
+            "type": "string"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "AllocModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "CreateTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ModifyTime": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AllocationListStub": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "EvalID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Namespace": {
+            "type": "string"
+          },
+          "NodeID": {
+            "type": "string"
+          },
+          "NodeName": {
+            "type": "string"
+          },
+          "JobID": {
+            "type": "string"
+          },
+          "JobType": {
+            "type": "string"
+          },
+          "JobVersion": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "TaskGroup": {
+            "type": "string"
+          },
+          "DesiredStatus": {
+            "type": "string"
+          },
+          "DesiredDescription": {
+            "type": "string"
+          },
+          "ClientStatus": {
+            "type": "string"
+          },
+          "ClientDescription": {
+            "type": "string"
+          },
+          "TaskStates": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TaskState"
+            }
+          },
+          "DeploymentStatus": {
+            "$ref": "#/components/schemas/AllocDeploymentStatus"
+          },
+          "FollowupEvalID": {
+            "type": "string"
+          },
+          "RescheduleTracker": {
+            "$ref": "#/components/schemas/RescheduleTracker"
+          },
+          "PreemptedAllocations": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "PreemptedByAllocation": {
+            "type": "string"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "CreateTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ModifyTime": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AllocationMetric": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "NodesEvaluated": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NodesFiltered": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NodesAvailable": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "ClassFiltered": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "ConstraintFiltered": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "NodesExhausted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ClassExhausted": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "DimensionExhausted": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "QuotaExhausted": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Scores": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Double"
+            }
+          },
+          "AllocationTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "CoalescedFailures": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ScoreMetaData": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/NodeScoreMeta"
+            }
+          }
+        }
+      },
+      "AllocationRestartRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "TaskName": {
+            "type": "string"
+          }
+        }
+      },
+      "AllocDeploymentStatus": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Healthy": {
+            "type": "boolean"
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "Canary": {
+            "type": "boolean"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "AllocFileInfo": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "IsDir": {
+            "type": "boolean"
+          },
+          "Size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "FileMode": {
+            "type": "string"
+          },
+          "ModTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ContentType": {
+            "type": "string"
+          }
+        }
+      },
+      "AllocResourceUsage": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ResourceUsage": {
+            "$ref": "#/components/schemas/ResourceUsage"
+          },
+          "Tasks": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TaskResourceUsage"
+            }
+          },
+          "Timestamp": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AllocSignalRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Task": {
+            "type": "string"
+          },
+          "Signal": {
+            "type": "string"
+          }
+        }
+      },
+      "AllocStopResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "EvalID": {
+            "type": "string"
+          }
+        }
+      },
+      "Attribute": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Float": {
+            "$ref": "#/components/schemas/Double"
+          },
+          "Int": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "String": {
+            "type": "string"
+          },
+          "Bool": {
+            "type": "boolean"
+          },
+          "Unit": {
+            "type": "string"
+          }
+        }
+      },
+      "AutopilotConfiguration": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "CleanupDeadServers": {
+            "type": "boolean"
+          },
+          "LastContactThreshold": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "MaxTrailingLogs": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "MinQuorum": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ServerStabilizationTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "EnableRedundancyZones": {
+            "type": "boolean"
+          },
+          "DisableUpgradeMigration": {
+            "type": "boolean"
+          },
+          "EnableCustomUpgrades": {
+            "type": "boolean"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "BigInteger": {
+        "type": "integer",
+        "format": "uint64"
+      },
+      "Byte": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255
+      },
+      "CheckRestart": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Grace": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "IgnoreWarnings": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Constraint": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "LTarget": {
+            "type": "string"
+          },
+          "RTarget": {
+            "type": "string"
+          },
+          "Operand": {
+            "type": "string"
+          }
+        }
+      },
+      "ConsulConnect": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Native": {
+            "type": "boolean"
+          },
+          "SidecarService": {
+            "$ref": "#/components/schemas/ConsulSidecarService"
+          },
+          "SidecarTask": {
+            "$ref": "#/components/schemas/SidecarTask"
+          }
+        }
+      },
+      "ConsulProxy": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "LocalServiceAddress": {
+            "type": "string"
+          },
+          "LocalServicePort": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Upstreams": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ConsulUpstream"
+            }
+          },
+          "Config": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "ConsulSidecarService": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Tags": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Port": {
+            "type": "string"
+          },
+          "Proxy": {
+            "$ref": "#/components/schemas/ConsulProxy"
+          }
+        }
+      },
+      "ConsulUpstream": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DestinationName": {
+            "type": "string"
+          },
+          "LocalBindPort": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CpuStats": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "SystemMode": {
+            "$ref": "#/components/schemas/Double"
+          },
+          "UserMode": {
+            "$ref": "#/components/schemas/Double"
+          },
+          "TotalTicks": {
+            "$ref": "#/components/schemas/Double"
+          },
+          "ThrottledPeriods": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ThrottledTime": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Percent": {
+            "$ref": "#/components/schemas/Double"
+          },
+          "Measured": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CsiControllerInfo": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "SupportsReadOnlyAttach": {
+            "type": "boolean"
+          },
+          "SupportsAttachDetach": {
+            "type": "boolean"
+          },
+          "SupportsListVolumes": {
+            "type": "boolean"
+          },
+          "SupportsListVolumesAttachedNodes": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CsiInfo": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "PluginID": {
+            "type": "string"
+          },
+          "Healthy": {
+            "type": "boolean"
+          },
+          "HealthDescription": {
+            "type": "string"
+          },
+          "UpdateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "RequiresControllerPlugin": {
+            "type": "boolean"
+          },
+          "RequiresTopologies": {
+            "type": "boolean"
+          },
+          "ControllerInfo": {
+            "$ref": "#/components/schemas/CsiControllerInfo"
+          },
+          "NodeInfo": {
+            "$ref": "#/components/schemas/CsiNodeInfo"
+          }
+        }
+      },
+      "CsiMountOptions": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "FsType": {
+            "type": "string"
+          },
+          "MountFlags": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CsiNodeInfo": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "MaxVolumes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "AccessibleTopology": {
+            "$ref": "#/components/schemas/CsiTopology"
+          },
+          "RequiresNodeStageVolume": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CsiPlugin": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Provider": {
+            "type": "string"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "ControllerRequired": {
+            "type": "boolean"
+          },
+          "Controllers": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/CsiInfo"
+            }
+          },
+          "Nodes": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/CsiInfo"
+            }
+          },
+          "Allocations": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AllocationListStub"
+            }
+          },
+          "ControllersHealthy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NodesHealthy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "CsiPluginListStub": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Provider": {
+            "type": "string"
+          },
+          "ControllerRequired": {
+            "type": "boolean"
+          },
+          "ControllersHealthy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ControllersExpected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NodesHealthy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NodesExpected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "CsiTopology": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Segments": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CsiVolume": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "ExternalID": {
+            "type": "string"
+          },
+          "Namespace": {
+            "type": "string"
+          },
+          "Topologies": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CsiTopology"
+            }
+          },
+          "AccessMode": {
+            "type": "string"
+          },
+          "AttachmentMode": {
+            "type": "string"
+          },
+          "MountOptions": {
+            "$ref": "#/components/schemas/CsiMountOptions"
+          },
+          "ReadAllocs": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Allocation"
+            }
+          },
+          "WriteAllocs": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Allocation"
+            }
+          },
+          "Allocations": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AllocationListStub"
+            }
+          },
+          "Schedulable": {
+            "type": "boolean"
+          },
+          "PluginID": {
+            "type": "string"
+          },
+          "Provider": {
+            "type": "string"
+          },
+          "ProviderVersion": {
+            "type": "string"
+          },
+          "ControllerRequired": {
+            "type": "boolean"
+          },
+          "ControllersHealthy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ControllersExpected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NodesHealthy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NodesExpected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ResourceExhausted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "CsiVolumeListStub": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Namespace": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "ExternalID": {
+            "type": "string"
+          },
+          "Topologies": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CsiTopology"
+            }
+          },
+          "AccessMode": {
+            "type": "string"
+          },
+          "AttachmentMode": {
+            "type": "string"
+          },
+          "MountOptions": {
+            "$ref": "#/components/schemas/CsiMountOptions"
+          },
+          "Schedulable": {
+            "type": "boolean"
+          },
+          "PluginID": {
+            "type": "string"
+          },
+          "Provider": {
+            "type": "string"
+          },
+          "ControllerRequired": {
+            "type": "boolean"
+          },
+          "ControllersHealthy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ControllersExpected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NodesHealthy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NodesExpected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ResourceExhausted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "CsiVolumeRegisterRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Volumes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CsiVolume"
+            }
+          }
+        }
+      },
+      "Deployment": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Namespace": {
+            "type": "string"
+          },
+          "JobID": {
+            "type": "string"
+          },
+          "JobVersion": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "JobModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "JobSpecModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "JobCreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "TaskGroups": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DeploymentState"
+            }
+          },
+          "Status": {
+            "type": "string"
+          },
+          "StatusDescription": {
+            "type": "string"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "DeploymentAllocHealthRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DeploymentID": {
+            "type": "string"
+          },
+          "HealthyAllocationIDs": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "UnhealthyAllocationIDs": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DeploymentFailRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DeploymentID": {
+            "type": "string"
+          }
+        }
+      },
+      "DeploymentPauseRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DeploymentID": {
+            "type": "string"
+          },
+          "Pause": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DeploymentPromoteRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DeploymentID": {
+            "type": "string"
+          },
+          "All": {
+            "type": "boolean"
+          },
+          "Groups": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DeploymentState": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "PlacedCanaries": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "AutoRevert": {
+            "type": "boolean"
+          },
+          "ProgressDeadline": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "RequireProgressBy": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "Promoted": {
+            "type": "boolean"
+          },
+          "DesiredCanaries": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DesiredTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "PlacedAllocs": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "HealthyAllocs": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "UnhealthyAllocs": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "DeploymentUpdateResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "EvalID": {
+            "type": "string"
+          },
+          "EvalCreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "DeploymentModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "RevertedJobVersion": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "DesiredTransition": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Migrate": {
+            "type": "boolean"
+          },
+          "Reschedule": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DesiredUpdates": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Ignore": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Place": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Migrate": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Stop": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "InPlaceUpdate": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "DestructiveUpdate": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Canary": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Preemptions": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "DeviceGroupStats": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Vendor": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "InstanceStats": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DeviceStats"
+            }
+          }
+        }
+      },
+      "DeviceStats": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Summary": {
+            "$ref": "#/components/schemas/StatValue"
+          },
+          "Stats": {
+            "$ref": "#/components/schemas/StatObject"
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "DispatchPayloadConfig": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "File": {
+            "type": "string"
+          }
+        }
+      },
+      "Double": {
+        "type": "number",
+        "format": "double"
+      },
+      "DrainSpec": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Deadline": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "IgnoreSystemJobs": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "Deadline"
+        ]
+      },
+      "DrainStrategy": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DrainSpec": {
+            "$ref": "#/components/schemas/DrainSpec"
+          },
+          "ForceDeadline": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "StartedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "DriverInfo": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Attributes": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Detected": {
+            "type": "boolean"
+          },
+          "Healthy": {
+            "type": "boolean"
+          },
+          "HealthDescription": {
+            "type": "string"
+          },
+          "UpdateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "EphemeralDisk": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Sticky": {
+            "type": "boolean"
+          },
+          "Migrate": {
+            "type": "boolean"
+          },
+          "SizeMB": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "EvalOptions": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ForceReschedule": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Evaluation": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Type": {
+            "type": "string"
+          },
+          "TriggeredBy": {
+            "type": "string"
+          },
+          "Namespace": {
+            "type": "string"
+          },
+          "JobID": {
+            "type": "string"
+          },
+          "JobModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "NodeID": {
+            "type": "string"
+          },
+          "NodeModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "DeploymentID": {
+            "type": "string"
+          },
+          "Status": {
+            "type": "string"
+          },
+          "StatusDescription": {
+            "type": "string"
+          },
+          "Wait": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "WaitUntil": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "NextEval": {
+            "type": "string"
+          },
+          "PreviousEval": {
+            "type": "string"
+          },
+          "BlockedEval": {
+            "type": "string"
+          },
+          "FailedTgAllocs": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AllocationMetric"
+            }
+          },
+          "ClassEligibility": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          },
+          "EscapedComputedClass": {
+            "type": "boolean"
+          },
+          "QuotaLimitReached": {
+            "type": "string"
+          },
+          "AnnotatePlan": {
+            "type": "boolean"
+          },
+          "QueuedAllocations": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "SnapshotIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "CreateTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ModifyTime": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "FieldDiff": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Type": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Old": {
+            "type": "string"
+          },
+          "New": {
+            "type": "string"
+          },
+          "Annotations": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "HostCpuStats": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "CPU": {
+            "type": "string"
+          },
+          "User": {
+            "$ref": "#/components/schemas/Double"
+          },
+          "System": {
+            "$ref": "#/components/schemas/Double"
+          },
+          "Idle": {
+            "$ref": "#/components/schemas/Double"
+          }
+        }
+      },
+      "HostDiskStats": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Device": {
+            "type": "string"
+          },
+          "Mountpoint": {
+            "type": "string"
+          },
+          "Size": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Used": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Available": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "UsedPercent": {
+            "$ref": "#/components/schemas/Double"
+          },
+          "InodesUsedPercent": {
+            "$ref": "#/components/schemas/Double"
+          }
+        }
+      },
+      "HostMemoryStats": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Total": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Available": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Used": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Free": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "HostStats": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Memory": {
+            "$ref": "#/components/schemas/HostMemoryStats"
+          },
+          "CPU": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/HostCpuStats"
+            }
+          },
+          "DiskStats": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/HostDiskStats"
+            }
+          },
+          "DeviceStats": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DeviceGroupStats"
+            }
+          },
+          "Uptime": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "CpuTicksConsumed": {
+            "$ref": "#/components/schemas/Double"
+          }
+        }
+      },
+      "HostVolumeInfo": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Path": {
+            "type": "string"
+          },
+          "ReadOnly": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Job": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Stop": {
+            "type": "boolean"
+          },
+          "Region": {
+            "type": "string"
+          },
+          "Namespace": {
+            "type": "string"
+          },
+          "ID": {
+            "type": "string"
+          },
+          "ParentID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          },
+          "Priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AllAtOnce": {
+            "type": "boolean"
+          },
+          "Datacenters": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Constraints": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Constraint"
+            }
+          },
+          "Affinities": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Affinity"
+            }
+          },
+          "TaskGroups": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TaskGroup"
+            }
+          },
+          "Update": {
+            "$ref": "#/components/schemas/UpdateStrategy"
+          },
+          "Spreads": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Spread"
+            }
+          },
+          "Periodic": {
+            "$ref": "#/components/schemas/PeriodicConfig"
+          },
+          "ParameterizedJob": {
+            "$ref": "#/components/schemas/ParameterizedJobConfig"
+          },
+          "Dispatched": {
+            "type": "boolean"
+          },
+          "Payload": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "Reschedule": {
+            "$ref": "#/components/schemas/ReschedulePolicy"
+          },
+          "Migrate": {
+            "$ref": "#/components/schemas/MigrateStrategy"
+          },
+          "Meta": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "ConsulToken": {
+            "type": "string"
+          },
+          "VaultToken": {
+            "type": "string"
+          },
+          "Status": {
+            "type": "string"
+          },
+          "StatusDescription": {
+            "type": "string"
+          },
+          "Stable": {
+            "type": "boolean"
+          },
+          "Version": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "SubmitTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "JobModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "JobChildrenSummary": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Pending": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Running": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Dead": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "JobDeregisterResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "EvalID": {
+            "type": "string"
+          },
+          "EvalCreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "JobModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Warnings": {
+            "type": "string"
+          }
+        }
+      },
+      "JobDiff": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Type": {
+            "type": "string"
+          },
+          "ID": {
+            "type": "string"
+          },
+          "Fields": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FieldDiff"
+            }
+          },
+          "Objects": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ObjectDiff"
+            }
+          },
+          "TaskGroups": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TaskGroupDiff"
+            }
+          }
+        }
+      },
+      "JobDispatchRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Payload": {
+            "type": "string",
+            "format": "byte"
+          },
+          "Meta": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "JobDispatchResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DispatchedJobID": {
+            "type": "string"
+          },
+          "EvalID": {
+            "type": "string"
+          },
+          "EvalCreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "JobCreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "JobEvaluateRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "JobID": {
+            "type": "string"
+          },
+          "EvalOptions": {
+            "$ref": "#/components/schemas/EvalOptions"
+          }
+        },
+        "required": [
+          "JobID"
+        ]
+      },
+      "JobListStub": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "ParentID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Datacenters": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Type": {
+            "type": "string"
+          },
+          "Priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Periodic": {
+            "type": "boolean"
+          },
+          "ParameterizedJob": {
+            "type": "boolean"
+          },
+          "Stop": {
+            "type": "boolean"
+          },
+          "Status": {
+            "type": "string"
+          },
+          "StatusDescription": {
+            "type": "string"
+          },
+          "JobSummary": {
+            "$ref": "#/components/schemas/JobSummary"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "JobModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "SubmitTime": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "JobPlanRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Job": {
+            "$ref": "#/components/schemas/Job"
+          },
+          "Diff": {
+            "type": "boolean"
+          },
+          "PolicyOverride": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "Job"
+        ]
+      },
+      "JobPlanResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "JobModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "CreatedEvals": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Evaluation"
+            }
+          },
+          "Diff": {
+            "$ref": "#/components/schemas/JobDiff"
+          },
+          "Annotations": {
+            "$ref": "#/components/schemas/PlanAnnotations"
+          },
+          "FailedTgAllocs": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AllocationMetric"
+            }
+          },
+          "NextPeriodicLaunch": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "Warnings": {
+            "type": "string"
+          }
+        }
+      },
+      "JobRegisterResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "EvalID": {
+            "type": "string"
+          },
+          "EvalCreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "JobModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Warnings": {
+            "type": "string"
+          }
+        }
+      },
+      "JobRevertRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "JobID": {
+            "type": "string"
+          },
+          "JobVersion": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "EnforcePriorVersion": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ConsulToken": {
+            "type": "string"
+          },
+          "VaultToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "JobID"
+        ]
+      },
+      "JobScaleStatusResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "JobID": {
+            "type": "string"
+          },
+          "JobCreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "JobModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "JobStopped": {
+            "type": "boolean"
+          },
+          "TaskGroups": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TaskGroupScaleStatus"
+            }
+          }
+        }
+      },
+      "JobsParseRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "JobHcl": {
+            "type": "string"
+          },
+          "Canonicalize": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "JobHcl"
+        ]
+      },
+      "JobStabilityRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "JobID": {
+            "type": "string"
+          },
+          "JobVersion": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Stable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "JobID"
+        ]
+      },
+      "JobStabilityResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "JobModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "JobSummary": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "JobID": {
+            "type": "string"
+          },
+          "Namespace": {
+            "type": "string"
+          },
+          "Summary": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TaskGroupSummary"
+            }
+          },
+          "Children": {
+            "$ref": "#/components/schemas/JobChildrenSummary"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "JobValidateRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Job": {
+            "$ref": "#/components/schemas/Job"
+          }
+        }
+      },
+      "JobValidateResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DriverConfigValidated": {
+            "type": "boolean"
+          },
+          "ValidationErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Error": {
+            "type": "string"
+          },
+          "Warnings": {
+            "type": "string"
+          }
+        }
+      },
+      "JobVersionsResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Versions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Job"
+            }
+          },
+          "Diffs": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/JobDiff"
+            }
+          }
+        }
+      },
+      "JoinResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "num_joined": {
+            "type": "integer"
+          }
+        }
+      },
+      "KeyringRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Key": {
+            "type": "string"
+          }
+        }
+      },
+      "KeyringResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Messages": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Keys": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "NumNodes": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "LogConfig": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "MaxFiles": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "MaxFileSizeMB": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "MemoryStats": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Rss": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Cache": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Swap": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Usage": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "MaxUsage": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "KernelUsage": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "KernelMaxUsage": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Measured": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "MigrateStrategy": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "MaxParallel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "HealthCheck": {
+            "type": "string"
+          },
+          "MinHealthyTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "HealthyDeadline": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "MonitorMessage": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Message": {
+            "type": "string"
+          }
+        }
+      },
+      "Namespace": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Quota": {
+            "type": "string"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "NetworkDns": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Servers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Searches": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Options": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "NetworkResource": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Mode": {
+            "type": "string"
+          },
+          "Device": {
+            "type": "string"
+          },
+          "CIDR": {
+            "type": "string"
+          },
+          "IP": {
+            "type": "string"
+          },
+          "MBits": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ReservedPorts": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Port"
+            }
+          },
+          "DynamicPorts": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Port"
+            }
+          },
+          "DNS": {
+            "$ref": "#/components/schemas/NetworkDns"
+          }
+        }
+      },
+      "Node": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Datacenter": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "HttpAddr": {
+            "type": "string"
+          },
+          "TlsEnabled": {
+            "type": "boolean"
+          },
+          "Attributes": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Resources": {
+            "$ref": "#/components/schemas/Resources"
+          },
+          "Reserved": {
+            "$ref": "#/components/schemas/Resources"
+          },
+          "NodeResources": {
+            "$ref": "#/components/schemas/NodeResources"
+          },
+          "ReservedResources": {
+            "$ref": "#/components/schemas/NodeReservedResources"
+          },
+          "Links": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Meta": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "NodeClass": {
+            "type": "string"
+          },
+          "Drain": {
+            "type": "boolean"
+          },
+          "DrainStrategy": {
+            "$ref": "#/components/schemas/DrainStrategy"
+          },
+          "SchedulingEligibility": {
+            "type": "string"
+          },
+          "Status": {
+            "type": "string"
+          },
+          "StatusDescription": {
+            "type": "string"
+          },
+          "StatusUpdatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Events": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/NodeEvent"
+            }
+          },
+          "Drivers": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DriverInfo"
+            }
+          },
+          "HostVolumes": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/HostVolumeInfo"
+            }
+          },
+          "CsiControllerPlugins": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/CsiInfo"
+            }
+          },
+          "CsiNodePlugins": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/CsiInfo"
+            }
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "NodeCpuResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "CpuShares": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "NodeDevice": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Healthy": {
+            "type": "boolean"
+          },
+          "HealthDescription": {
+            "type": "string"
+          },
+          "Locality": {
+            "$ref": "#/components/schemas/NodeDeviceLocality"
+          }
+        }
+      },
+      "NodeDeviceLocality": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "PciBusID": {
+            "type": "string"
+          }
+        }
+      },
+      "NodeDeviceResource": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Vendor": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Instances": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/NodeDevice"
+            }
+          },
+          "Attributes": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Attribute"
+            }
+          }
+        }
+      },
+      "NodeDiskResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DiskMB": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "NodeDrainUpdateResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "NodeModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "EvalIDs": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "EvalCreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "NodeEligibilityUpdateResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "NodeModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "EvalIDs": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "EvalCreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "NodeEvalResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "EvalID": {
+            "type": "string"
+          }
+        }
+      },
+      "NodeEvent": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Message": {
+            "type": "string"
+          },
+          "Subsystem": {
+            "type": "string"
+          },
+          "Details": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "NodeListStub": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Address": {
+            "type": "string"
+          },
+          "ID": {
+            "type": "string"
+          },
+          "Datacenter": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "NodeClass": {
+            "type": "string"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "Drain": {
+            "type": "boolean"
+          },
+          "SchedulingEligibility": {
+            "type": "string"
+          },
+          "Status": {
+            "type": "string"
+          },
+          "StatusDescription": {
+            "type": "string"
+          },
+          "Drivers": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DriverInfo"
+            }
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "NodeMemoryResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "MemoryMB": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "NodeReservedCpuResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "CpuShares": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "NodeReservedDiskResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DiskMB": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "NodeReservedMemoryResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "MemoryMB": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "NodeReservedNetworkResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ReservedHostPorts": {
+            "type": "string"
+          }
+        }
+      },
+      "NodeReservedResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "CPU": {
+            "$ref": "#/components/schemas/NodeReservedCpuResources"
+          },
+          "Memory": {
+            "$ref": "#/components/schemas/NodeReservedMemoryResources"
+          },
+          "Disk": {
+            "$ref": "#/components/schemas/NodeReservedDiskResources"
+          },
+          "Networks": {
+            "$ref": "#/components/schemas/NodeReservedNetworkResources"
+          }
+        }
+      },
+      "NodeResources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "CPU": {
+            "$ref": "#/components/schemas/NodeCpuResources"
+          },
+          "Memory": {
+            "$ref": "#/components/schemas/NodeMemoryResources"
+          },
+          "Disk": {
+            "$ref": "#/components/schemas/NodeDiskResources"
+          },
+          "Networks": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/NetworkResource"
+            }
+          },
+          "Devices": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/NodeDeviceResource"
+            }
+          }
+        }
+      },
+      "NodeScoreMeta": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "NodeID": {
+            "type": "string"
+          },
+          "Scores": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Double"
+            }
+          },
+          "NormScore": {
+            "$ref": "#/components/schemas/Double"
+          }
+        }
+      },
+      "NodeUpdateDrainRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "NodeID": {
+            "type": "string"
+          },
+          "DrainSpec": {
+            "$ref": "#/components/schemas/DrainSpec"
+          },
+          "MarkEligible": {
+            "type": "boolean"
+          }
+        }
+      },
+      "NodeUpdateEligibilityRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "NodeID": {
+            "type": "string"
+          },
+          "Eligibility": {
+            "type": "string",
+            "enum": [
+              "eligible",
+              "ineligible"
+            ]
+          }
+        },
+        "required": [
+          "Eligibility"
+        ]
+      },
+      "ObjectDiff": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Type": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Fields": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FieldDiff"
+            }
+          },
+          "Objects": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ObjectDiff"
+            }
+          }
+        }
+      },
+      "OperatorHealthReply": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Healthy": {
+            "type": "boolean"
+          },
+          "FailureTolerance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Servers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ServerHealth"
+            }
+          }
+        }
+      },
+      "ParameterizedJobConfig": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Payload": {
+            "type": "string"
+          },
+          "MetaRequired": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "MetaOptional": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PeriodicConfig": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Enabled": {
+            "type": "boolean"
+          },
+          "Spec": {
+            "type": "string"
+          },
+          "SpecType": {
+            "type": "string"
+          },
+          "ProhibitOverlap": {
+            "type": "boolean"
+          },
+          "TimeZone": {
+            "type": "string"
+          }
+        }
+      },
+      "PeriodicForceResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "EvalID": {
+            "type": "string"
+          }
+        }
+      },
+      "PlanAnnotations": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "DesiredTgUpdates": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DesiredUpdates"
+            }
+          },
+          "PreemptedAllocs": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AllocationListStub"
+            }
+          }
+        }
+      },
+      "Port": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Label": {
+            "type": "string"
+          },
+          "Value": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "To": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PreemptionConfig": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "SystemSchedulerEnabled": {
+            "type": "boolean"
+          },
+          "BatchSchedulerEnabled": {
+            "type": "boolean"
+          },
+          "ServiceSchedulerEnabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "QueryOptions": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Region": {
+            "type": "string"
+          },
+          "Namespace": {
+            "type": "string"
+          },
+          "AllowStale": {
+            "type": "boolean"
+          },
+          "WaitIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "WaitTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Prefix": {
+            "type": "string"
+          },
+          "Params": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "AuthToken": {
+            "type": "string"
+          }
+        }
+      },
+      "QuotaLimit": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Region": {
+            "type": "string"
+          },
+          "RegionLimit": {
+            "$ref": "#/components/schemas/Resources"
+          },
+          "Hash": {
+            "type": "string",
+            "format": "byte"
+          }
+        }
+      },
+      "QuotaSpec": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Limits": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/QuotaLimit"
+            }
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "QuotaUsage": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Used": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/QuotaLimit"
+            }
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "RaftConfiguration": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Servers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/RaftServer"
+            }
+          },
+          "Index": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "RaftServer": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Node": {
+            "type": "string"
+          },
+          "Address": {
+            "type": "string"
+          },
+          "Leader": {
+            "type": "boolean"
+          },
+          "Voter": {
+            "type": "boolean"
+          },
+          "RaftProtocol": {
+            "type": "string"
+          }
+        }
+      },
+      "RegisterJobRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Job": {
+            "$ref": "#/components/schemas/Job"
+          },
+          "EnforceIndex": {
+            "type": "boolean"
+          },
+          "JobModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "PolicyOverride": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "Job"
+        ]
+      },
+      "RequestedDevice": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Count": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Constraints": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Constraint"
+            }
+          },
+          "Affinities": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Affinity"
+            }
+          }
+        }
+      },
+      "RescheduleEvent": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "RescheduleTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "PrevAllocID": {
+            "type": "string"
+          },
+          "PrevNodeID": {
+            "type": "string"
+          }
+        }
+      },
+      "ReschedulePolicy": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Attempts": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Interval": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Delay": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "DelayFunction": {
+            "type": "string"
+          },
+          "MaxDelay": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Unlimited": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RescheduleTracker": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Events": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/RescheduleEvent"
+            }
+          }
+        }
+      },
+      "Resources": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "CPU": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Cores": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "MemoryMB": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "MemoryMaxMB": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DiskMB": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Networks": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/NetworkResource"
+            }
+          },
+          "Devices": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/RequestedDevice"
+            }
+          },
+          "IOPS": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ResourceUsage": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "MemoryStats": {
+            "$ref": "#/components/schemas/MemoryStats"
+          },
+          "CpuStats": {
+            "$ref": "#/components/schemas/CpuStats"
+          },
+          "DeviceStats": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DeviceGroupStats"
+            }
+          }
+        }
+      },
+      "RestartPolicy": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Interval": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Attempts": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Delay": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Mode": {
+            "type": "string"
+          }
+        }
+      },
+      "ScalingEvent": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Reason": {
+            "type": "string"
+          },
+          "Error": {
+            "type": "string"
+          },
+          "Meta": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "Time": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "EvalID": {
+            "type": "string"
+          }
+        }
+      },
+      "ScalingPolicy": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Namespace": {
+            "type": "string"
+          },
+          "Target": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Min": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Max": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Policy": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "Enabled": {
+            "type": "boolean"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "ScalingPolicyListStub": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Enabled": {
+            "type": "boolean"
+          },
+          "Target": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "ScalingRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Target": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Reason": {
+            "type": "string"
+          },
+          "Error": {
+            "type": "string"
+          },
+          "Meta": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "PolicyOverride": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "Target"
+        ]
+      },
+      "SchedulerConfiguration": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "PreemptionConfig": {
+            "$ref": "#/components/schemas/PreemptionConfig"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "SchedulerConfigurationResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "SchedulerConfig": {
+            "$ref": "#/components/schemas/SchedulerConfiguration"
+          }
+        }
+      },
+      "SchedulerSetConfigurationResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Updated": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SearchRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Prefix": {
+            "type": "string"
+          },
+          "Context": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Prefix",
+          "Context"
+        ]
+      },
+      "SearchResponse": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Matches": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "Truncations": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "SentinelPolicy": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Scope": {
+            "type": "string"
+          },
+          "EnforcementLevel": {
+            "type": "string"
+          },
+          "Policy": {
+            "type": "string"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "SentinelPolicyListStub": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Scope": {
+            "type": "string"
+          },
+          "EnforcementLevel": {
+            "type": "string"
+          },
+          "CreateIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "ModifyIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          }
+        }
+      },
+      "ServerHealth": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Address": {
+            "type": "string"
+          },
+          "SerfStatus": {
+            "type": "string"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "Leader": {
+            "type": "boolean"
+          },
+          "LastContact": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "LastTerm": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "LastIndex": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "Healthy": {
+            "type": "boolean"
+          },
+          "Voter": {
+            "type": "boolean"
+          },
+          "StableSince": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "ServerMembers": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ServerName": {
+            "type": "string"
+          },
+          "ServerRegion": {
+            "type": "string"
+          },
+          "ServerDc": {
+            "type": "string"
+          },
+          "Members": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AgentMember"
+            }
+          }
+        }
+      },
+      "Service": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Tags": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "CanaryTags": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "EnableTagOverride": {
+            "type": "boolean"
+          },
+          "PortLabel": {
+            "type": "string"
+          },
+          "AddressMode": {
+            "type": "string"
+          },
+          "Checks": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ServiceCheck"
+            }
+          },
+          "CheckRestart": {
+            "$ref": "#/components/schemas/CheckRestart"
+          },
+          "Connect": {
+            "$ref": "#/components/schemas/ConsulConnect"
+          },
+          "Meta": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "CanaryMeta": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ServiceCheck": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          },
+          "Command": {
+            "type": "string"
+          },
+          "Args": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Path": {
+            "type": "string"
+          },
+          "Protocol": {
+            "type": "string"
+          },
+          "PortLabel": {
+            "type": "string"
+          },
+          "AddressMode": {
+            "type": "string"
+          },
+          "Interval": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Timeout": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "InitialStatus": {
+            "type": "string"
+          },
+          "TlsSkipVerify": {
+            "type": "boolean"
+          },
+          "Header": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "Method": {
+            "type": "string"
+          },
+          "CheckRestart": {
+            "$ref": "#/components/schemas/CheckRestart"
+          },
+          "GrpcService": {
+            "type": "string"
+          },
+          "GrpcUseTls": {
+            "type": "boolean"
+          },
+          "TaskName": {
+            "type": "string"
+          },
+          "OnUpdate": {
+            "type": "string",
+            "enum": [
+              "require_healthy",
+              "ignore_warnings",
+              "ignore"
+            ]
+          }
+        }
+      },
+      "Short": {
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767
+      },
+      "SidecarTask": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Driver": {
+            "type": "string"
+          },
+          "User": {
+            "type": "string"
+          },
+          "Config": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "Env": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Resources": {
+            "$ref": "#/components/schemas/Resources"
+          },
+          "Meta": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "KillTimeout": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "LogConfig": {
+            "$ref": "#/components/schemas/LogConfig"
+          },
+          "ShutdownDelay": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "KillSignal": {
+            "type": "string"
+          }
+        }
+      },
+      "Spread": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Attribute": {
+            "type": "string"
+          },
+          "Weight": {
+            "$ref": "#/components/schemas/Short"
+          },
+          "SpreadTarget": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/SpreadTarget"
+            }
+          }
+        }
+      },
+      "SpreadTarget": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Value": {
+            "type": "string"
+          },
+          "Percent": {
+            "$ref": "#/components/schemas/Byte"
+          }
+        }
+      },
+      "StatObject": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Nested": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/StatObject"
+            }
+          },
+          "Attributes": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/StatValue"
+            }
+          }
+        }
+      },
+      "StatValue": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "FloatNumeratorVal": {
+            "$ref": "#/components/schemas/Double"
+          },
+          "FloatDenominatorVal": {
+            "$ref": "#/components/schemas/Double"
+          },
+          "IntNumeratorVal": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "IntDenominatorVal": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "StringVal": {
+            "type": "string"
+          },
+          "BoolVal": {
+            "type": "boolean"
+          },
+          "Unit": {
+            "type": "string"
+          },
+          "Desc": {
+            "type": "string"
+          }
+        }
+      },
+      "StreamFrame": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Data": {
+            "type": "string",
+            "format": "byte"
+          },
+          "File": {
+            "type": "string"
+          },
+          "FileEvent": {
+            "type": "string"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Driver": {
+            "type": "string"
+          },
+          "User": {
+            "type": "string"
+          },
+          "Lifecycle": {
+            "$ref": "#/components/schemas/TaskLifecycle"
+          },
+          "Config": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "Constraints": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Constraint"
+            }
+          },
+          "Affinities": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Affinity"
+            }
+          },
+          "Env": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Services": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            }
+          },
+          "Resources": {
+            "$ref": "#/components/schemas/Resources"
+          },
+          "Meta": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "KillTimeout": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "LogConfig": {
+            "$ref": "#/components/schemas/LogConfig"
+          },
+          "Artifacts": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TaskArtifact"
+            }
+          },
+          "Vault": {
+            "$ref": "#/components/schemas/Vault"
+          },
+          "Templates": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Template"
+            }
+          },
+          "DispatchPayload": {
+            "$ref": "#/components/schemas/DispatchPayloadConfig"
+          },
+          "VolumeMounts": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/VolumeMount"
+            }
+          },
+          "Csi_plugin": {
+            "$ref": "#/components/schemas/TaskCsiPluginConfig"
+          },
+          "Leader": {
+            "type": "boolean"
+          },
+          "ShutdownDelay": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "KillSignal": {
+            "type": "string"
+          },
+          "Kind": {
+            "type": "string"
+          }
+        }
+      },
+      "TaskArtifact": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "GetterSource": {
+            "type": "string"
+          },
+          "GetterOptions": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "GetterMode": {
+            "type": "string"
+          },
+          "RelativeDest": {
+            "type": "string"
+          }
+        }
+      },
+      "TaskCsiPluginConfig": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          },
+          "MountDir": {
+            "type": "string"
+          }
+        }
+      },
+      "TaskDiff": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Type": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Fields": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FieldDiff"
+            }
+          },
+          "Objects": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ObjectDiff"
+            }
+          },
+          "Annotations": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "TaskEvent": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Type": {
+            "type": "string"
+          },
+          "Time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "DisplayMessage": {
+            "type": "string"
+          },
+          "Details": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "FailsTask": {
+            "type": "boolean"
+          },
+          "RestartReason": {
+            "type": "string"
+          },
+          "SetupError": {
+            "type": "string"
+          },
+          "DriverError": {
+            "type": "string"
+          },
+          "DriverMessage": {
+            "type": "string"
+          },
+          "ExitCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Signal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Message": {
+            "type": "string"
+          },
+          "KillReason": {
+            "type": "string"
+          },
+          "KillTimeout": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "KillError": {
+            "type": "string"
+          },
+          "StartDelay": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "DownloadError": {
+            "type": "string"
+          },
+          "ValidationError": {
+            "type": "string"
+          },
+          "DiskLimit": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "DiskSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "FailedSibling": {
+            "type": "string"
+          },
+          "VaultError": {
+            "type": "string"
+          },
+          "TaskSignalReason": {
+            "type": "string"
+          },
+          "TaskSignal": {
+            "type": "string"
+          },
+          "GenericSource": {
+            "type": "string"
+          }
+        }
+      },
+      "TaskGroup": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Constraints": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Constraint"
+            }
+          },
+          "Affinities": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Affinity"
+            }
+          },
+          "Tasks": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            }
+          },
+          "Spreads": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Spread"
+            }
+          },
+          "Volumes": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/VolumeRequest"
+            }
+          },
+          "RestartPolicy": {
+            "$ref": "#/components/schemas/RestartPolicy"
+          },
+          "ReschedulePolicy": {
+            "$ref": "#/components/schemas/ReschedulePolicy"
+          },
+          "EphemeralDisk": {
+            "$ref": "#/components/schemas/EphemeralDisk"
+          },
+          "Update": {
+            "$ref": "#/components/schemas/UpdateStrategy"
+          },
+          "Migrate": {
+            "$ref": "#/components/schemas/MigrateStrategy"
+          },
+          "Networks": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/NetworkResource"
+            }
+          },
+          "Meta": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "Services": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            }
+          },
+          "ShutdownDelay": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "Scaling": {
+            "$ref": "#/components/schemas/ScalingPolicy"
+          }
+        }
+      },
+      "TaskGroupDiff": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Type": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Fields": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FieldDiff"
+            }
+          },
+          "Objects": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ObjectDiff"
+            }
+          },
+          "Tasks": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TaskDiff"
+            }
+          },
+          "Updates": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/BigInteger"
+            }
+          }
+        }
+      },
+      "TaskGroupScaleStatus": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Desired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Placed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Running": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Healthy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Unhealthy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Events": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ScalingEvent"
+            }
+          }
+        }
+      },
+      "TaskGroupSummary": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Queued": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Complete": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Failed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Running": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Starting": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Lost": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "TaskLifecycle": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Hook": {
+            "type": "string"
+          },
+          "Sidecar": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TaskResourceUsage": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "ResourceUsage": {
+            "$ref": "#/components/schemas/ResourceUsage"
+          },
+          "Timestamp": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Pids": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ResourceUsage"
+            }
+          }
+        }
+      },
+      "TaskState": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "State": {
+            "type": "string"
+          },
+          "Failed": {
+            "type": "boolean"
+          },
+          "Restarts": {
+            "$ref": "#/components/schemas/BigInteger"
+          },
+          "LastRestart": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "StartedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "FinishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "Events": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TaskEvent"
+            }
+          }
+        }
+      },
+      "Template": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "SourcePath": {
+            "type": "string"
+          },
+          "DestPath": {
+            "type": "string"
+          },
+          "EmbeddedTmpl": {
+            "type": "string"
+          },
+          "ChangeMode": {
+            "type": "string"
+          },
+          "ChangeSignal": {
+            "type": "string"
+          },
+          "Splay": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Perms": {
+            "type": "string"
+          },
+          "LeftDelim": {
+            "type": "string"
+          },
+          "RightDelim": {
+            "type": "string"
+          },
+          "Envvars": {
+            "type": "boolean"
+          },
+          "VaultGrace": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "UpdateStrategy": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Stagger": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "MaxParallel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "HealthCheck": {
+            "type": "string"
+          },
+          "MinHealthyTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "HealthyDeadline": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ProgressDeadline": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Canary": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AutoRevert": {
+            "type": "boolean"
+          },
+          "AutoPromote": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Vault": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Policies": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "Env": {
+            "type": "boolean"
+          },
+          "ChangeMode": {
+            "type": "string"
+          },
+          "ChangeSignal": {
+            "type": "string"
+          }
+        }
+      },
+      "VolumeMount": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Volume": {
+            "type": "string"
+          },
+          "Destination": {
+            "type": "string"
+          },
+          "ReadOnly": {
+            "type": "boolean"
+          },
+          "PropagationMode": {
+            "type": "string"
+          }
+        }
+      },
+      "VolumeRequest": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          },
+          "Source": {
+            "type": "string"
+          },
+          "ReadOnly": {
+            "type": "boolean"
+          },
+          "MountOptions": {
+            "$ref": "#/components/schemas/CsiMountOptions"
+          }
+        }
+      }
+    },
+    "responses": {
+      "NullResponse": {
+        "description": "null response"
+      }
+    }
+  },
+  "security": [
+    {
+      "NomadTokenAuth": []
+    }
+  ]
+}
