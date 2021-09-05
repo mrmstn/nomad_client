@@ -1,5 +1,4 @@
 .gitignore
-config/config.exs
 lib/nomad_client/api/agent.ex
 lib/nomad_client/api/allocations.ex
 lib/nomad_client/api/client.ex
@@ -11,7 +10,6 @@ lib/nomad_client/api/regions.ex
 lib/nomad_client/api/status.ex
 lib/nomad_client/api/system.ex
 lib/nomad_client/api/volumes.ex
-lib/nomad_client/connection.ex
 lib/nomad_client/deserializer.ex
 lib/nomad_client/model/acl_policy.ex
 lib/nomad_client/model/acl_policy_list_stub.ex
