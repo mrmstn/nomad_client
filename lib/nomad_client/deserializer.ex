@@ -22,13 +22,19 @@ defmodule NomadClient.Deserializer do
   end
 
   def deserialize(model, field, :map, mod, options) do
-    model
-    |> Map.update!(
-      field,
-      &Map.new(&1, fn {key, val} ->
-        {key, Poison.Decode.decode(val, Keyword.merge(options, as: struct(mod)))}
-      end)
-    )
+    case Map.get(model, field) do
+      nil ->
+        model
+
+      _ ->
+        model
+        |> Map.update!(
+          field,
+          &Map.new(&1, fn {key, val} ->
+            {key, Poison.Decode.decode(val, Keyword.merge(options, as: struct(mod)))}
+          end)
+        )
+    end
   end
 
   def deserialize(model, field, :date, _, _options) do
