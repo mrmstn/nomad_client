@@ -18,6 +18,10 @@ defmodule NomadClient.Api.Volumes do
   - connection (NomadClient.Connection): Connection to server
   - volume_id (String.t): Specifies the ID of the volume. This must be the full ID. This is specified as part of the path
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, nil} on success
@@ -25,10 +29,18 @@ defmodule NomadClient.Api.Volumes do
   """
   @spec deregister_volume(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, nil} | {:error, Tesla.Env.t()}
-  def deregister_volume(connection, volume_id, _opts \\ []) do
+  def deregister_volume(connection, volume_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:delete)
     |> url("/volume/csi/#{volume_id}")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -44,6 +56,10 @@ defmodule NomadClient.Api.Volumes do
   - connection (NomadClient.Connection): Connection to server
   - volume_id (String.t): Specifies the ID of the volume. This must be the full ID. This is specified as part of the path
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.CsiVolume.t} on success
@@ -51,10 +67,18 @@ defmodule NomadClient.Api.Volumes do
   """
   @spec get_volume(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.CsiVolume.t()} | {:error, Tesla.Env.t()}
-  def get_volume(connection, volume_id, _opts \\ []) do
+  def get_volume(connection, volume_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/volume/csi/#{volume_id}")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -69,6 +93,10 @@ defmodule NomadClient.Api.Volumes do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :type (String.t): Specifies the type of volume to query. Currently only supports csi. This is specified as a query string parameter. Returns an empty list if omitted
     - :node_id (String.t): node id
     - :plugin_id (String.t): Specifies a string to filter volumes based on a plugin ID prefix
@@ -81,6 +109,10 @@ defmodule NomadClient.Api.Volumes do
           {:ok, list(NomadClient.Model.CsiVolumeListStub.t())} | {:error, Tesla.Env.t()}
   def get_volumes(connection, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :type => :query,
       :node_id => :query,
       :plugin_id => :query
@@ -106,6 +138,10 @@ defmodule NomadClient.Api.Volumes do
   - volume_id (String.t): Specifies the ID of the volume. This must be the full ID. This is specified as part of the path
   - csi_volume_register_request (CsiVolumeRegisterRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, nil} on success
@@ -117,11 +153,19 @@ defmodule NomadClient.Api.Volumes do
           NomadClient.Model.CsiVolumeRegisterRequest.t(),
           keyword()
         ) :: {:ok, nil} | {:error, Tesla.Env.t()}
-  def register_volume(connection, volume_id, csi_volume_register_request, _opts \\ []) do
+  def register_volume(connection, volume_id, csi_volume_register_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:put)
     |> url("/volume/csi/#{volume_id}")
     |> add_param(:body, :body, csi_volume_register_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

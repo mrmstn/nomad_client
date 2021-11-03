@@ -18,6 +18,10 @@ defmodule NomadClient.Api.Evaluations do
   - connection (NomadClient.Connection): Connection to server
   - eval_id (String.t): Specifies the UUID of the evaluation. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, [%AllocationListStub{}, ...]} on success
@@ -25,10 +29,18 @@ defmodule NomadClient.Api.Evaluations do
   """
   @spec get_allocations_for_evaluation(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, list(NomadClient.Model.AllocationListStub.t())} | {:error, Tesla.Env.t()}
-  def get_allocations_for_evaluation(connection, eval_id, _opts \\ []) do
+  def get_allocations_for_evaluation(connection, eval_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/evaluation/#{eval_id}/allocations")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -44,6 +56,10 @@ defmodule NomadClient.Api.Evaluations do
   - connection (NomadClient.Connection): Connection to server
   - eval_id (String.t): Specifies the UUID of the evaluation. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.Evaluation.t} on success
@@ -51,10 +67,18 @@ defmodule NomadClient.Api.Evaluations do
   """
   @spec get_evaluation(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.Evaluation.t()} | {:error, Tesla.Env.t()}
-  def get_evaluation(connection, eval_id, _opts \\ []) do
+  def get_evaluation(connection, eval_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/evaluation/#{eval_id}")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -69,6 +93,10 @@ defmodule NomadClient.Api.Evaluations do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :prefix (String.t): Specifies a string to filter jobs on based on an index prefix. This is specified as a query string parameter
   ## Returns
 
@@ -79,6 +107,10 @@ defmodule NomadClient.Api.Evaluations do
           {:ok, list(NomadClient.Model.Evaluation.t())} | {:error, Tesla.Env.t()}
   def get_evaluations(connection, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :prefix => :query
     }
 

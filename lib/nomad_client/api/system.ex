@@ -17,16 +17,28 @@ defmodule NomadClient.Api.System do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec force_gc(Tesla.Env.client(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t()}
-  def force_gc(connection, _opts \\ []) do
+  def force_gc(connection, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:put)
     |> url("/system/gc")
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
@@ -42,16 +54,28 @@ defmodule NomadClient.Api.System do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec reconcile_summary(Tesla.Env.client(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t()}
-  def reconcile_summary(connection, _opts \\ []) do
+  def reconcile_summary(connection, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:put)
     |> url("/system/reconcile/summaries")
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()

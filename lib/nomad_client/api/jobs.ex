@@ -19,6 +19,10 @@ defmodule NomadClient.Api.Jobs do
   - job_id (String.t): job id
   - job_dispatch_request (JobDispatchRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobDispatchResponse.t} on success
@@ -30,11 +34,19 @@ defmodule NomadClient.Api.Jobs do
           NomadClient.Model.JobDispatchRequest.t(),
           keyword()
         ) :: {:ok, NomadClient.Model.JobDispatchResponse.t()} | {:error, Tesla.Env.t()}
-  def dispatch_job(connection, job_id, job_dispatch_request, _opts \\ []) do
+  def dispatch_job(connection, job_id, job_dispatch_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/dispatch")
     |> add_param(:body, :body, job_dispatch_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -51,6 +63,10 @@ defmodule NomadClient.Api.Jobs do
   - job_id (String.t): job id
   - job_evaluate_request (JobEvaluateRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobRegisterResponse.t} on success
@@ -62,11 +78,19 @@ defmodule NomadClient.Api.Jobs do
           NomadClient.Model.JobEvaluateRequest.t(),
           keyword()
         ) :: {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
-  def evaluate_job(connection, job_id, job_evaluate_request, _opts \\ []) do
+  def evaluate_job(connection, job_id, job_evaluate_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/evaluate")
     |> add_param(:body, :body, job_evaluate_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -82,6 +106,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.PeriodicForceResponse.t} on success
@@ -89,10 +117,18 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec force_new_periodic_instance(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.PeriodicForceResponse.t()} | {:error, Tesla.Env.t()}
-  def force_new_periodic_instance(connection, job_id, _opts \\ []) do
+  def force_new_periodic_instance(connection, job_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/periodic/force")
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
@@ -109,6 +145,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.Job.t} on success
@@ -116,10 +156,18 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec get_job(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.Job.t()} | {:error, Tesla.Env.t()}
-  def get_job(connection, job_id, _opts \\ []) do
+  def get_job(connection, job_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/job/#{job_id}")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -135,6 +183,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :all (boolean()): Specifies whether should include * from a previously registered job with the same ID. This is possible if the job is deregistered and reregistered.
   ## Returns
 
@@ -145,6 +197,10 @@ defmodule NomadClient.Api.Jobs do
           {:ok, list(NomadClient.Model.AllocationListStub.t())} | {:error, Tesla.Env.t()}
   def get_job_allocations(connection, job_id, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :all => :query
     }
 
@@ -167,6 +223,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :all (boolean()): Specifies whether should include * from a previously registered job with the same ID. This is possible if the job is deregistered and reregistered.
   ## Returns
 
@@ -177,6 +237,10 @@ defmodule NomadClient.Api.Jobs do
           {:ok, list(NomadClient.Model.Deployment.t())} | {:error, Tesla.Env.t()}
   def get_job_deployments(connection, job_id, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :all => :query
     }
 
@@ -199,6 +263,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, [%Evaluation{}, ...]} on success
@@ -206,10 +274,18 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec get_job_evaluations(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, list(NomadClient.Model.Evaluation.t())} | {:error, Tesla.Env.t()}
-  def get_job_evaluations(connection, job_id, _opts \\ []) do
+  def get_job_evaluations(connection, job_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/job/#{job_id}/evaluations")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -225,6 +301,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.Deployment.t} on success
@@ -232,10 +312,18 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec get_job_latest_deployment(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.Deployment.t()} | {:error, Tesla.Env.t()}
-  def get_job_latest_deployment(connection, job_id, _opts \\ []) do
+  def get_job_latest_deployment(connection, job_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/job/#{job_id}/deployment")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -251,6 +339,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobScaleStatusResponse.t} on success
@@ -258,10 +350,18 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec get_job_scale_status(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.JobScaleStatusResponse.t()} | {:error, Tesla.Env.t()}
-  def get_job_scale_status(connection, job_id, _opts \\ []) do
+  def get_job_scale_status(connection, job_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/job/#{job_id}/scale")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -277,6 +377,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobSummary.t} on success
@@ -284,10 +388,18 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec get_job_summary(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.JobSummary.t()} | {:error, Tesla.Env.t()}
-  def get_job_summary(connection, job_id, _opts \\ []) do
+  def get_job_summary(connection, job_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/job/#{job_id}/summary")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -303,6 +415,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobVersionsResponse.t} on success
@@ -310,10 +426,18 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec get_job_versions(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.JobVersionsResponse.t()} | {:error, Tesla.Env.t()}
-  def get_job_versions(connection, job_id, _opts \\ []) do
+  def get_job_versions(connection, job_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/job/#{job_id}/versions")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -328,6 +452,10 @@ defmodule NomadClient.Api.Jobs do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :prefix (String.t): Specifies a string to filter jobs on based on an index prefix. This is specified as a query string parameter
   ## Returns
 
@@ -338,6 +466,10 @@ defmodule NomadClient.Api.Jobs do
           {:ok, list(NomadClient.Model.JobListStub.t())} | {:error, Tesla.Env.t()}
   def get_jobs(connection, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :prefix => :query
     }
 
@@ -360,6 +492,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - jobs_parse_request (JobsParseRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.Job.t} on success
@@ -367,11 +503,19 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec parse_job_hcl(Tesla.Env.client(), NomadClient.Model.JobsParseRequest.t(), keyword()) ::
           {:ok, NomadClient.Model.Job.t()} | {:error, Tesla.Env.t()}
-  def parse_job_hcl(connection, jobs_parse_request, _opts \\ []) do
+  def parse_job_hcl(connection, jobs_parse_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/jobs/parse")
     |> add_param(:body, :body, jobs_parse_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -388,6 +532,10 @@ defmodule NomadClient.Api.Jobs do
   - job_id (String.t): job id
   - job_plan_request (JobPlanRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobPlanResponse.t} on success
@@ -395,11 +543,19 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec plan_job(Tesla.Env.client(), String.t(), NomadClient.Model.JobPlanRequest.t(), keyword()) ::
           {:ok, NomadClient.Model.JobPlanResponse.t()} | {:error, Tesla.Env.t()}
-  def plan_job(connection, job_id, job_plan_request, _opts \\ []) do
+  def plan_job(connection, job_id, job_plan_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/plan")
     |> add_param(:body, :body, job_plan_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -415,6 +571,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - register_job_request (RegisterJobRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobRegisterResponse.t} on success
@@ -422,11 +582,19 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec register_job(Tesla.Env.client(), NomadClient.Model.RegisterJobRequest.t(), keyword()) ::
           {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
-  def register_job(connection, register_job_request, _opts \\ []) do
+  def register_job(connection, register_job_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/jobs")
     |> add_param(:body, :body, register_job_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -443,6 +611,10 @@ defmodule NomadClient.Api.Jobs do
   - job_id (String.t): job id
   - job_revert_request (JobRevertRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobRegisterResponse.t} on success
@@ -454,11 +626,19 @@ defmodule NomadClient.Api.Jobs do
           NomadClient.Model.JobRevertRequest.t(),
           keyword()
         ) :: {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
-  def revert_job(connection, job_id, job_revert_request, _opts \\ []) do
+  def revert_job(connection, job_id, job_revert_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/revert")
     |> add_param(:body, :body, job_revert_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -475,6 +655,10 @@ defmodule NomadClient.Api.Jobs do
   - job_id (String.t): job id
   - scaling_request (ScalingRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobRegisterResponse.t} on success
@@ -486,11 +670,19 @@ defmodule NomadClient.Api.Jobs do
           NomadClient.Model.ScalingRequest.t(),
           keyword()
         ) :: {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
-  def scale_task_group(connection, job_id, scaling_request, _opts \\ []) do
+  def scale_task_group(connection, job_id, scaling_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/scale")
     |> add_param(:body, :body, scaling_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -507,6 +699,10 @@ defmodule NomadClient.Api.Jobs do
   - job_id (String.t): job id
   - job_stability_request (JobStabilityRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobStabilityResponse.t} on success
@@ -518,11 +714,19 @@ defmodule NomadClient.Api.Jobs do
           NomadClient.Model.JobStabilityRequest.t(),
           keyword()
         ) :: {:ok, NomadClient.Model.JobStabilityResponse.t()} | {:error, Tesla.Env.t()}
-  def set_job_stability(connection, job_id, job_stability_request, _opts \\ []) do
+  def set_job_stability(connection, job_id, job_stability_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}/stable")
     |> add_param(:body, :body, job_stability_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -538,6 +742,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_id (String.t): job id
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :purge (boolean()): Specifies that the job should stopped and purged immediately. This means the job will not be queryable after being stopped. If not set, the job will be purged by the garbage collector
   ## Returns
 
@@ -548,6 +756,10 @@ defmodule NomadClient.Api.Jobs do
           {:ok, NomadClient.Model.JobDeregisterResponse.t()} | {:error, Tesla.Env.t()}
   def stop_job(connection, job_id, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :purge => :query
     }
 
@@ -571,6 +783,10 @@ defmodule NomadClient.Api.Jobs do
   - job_id (String.t): job id
   - register_job_request (RegisterJobRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobRegisterResponse.t} on success
@@ -582,11 +798,19 @@ defmodule NomadClient.Api.Jobs do
           NomadClient.Model.RegisterJobRequest.t(),
           keyword()
         ) :: {:ok, NomadClient.Model.JobRegisterResponse.t()} | {:error, Tesla.Env.t()}
-  def update_job(connection, job_id, register_job_request, _opts \\ []) do
+  def update_job(connection, job_id, register_job_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/job/#{job_id}")
     |> add_param(:body, :body, register_job_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -602,6 +826,10 @@ defmodule NomadClient.Api.Jobs do
   - connection (NomadClient.Connection): Connection to server
   - job_validate_request (JobValidateRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JobValidateResponse.t} on success
@@ -609,11 +837,19 @@ defmodule NomadClient.Api.Jobs do
   """
   @spec validate_job(Tesla.Env.client(), NomadClient.Model.JobValidateRequest.t(), keyword()) ::
           {:ok, NomadClient.Model.JobValidateResponse.t()} | {:error, Tesla.Env.t()}
-  def validate_job(connection, job_validate_request, _opts \\ []) do
+  def validate_job(connection, job_validate_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/validate/job")
     |> add_param(:body, :body, job_validate_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

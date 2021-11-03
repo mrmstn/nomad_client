@@ -18,6 +18,10 @@ defmodule NomadClient.Api.Nodes do
   - connection (NomadClient.Connection): Connection to server
   - node_id (String.t): Specifies the ID of the node. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.NodeEvalResponse.t} on success
@@ -25,10 +29,18 @@ defmodule NomadClient.Api.Nodes do
   """
   @spec evaluate_node(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.NodeEvalResponse.t()} | {:error, Tesla.Env.t()}
-  def evaluate_node(connection, node_id, _opts \\ []) do
+  def evaluate_node(connection, node_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/node/#{node_id}/evaluate")
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
@@ -46,6 +58,10 @@ defmodule NomadClient.Api.Nodes do
   - connection (NomadClient.Connection): Connection to server
   - node_id (String.t): Specifies the ID of the node. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, [%AllocationListStub{}, ...]} on success
@@ -53,10 +69,18 @@ defmodule NomadClient.Api.Nodes do
   """
   @spec get_allocations_for_node(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, list(NomadClient.Model.AllocationListStub.t())} | {:error, Tesla.Env.t()}
-  def get_allocations_for_node(connection, node_id, _opts \\ []) do
+  def get_allocations_for_node(connection, node_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/node/#{node_id}/allocations")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -72,6 +96,10 @@ defmodule NomadClient.Api.Nodes do
   - connection (NomadClient.Connection): Connection to server
   - node_id (String.t): Specifies the ID of the node. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.Node.t} on success
@@ -79,10 +107,18 @@ defmodule NomadClient.Api.Nodes do
   """
   @spec get_node(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.Node.t()} | {:error, Tesla.Env.t()}
-  def get_node(connection, node_id, _opts \\ []) do
+  def get_node(connection, node_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/node/#{node_id}")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -97,6 +133,10 @@ defmodule NomadClient.Api.Nodes do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :prefix (String.t): Specifies a string to filter jobs on based on an index prefix. This is specified as a query string parameter
   ## Returns
 
@@ -107,6 +147,10 @@ defmodule NomadClient.Api.Nodes do
           {:ok, list(NomadClient.Model.NodeListStub.t())} | {:error, Tesla.Env.t()}
   def get_nodes(connection, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :prefix => :query
     }
 
@@ -130,6 +174,10 @@ defmodule NomadClient.Api.Nodes do
   - connection (NomadClient.Connection): Connection to server
   - search_request (SearchRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.SearchResponse.t} on success
@@ -137,11 +185,19 @@ defmodule NomadClient.Api.Nodes do
   """
   @spec search(Tesla.Env.client(), NomadClient.Model.SearchRequest.t(), keyword()) ::
           {:ok, NomadClient.Model.SearchResponse.t()} | {:error, Tesla.Env.t()}
-  def search(connection, search_request, _opts \\ []) do
+  def search(connection, search_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/search")
     |> add_param(:body, :body, search_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -159,6 +215,10 @@ defmodule NomadClient.Api.Nodes do
   - node_id (String.t): Specifies the ID of the node. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - node_update_drain_request (NodeUpdateDrainRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.NodeDrainUpdateResponse.t} on success
@@ -170,11 +230,19 @@ defmodule NomadClient.Api.Nodes do
           NomadClient.Model.NodeUpdateDrainRequest.t(),
           keyword()
         ) :: {:ok, NomadClient.Model.NodeDrainUpdateResponse.t()} | {:error, Tesla.Env.t()}
-  def update_drain_mode_for_node(connection, node_id, node_update_drain_request, _opts \\ []) do
+  def update_drain_mode_for_node(connection, node_id, node_update_drain_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/node/#{node_id}/drain")
     |> add_param(:body, :body, node_update_drain_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -191,6 +259,10 @@ defmodule NomadClient.Api.Nodes do
   - node_id (String.t): Specifies the ID of the node. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - node_update_eligibility_request (NodeUpdateEligibilityRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.NodeEligibilityUpdateResponse.t} on success
@@ -202,11 +274,19 @@ defmodule NomadClient.Api.Nodes do
           NomadClient.Model.NodeUpdateEligibilityRequest.t(),
           keyword()
         ) :: {:ok, NomadClient.Model.NodeEligibilityUpdateResponse.t()} | {:error, Tesla.Env.t()}
-  def update_node_eligibility(connection, node_id, node_update_eligibility_request, _opts \\ []) do
+  def update_node_eligibility(connection, node_id, node_update_eligibility_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/node/#{node_id}/eligibility")
     |> add_param(:body, :body, node_update_eligibility_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

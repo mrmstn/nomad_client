@@ -18,6 +18,10 @@ defmodule NomadClient.Api.Client do
   - connection (NomadClient.Connection): Connection to server
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, nil} on success
@@ -25,10 +29,18 @@ defmodule NomadClient.Api.Client do
   """
   @spec garbage_collect_allocation(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, nil} | {:error, Tesla.Env.t()}
-  def garbage_collect_allocation(connection, alloc_id, _opts \\ []) do
+  def garbage_collect_allocation(connection, alloc_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/client/allocation/#{alloc_id}/gc")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -43,6 +55,10 @@ defmodule NomadClient.Api.Client do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :node_id (String.t): node id
   ## Returns
 
@@ -53,6 +69,10 @@ defmodule NomadClient.Api.Client do
           {:ok, nil} | {:error, Tesla.Env.t()}
   def garbage_collect_allocation_0(connection, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :node_id => :query
     }
 
@@ -75,6 +95,10 @@ defmodule NomadClient.Api.Client do
   - connection (NomadClient.Connection): Connection to server
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.AllocResourceUsage.t} on success
@@ -82,10 +106,18 @@ defmodule NomadClient.Api.Client do
   """
   @spec get_client_allocation_stats(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.AllocResourceUsage.t()} | {:error, Tesla.Env.t()}
-  def get_client_allocation_stats(connection, alloc_id, _opts \\ []) do
+  def get_client_allocation_stats(connection, alloc_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/client/allocation/#{alloc_id}/stats")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -101,6 +133,10 @@ defmodule NomadClient.Api.Client do
   - connection (NomadClient.Connection): Connection to server
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :path (String.t): Specifies the path of the file to read, relative to the root of the allocation directory
   ## Returns
 
@@ -111,6 +147,10 @@ defmodule NomadClient.Api.Client do
           {:ok, String.t()} | {:error, Tesla.Env.t()}
   def get_client_file(connection, alloc_id, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :path => :query
     }
 
@@ -135,6 +175,10 @@ defmodule NomadClient.Api.Client do
   - offset (integer()): Specifies the byte offset from where content will be read
   - limit (integer()): Specifies the number of bytes to read from the offset
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :path (String.t): Specifies the path of the file to read, relative to the root of the allocation directory
   ## Returns
 
@@ -145,6 +189,10 @@ defmodule NomadClient.Api.Client do
           {:ok, String.t()} | {:error, Tesla.Env.t()}
   def get_client_file_at_offest(connection, alloc_id, offset, limit, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :path => :query
     }
 
@@ -168,6 +216,10 @@ defmodule NomadClient.Api.Client do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :node_id (String.t): node id
   ## Returns
 
@@ -178,6 +230,10 @@ defmodule NomadClient.Api.Client do
           {:ok, list(NomadClient.Model.HostStats.t())} | {:error, Tesla.Env.t()}
   def get_client_stats(connection, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :node_id => :query
     }
 
@@ -200,6 +256,10 @@ defmodule NomadClient.Api.Client do
   - connection (NomadClient.Connection): Connection to server
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :path (String.t): Specifies the path of the file to read, relative to the root of the allocation directory
   ## Returns
 
@@ -210,6 +270,10 @@ defmodule NomadClient.Api.Client do
           {:ok, list(NomadClient.Model.AllocFileInfo.t())} | {:error, Tesla.Env.t()}
   def list_client_files(connection, alloc_id, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :path => :query
     }
 
@@ -232,6 +296,10 @@ defmodule NomadClient.Api.Client do
   - connection (NomadClient.Connection): Connection to server
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :path (String.t): Specifies the path of the file to read, relative to the root of the allocation directory
   ## Returns
 
@@ -242,6 +310,10 @@ defmodule NomadClient.Api.Client do
           {:ok, NomadClient.Model.AllocFileInfo.t()} | {:error, Tesla.Env.t()}
   def stat_client_file(connection, alloc_id, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :path => :query
     }
 
@@ -265,6 +337,10 @@ defmodule NomadClient.Api.Client do
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
   - offset (integer()): Specifies the byte offset from where content will be read
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :path (String.t): Specifies the path of the file to read, relative to the root of the allocation directory
     - :follow (boolean()): Specifies whether to tail the file
     - :origin (String.t): Applies the relative offset to either the start or end of the file
@@ -277,6 +353,10 @@ defmodule NomadClient.Api.Client do
           {:ok, String.t()} | {:error, Tesla.Env.t()}
   def stream_client_file(connection, alloc_id, offset, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :path => :query,
       :follow => :query,
       :origin => :query
@@ -304,6 +384,10 @@ defmodule NomadClient.Api.Client do
   - task (String.t): Specifies the name of the task inside the allocation to stream logs from
   - offset (integer()): Specifies the byte offset from where content will be read
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :follow (boolean()): Specifies whether to tail the file
     - :type (String.t): Specifies the stream to stream
     - :origin (String.t): Applies the relative offset to either the start or end of the file
@@ -317,6 +401,10 @@ defmodule NomadClient.Api.Client do
           {:ok, String.t()} | {:error, Tesla.Env.t()}
   def stream_client_logs(connection, alloc_id, task, offset, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :follow => :query,
       :type => :query,
       :origin => :query,

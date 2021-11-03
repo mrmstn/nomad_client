@@ -18,6 +18,10 @@ defmodule NomadClient.Api.Deployments do
   - connection (NomadClient.Connection): Connection to server
   - deployment_id (String.t): Specifies the UUID of the deployment. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.DeploymentUpdateResponse.t} on success
@@ -25,10 +29,18 @@ defmodule NomadClient.Api.Deployments do
   """
   @spec fail_deployment(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
-  def fail_deployment(connection, deployment_id, _opts \\ []) do
+  def fail_deployment(connection, deployment_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/deployment/fail/#{deployment_id}")
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
@@ -45,6 +57,10 @@ defmodule NomadClient.Api.Deployments do
   - connection (NomadClient.Connection): Connection to server
   - deployment_id (String.t): Specifies the UUID of the deployment. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, [%AllocationListStub{}, ...]} on success
@@ -52,10 +68,18 @@ defmodule NomadClient.Api.Deployments do
   """
   @spec get_allocations_for_deployment(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, list(NomadClient.Model.AllocationListStub.t())} | {:error, Tesla.Env.t()}
-  def get_allocations_for_deployment(connection, deployment_id, _opts \\ []) do
+  def get_allocations_for_deployment(connection, deployment_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/deployment/allocations/#{deployment_id}")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -71,6 +95,10 @@ defmodule NomadClient.Api.Deployments do
   - connection (NomadClient.Connection): Connection to server
   - deployment_id (String.t): Specifies the UUID of the deployment. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.Deployment.t} on success
@@ -78,10 +106,18 @@ defmodule NomadClient.Api.Deployments do
   """
   @spec get_deployment(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.Deployment.t()} | {:error, Tesla.Env.t()}
-  def get_deployment(connection, deployment_id, _opts \\ []) do
+  def get_deployment(connection, deployment_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/deployment/#{deployment_id}")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -96,6 +132,10 @@ defmodule NomadClient.Api.Deployments do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :prefix (String.t): Specifies a string to filter jobs on based on an index prefix. This is specified as a query string parameter
   ## Returns
 
@@ -106,6 +146,10 @@ defmodule NomadClient.Api.Deployments do
           {:ok, list(NomadClient.Model.Deployment.t())} | {:error, Tesla.Env.t()}
   def get_deployments(connection, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :prefix => :query
     }
 
@@ -129,6 +173,10 @@ defmodule NomadClient.Api.Deployments do
   - deployment_id (String.t): Specifies the UUID of the deployment. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - deployment_pause_request (DeploymentPauseRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.DeploymentUpdateResponse.t} on success
@@ -140,11 +188,19 @@ defmodule NomadClient.Api.Deployments do
           NomadClient.Model.DeploymentPauseRequest.t(),
           keyword()
         ) :: {:ok, NomadClient.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
-  def pause_deployment(connection, deployment_id, deployment_pause_request, _opts \\ []) do
+  def pause_deployment(connection, deployment_id, deployment_pause_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/deployment/pause/#{deployment_id}")
     |> add_param(:body, :body, deployment_pause_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -161,6 +217,10 @@ defmodule NomadClient.Api.Deployments do
   - deployment_id (String.t): Specifies the UUID of the deployment. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - deployment_promote_request (DeploymentPromoteRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.DeploymentUpdateResponse.t} on success
@@ -172,11 +232,19 @@ defmodule NomadClient.Api.Deployments do
           NomadClient.Model.DeploymentPromoteRequest.t(),
           keyword()
         ) :: {:ok, NomadClient.Model.DeploymentUpdateResponse.t()} | {:error, Tesla.Env.t()}
-  def promote_deployment(connection, deployment_id, deployment_promote_request, _opts \\ []) do
+  def promote_deployment(connection, deployment_id, deployment_promote_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/deployment/promote/#{deployment_id}")
     |> add_param(:body, :body, deployment_promote_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -194,6 +262,10 @@ defmodule NomadClient.Api.Deployments do
   - deployment_id (String.t): Specifies the UUID of the deployment. This must be the full UUID, not the short 8-character one. This is specified as part of the path
   - deployment_alloc_health_request (DeploymentAllocHealthRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.DeploymentUpdateResponse.t} on success
@@ -209,12 +281,20 @@ defmodule NomadClient.Api.Deployments do
         connection,
         deployment_id,
         deployment_alloc_health_request,
-        _opts \\ []
+        opts \\ []
       ) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/deployment/allocation-health/#{deployment_id}")
     |> add_param(:body, :body, deployment_alloc_health_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

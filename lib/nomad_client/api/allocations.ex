@@ -18,6 +18,10 @@ defmodule NomadClient.Api.Allocations do
   - connection (NomadClient.Connection): Connection to server
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.Allocation.t} on success
@@ -25,10 +29,18 @@ defmodule NomadClient.Api.Allocations do
   """
   @spec get_allocation(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.Allocation.t()} | {:error, Tesla.Env.t()}
-  def get_allocation(connection, alloc_id, _opts \\ []) do
+  def get_allocation(connection, alloc_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/allocation/#{alloc_id}")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -43,6 +55,10 @@ defmodule NomadClient.Api.Allocations do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :prefix (String.t): Specifies a string to filter jobs on based on an index prefix. This is specified as a query string parameter
   ## Returns
 
@@ -53,6 +69,10 @@ defmodule NomadClient.Api.Allocations do
           {:ok, list(NomadClient.Model.AllocationListStub.t())} | {:error, Tesla.Env.t()}
   def get_allocations(connection, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :prefix => :query
     }
 
@@ -76,6 +96,10 @@ defmodule NomadClient.Api.Allocations do
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
   - allocation_restart_request (AllocationRestartRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, nil} on success
@@ -87,11 +111,19 @@ defmodule NomadClient.Api.Allocations do
           NomadClient.Model.AllocationRestartRequest.t(),
           keyword()
         ) :: {:ok, nil} | {:error, Tesla.Env.t()}
-  def restart_allocation(connection, alloc_id, allocation_restart_request, _opts \\ []) do
+  def restart_allocation(connection, alloc_id, allocation_restart_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/allocation/#{alloc_id}/restart")
     |> add_param(:body, :body, allocation_restart_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -108,6 +140,10 @@ defmodule NomadClient.Api.Allocations do
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
   - alloc_signal_request (AllocSignalRequest): 
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, nil} on success
@@ -119,11 +155,19 @@ defmodule NomadClient.Api.Allocations do
           NomadClient.Model.AllocSignalRequest.t(),
           keyword()
         ) :: {:ok, nil} | {:error, Tesla.Env.t()}
-  def signal_allocation(connection, alloc_id, alloc_signal_request, _opts \\ []) do
+  def signal_allocation(connection, alloc_id, alloc_signal_request, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/allocation/#{alloc_id}/signal")
     |> add_param(:body, :body, alloc_signal_request)
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -139,6 +183,10 @@ defmodule NomadClient.Api.Allocations do
   - connection (NomadClient.Connection): Connection to server
   - alloc_id (String.t): Specifies the UUID of the allocation. This must be the full UUID, not the short 8-character one
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.AllocStopResponse.t} on success
@@ -146,10 +194,18 @@ defmodule NomadClient.Api.Allocations do
   """
   @spec stop_allocation(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, NomadClient.Model.AllocStopResponse.t()} | {:error, Tesla.Env.t()}
-  def stop_allocation(connection, alloc_id, _opts \\ []) do
+  def stop_allocation(connection, alloc_id, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/allocation/#{alloc_id}/stop")
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()

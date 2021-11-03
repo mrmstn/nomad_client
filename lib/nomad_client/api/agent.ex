@@ -18,6 +18,10 @@ defmodule NomadClient.Api.Agent do
   - connection (NomadClient.Connection): Connection to server
   - node (String.t): the name of the node
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, nil} on success
@@ -25,11 +29,19 @@ defmodule NomadClient.Api.Agent do
   """
   @spec force_leave(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, nil} | {:error, Tesla.Env.t()}
-  def force_leave(connection, node, _opts \\ []) do
+  def force_leave(connection, node, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/agent/force-leave")
     |> add_param(:query, :node, node)
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
@@ -45,6 +57,10 @@ defmodule NomadClient.Api.Agent do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.AgentHealthResponse.t} on success
@@ -52,10 +68,18 @@ defmodule NomadClient.Api.Agent do
   """
   @spec get_health(Tesla.Env.client(), keyword()) ::
           {:ok, NomadClient.Model.AgentHealthResponse.t()} | {:error, Tesla.Env.t()}
-  def get_health(connection, _opts \\ []) do
+  def get_health(connection, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/agent/health")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -70,6 +94,10 @@ defmodule NomadClient.Api.Agent do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.ServerMembers.t} on success
@@ -77,10 +105,18 @@ defmodule NomadClient.Api.Agent do
   """
   @spec get_members(Tesla.Env.client(), keyword()) ::
           {:ok, NomadClient.Model.ServerMembers.t()} | {:error, Tesla.Env.t()}
-  def get_members(connection, _opts \\ []) do
+  def get_members(connection, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/agent/members")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -95,6 +131,10 @@ defmodule NomadClient.Api.Agent do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.AgentSelf.t} on success
@@ -102,10 +142,18 @@ defmodule NomadClient.Api.Agent do
   """
   @spec get_self(Tesla.Env.client(), keyword()) ::
           {:ok, NomadClient.Model.AgentSelf.t()} | {:error, Tesla.Env.t()}
-  def get_self(connection, _opts \\ []) do
+  def get_self(connection, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:get)
     |> url("/agent/self")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -146,6 +194,10 @@ defmodule NomadClient.Api.Agent do
   - connection (NomadClient.Connection): Connection to server
   - address ([String.t]): server address (ip:port)
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, NomadClient.Model.JoinResponse.t} on success
@@ -153,11 +205,19 @@ defmodule NomadClient.Api.Agent do
   """
   @spec join(Tesla.Env.client(), list(String.t()), keyword()) ::
           {:ok, NomadClient.Model.JoinResponse.t()} | {:error, Tesla.Env.t()}
-  def join(connection, address, _opts \\ []) do
+  def join(connection, address, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/agent/join")
     |> add_param(:query, :address, address)
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
@@ -173,6 +233,10 @@ defmodule NomadClient.Api.Agent do
 
   - connection (NomadClient.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
     - :log_level (String.t): log level
     - :node_id (String.t): node id
     - :server_id (String.t): server id
@@ -187,6 +251,10 @@ defmodule NomadClient.Api.Agent do
           {:ok, NomadClient.Model.StreamFrame.t()} | {:error, Tesla.Env.t()}
   def stream_logs(connection, opts \\ []) do
     optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query,
       :log_level => :query,
       :node_id => :query,
       :server_id => :query,
@@ -213,6 +281,10 @@ defmodule NomadClient.Api.Agent do
   - connection (NomadClient.Connection): Connection to server
   - address ([String.t]): server address (ip:port)
   - opts (KeywordList): [optional] Optional parameters
+    - :namespace (String.t): 
+    - :region (String.t): Make a request across regions to the given region
+    - :index (integer()): index used for blocking requests
+    - :wait (String.t): wait time used for blocking requests
   ## Returns
 
   {:ok, [%String{}, ...]} on success
@@ -220,11 +292,19 @@ defmodule NomadClient.Api.Agent do
   """
   @spec update_servers(Tesla.Env.client(), list(String.t()), keyword()) ::
           {:ok, list(String.t())} | {:error, Tesla.Env.t()}
-  def update_servers(connection, address, _opts \\ []) do
+  def update_servers(connection, address, opts \\ []) do
+    optional_params = %{
+      :namespace => :query,
+      :region => :query,
+      :index => :query,
+      :wait => :query
+    }
+
     %{}
     |> method(:post)
     |> url("/agent/servers")
     |> add_param(:query, :address, address)
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
