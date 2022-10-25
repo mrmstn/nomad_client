@@ -1,7 +1,5 @@
 defmodule NomadClient.Model.TaskGroupTest do
   use ExUnit.Case
-  alias NomadClient.Api.Jobs
-  alias NomadClient.Connection
   alias NomadClient.Model
 
   describe "handle null Typed Hash Maps" do

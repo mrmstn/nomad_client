@@ -2,13 +2,12 @@ defmodule NomadClient.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/mrmstn/nomad_client"
-  @version "0.12.4"
-
+  @version "0.13.0"
   def project do
     [
       app: :nomad_client,
       version: @version,
-      elixir: "~> 1.6",
+      elixir: "~> 1.10",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       package: package(),
@@ -36,10 +35,10 @@ defmodule NomadClient.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:tesla, "~> 1.2"},
+      {:tesla, "~> 1.4"},
       {:poison, "~> 3.0"},
       {:hackney, "~> 1.0", optional: true},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.28", only: :dev, runtime: false}
     ]
   end
 

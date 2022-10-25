@@ -1,0 +1,19 @@
+generatorName: elixir
+additionalProperties:
+  invokerPackage: NomadClient
+  packageName: nomad-client
+  packageVersion: 1.0.0
+  packageDescription: "A elixir client for HashiCorp Nomad's API."
+  packageHomepage: "https://github.com/mrmstn/nomad_client"
+  packageRepository: "https://github.com/mrmstn/nomad_client"
+  packageKeywords:
+    - nomad
+    - hashicorp
+    - api
+    - client
+    - openapi
+  packageAuthors:
+    - "Michael Ramstein <michael@ramste.in>"
+  packageLicense: "Apache-2.0"
+# inputSpec: "/local/dist/swagger.json"
+# output: "/local/clients/elixir/"

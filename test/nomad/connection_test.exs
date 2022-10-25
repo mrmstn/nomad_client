@@ -1,6 +1,5 @@
 defmodule NomadClient.ConnectonTest do
   use ExUnit.Case
-  alias NomadClient.Api.Jobs
   alias NomadClient.Connection
 
   describe "url path fix" do
@@ -10,8 +9,9 @@ defmodule NomadClient.ConnectonTest do
         fun: nil,
         post: [],
         pre: [
-          {Tesla.Middleware.BaseUrl, :call, ["http://localhost:4646/v1"]},
-          {Tesla.Middleware.Headers, :call, [[{"User-Agent", "Elixir"}]]},
+          {Tesla.Middleware.BaseUrl, :call, ["http://127.0.0.1:4646/v1"]},
+          {Tesla.Middleware.Headers, :call,
+           [[{"user-agent", "openapi-generator - NomadClient 1.1.4 - elixir"}]]},
           {Tesla.Middleware.EncodeJson, :call, [[engine: Poison]]}
         ]
       }
@@ -25,15 +25,15 @@ defmodule NomadClient.ConnectonTest do
     end
 
     test "without v1", %{expected: expected} do
-      actual = Connection.new("http://localhost:4646")
+      actual = Connection.new(base_url: "http://127.0.0.1:4646")
       assert expected == actual
 
-      actual = Connection.new("http://localhost:4646/")
+      actual = Connection.new(base_url: "http://127.0.0.1:4646/")
       assert expected == actual
     end
 
     test "with /v1", %{expected: expected} do
-      actual = Connection.new("http://localhost:4646/v1")
+      actual = Connection.new(base_url: "http://127.0.0.1:4646/v1")
       assert expected == actual
     end
   end
@@ -45,8 +45,9 @@ defmodule NomadClient.ConnectonTest do
         fun: nil,
         post: [],
         pre: [
-          {Tesla.Middleware.BaseUrl, :call, ["http://localhost:4646/v1"]},
-          {Tesla.Middleware.Headers, :call, [[{"User-Agent", "Elixir"}]]},
+          {Tesla.Middleware.BaseUrl, :call, ["http://127.0.0.1:4646/v1"]},
+          {Tesla.Middleware.Headers, :call,
+           [[{"user-agent", "openapi-generator - NomadClient 1.1.4 - elixir"}]]},
           {Tesla.Middleware.EncodeJson, :call, [[engine: Poison]]}
         ]
       }
